@@ -21,6 +21,9 @@ export class MyTriangle extends CGFobject {
         this.z1 = z1;
 		this.z2 = z2;
         this.z3 = z3;
+
+		this.initBuffers();
+
 	}
 	
 	initBuffers() {
@@ -38,9 +41,26 @@ export class MyTriangle extends CGFobject {
 
 		this.normals = [];
 
-		for(var i = 0; i< 3; i++){
-			this.normals.push(0,0,1);
-			//this.normals.push(-1,0,0);
+		//calculate normal
+		let ab = [
+			this.x1-this.x2, 
+			this.y1-this.y2,
+			this.z1-this.z2
+		];
+		let ac = [
+			this.x1-this.x3, 
+			this.y1-this.y3,
+			this.z1-this.z3
+		];
+
+		let n = [
+			ab[1]*ac[2] - ab[2]*ac[1],
+			ab[2]*ac[0] - ab[0]*ac[2],
+			ab[0]*ac[1] - ab[1]*ac[0]
+		];
+
+		for(let i=0; i<3; i++){
+			this.normals.push(n[0], n[1], n[2]);
 		}
 
 		//The defined indices (and corresponding vertices)
@@ -48,6 +68,16 @@ export class MyTriangle extends CGFobject {
 		this.primitiveType = this.scene.gl.TRIANGLES;
 
 		this.initGLBuffers();
+	}
+
+	/**
+	 * @method updateTexCoords
+	 * Updates the list of texture coordinates of the rectangle
+	 * @param {Array} coords - Array of texture coordinates
+	 */
+	 updateTexCoords(coords) {
+		this.texCoords = [...coords];
+		this.updateTexCoordsGLBuffers();
 	}
 }
 

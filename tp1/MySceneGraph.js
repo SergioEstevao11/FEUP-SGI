@@ -1,5 +1,6 @@
 import { CGFXMLreader } from '../lib/CGF.js';
 import { MyRectangle } from './MyRectangle.js';
+import { MyTriangle } from './MyTriangle.js';
 
 var DEGREE_TO_RAD = Math.PI / 180;
 
@@ -608,6 +609,10 @@ export class MySceneGraph {
                 var z3 = this.reader.getFloat(grandChildren[0], 'z3');
                 if (!(z3 != null && !isNaN(z3)))
                     return "unable to parse z3 of the primitive coordinates for ID = " + primitiveId;
+
+                var triangle = new MyTriangle(this.scene, primitiveId, x1, x2, x3, y1, y2, y3, z1, z2, z3);
+
+                this.primitives[primitiveId] = triangle;
             }
  
             else if (primitiveType == 'cylinder'){
@@ -810,8 +815,11 @@ export class MySceneGraph {
      */
     displayScene() {
         //To do: Create display loop for transversing the scene graph
-
+        let tri = new MyTriangle(this.scene, "primitiveId", 0, 1, 1, 0, 0, 1, 0, 0, 1);
+        let rec = new MyRectangle(this.scene, "rectangle", 0, 1, 0, 1)
+        tri.display();
+        //rec.display();
         //To test the parsing/creation of the primitives, call the display function directly
-        this.primitives['demoRectangle'].display();
+        //this.primitives['demoRectangle'].display();
     }
 }
