@@ -1,5 +1,7 @@
 import { CGFXMLreader } from '../lib/CGF.js';
 import { MyRectangle } from './MyRectangle.js';
+import { MyCylinder } from './MyCylinder.js';
+
 
 var DEGREE_TO_RAD = Math.PI / 180;
 
@@ -812,6 +814,8 @@ export class MySceneGraph {
         //To do: Create display loop for transversing the scene graph
 
         //To test the parsing/creation of the primitives, call the display function directly
-        this.primitives['demoRectangle'].display();
+        //this.primitives['demoRectangle'].display();
+        let cylinder = new MyCylinder(this.scene , 1, 1, 1, 3, 2, 2);
+        cylinder.display();
     }
 }
