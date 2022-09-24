@@ -1,0 +1,208 @@
+<sxs>
+    <scene root="groot" axis_length="40"/>
+
+    <views default="defaultCamera">
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="30" y="15" z="30" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+    </views>
+
+    <ambient>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </ambient>
+
+    <lights>
+        <omni id="demoLight" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="solar_panel" file="https://i.pinimg.com/originals/8a/9f/50/8a9f505d6f1855d51ba656c87802ead2.jpg" />
+        <texture id="sky" file="https://images.freeimages.com/images/large-previews/6f3/starry-sky-1152539.jpg" />
+    </textures>
+
+    <materials>
+        <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="sun_yellow" shininess="10">
+            <emission r="0.3" g="0.3" b="0.3" a="0.7" />
+            <ambient r="1.0" g="1.0" b="0.0" a="1.0" />
+            <diffuse r="0.6" g="0.6" b="0.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="silver_spacestation" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="demoTransform">
+            <scale x="5" y="1" z="5" />
+            <rotate axis="x" angle="-45" />
+            <rotate axis="z" angle="-45" />
+        </transformation>
+    </transformations>
+
+    <primitives>
+        <primitive id="wall">
+            <rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
+        </primitive>
+
+        <primitive id="sphere">
+            <sphere slices="5" stacks="5" />
+        </primitive>
+
+        <primitive id="orbit">
+            <torus inner="0.05" outer="2" slices="10" loops="10" />
+        </primitive>
+
+        <primitive id="spacestation_cylinder">
+            <cylinder base="1" top="1" height="3" slices="10" stacks="10" />        
+        </primitive>
+    </primitives>
+
+    <components>
+        <component id="star">
+            <transformation>
+                <scale x="2" y="2" z="2">
+            </transformation>
+            <materials>
+                <material id="sun_yellow" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+
+
+        <component id="lowerpanel">
+            <transformation>
+                <scale x="20" y="20" z="20" />
+                <translate x="0" y="0" z="-10" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="upperpanel">
+            <transformation>
+                <scale x="20" y="20" z="20" />
+                <rotate axis="x" angle="180" >
+                <translate x="0" y="0" z="10" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="frontpanel">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+                <scale x="20" y="20" z="20" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+    </components>
+
+        <component id="backpanel">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+                <scale x="20" y="20" z="20" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="rightpanel">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+                <scale x="20" y="20" z="20" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="leftpanel">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+                <scale x="20" y="20" z="20" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="spacestation">
+            <transformation>
+                <translate x="0" y="5" z="0" />
+                <scale x="2" y="2" z="2" />
+            </transformation>
+            <materials>
+                <material id="silver_spacestation" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="spacestation_cylinder" />
+            </children>
+        </component>
+        
+        <component id="orbit_spacestation">
+            <transformation>
+                <scale x="5" y="5" z="5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="orbit" />
+            </children>
+        </component>
+</sxs>
