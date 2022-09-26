@@ -1,5 +1,6 @@
 import { CGFXMLreader } from '../lib/CGF.js';
 import { MyRectangle } from './MyRectangle.js';
+import { MyTorus } from './MyTorus.js';
 import { MyTriangle } from './MyTriangle.js';
 
 var DEGREE_TO_RAD = Math.PI / 180;
@@ -611,7 +612,10 @@ export class MySceneGraph {
                     return "unable to parse z3 of the primitive coordinates for ID = " + primitiveId;
 
                 var triangle = new MyTriangle(this.scene, primitiveId, x1, x2, x3, y1, y2, y3, z1, z2, z3);
-
+                for(let i = 0; i < this.slices; i++){
+                    this.indices.push(2*i+1, 2*i, 2*i+2);
+                    this.indices.push(2*i+1, 2*i+2, 2*i+3);            
+                }
                 this.primitives[primitiveId] = triangle;
             }
  
@@ -815,11 +819,14 @@ export class MySceneGraph {
      */
     displayScene() {
         //To do: Create display loop for transversing the scene graph
-        let tri = new MyTriangle(this.scene, "primitiveId", 0, 1, 1, 0, 0, 1, 0, 0, 1);
-        let rec = new MyRectangle(this.scene, "rectangle", 0, 1, 0, 1)
-        tri.display();
+        //let tri = new MyTriangle(this.scene, "primitiveId", 0, 1, 1, 0, 0, 1, 0, 0, 1);
+        //let rec = new MyRectangle(this.scene, "rectangle", 0, 1, 0, 1)
+        let tor = new MyTorus(this.scene, "torus", 2, 5, 50, 50);
+        
+        tor.display();
+        //tri.display();
         //rec.display();
         //To test the parsing/creation of the primitives, call the display function directly
-        //this.primitives['demoRectangle'].display();
+        //this.primitives['demoTriangle'].display();
     }
 }

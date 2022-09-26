@@ -60,7 +60,7 @@ export class MyTriangle extends CGFobject {
 		];
 
 		for(let i=0; i<3; i++){
-			this.normals.push(n[0], n[1], n[2]);
+			this.normals.push(n[0], n[1], n[2])
 		}
 
 		//The defined indices (and corresponding vertices)
