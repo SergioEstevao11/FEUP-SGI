@@ -1,56 +1,73 @@
 import {CGFobject} from '../lib/CGF.js';
-/**
-* MyCone
-* @constructor
- * @param scene - Reference to MyScene object
- * @param slices - number of divisions around the Y axis
- * @param stacks - number of divisions along the Y axis
-*/
-export class MyCylinder extends CGFobject {
-    constructor(scene, slices, stacks) {
-        super(scene);
-        this.slices = slices;
-        this.stacks = stacks;
-        this.initBuffers();
-    }
-    initBuffers() {
-        this.vertices = [];
-        this.indices = [];
-        this.normals = [];
-        this.texCoords = [];
 
-        var ang = 0;
-        var alphaAng = 2*Math.PI/this.slices;
+export class MySphere extends CGFobject {
+  /**
+   * @method constructor
+   * @param  {CGFscene} scene - MyScene object
+   * @param  {integer} slices - number of slices around Y axis
+   * @param  {integer} stacks - number of stacks along Y axis, from the center to the poles (half of sphere)
+   */
+  constructor(scene, radius, slices, stacks) {
+    super(scene);
+    this.radius = radius;
+    this.slices = slices;
+    this.stacks = stacks;
+    this.latDivs = stacks * 2;
+    this.longDivs = slices;
 
-        for(var i = 0; i < this.slices + 1; i++){
-            this.vertices.push(Math.cos(ang), 0, -Math.sin(ang));
-            this.vertices.push(Math.cos(ang), 1, -Math.sin(ang));
-            this.normals.push(Math.cos(ang), 0, -Math.sin(ang));
-            this.normals.push(Math.cos(ang), 0, -Math.sin(ang));
-            this.texCoords.push(1 * i / this.slices, 1);
-            this.texCoords.push(1 *i / this.slices, 0);
-            ang+=alphaAng;
-        }
+    this.initBuffers();
+  }
 
-        for(var i = 0; i < this.slices; i++){
-            var step = i * 2;
-            this.indices.push(step, step + 2, step + 1);
-            this.indices.push(step + 2, step + 3, step + 1);
-        }
-
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
-    }
     /**
-     * Called when user interacts with GUI to change object's complexity.
-     * @param {integer} complexity - changes number of slices
-     */
-    updateBuffers(complexity){
-        this.slices = 3 + Math.round(9 * complexity); //complexity varies 0-1, so slices varies 3-12
+   * @method initBuffers
+   * Initializes the sphere buffers
+   */
+  initBuffers() {
+		this.vertices  = [];
+		this.texCoords = [];
+    this.indices   = [];
+    this.normals = [];
 
-        // reinitialize buffers
-        this.initBuffers();
-        this.initNormalVizBuffers();
-    }
+    let theta=0.5*Math.PI;
+    let phi=0;
+
+		for(let latitude = 0; latitude <= this.latDivs; latitude++){
+			let t = latitude/this.latDivs;
+			for(let longitude = 0; longitude <= this.slices; longitude++){
+    		let x = Math.cos(theta) * Math.cos(phi);
+				let y = Math.cos(theta) * Math.sin(phi);
+				let z = Math.sin(theta);
+				this.vertices.push(this.radius*x, this.radius*y, this.radius*z);
+        this.normals.push(x,y,z);
+
+				let s = longitude/this.longDivs;
+				this.texCoords.push(s, t);
+        phi+=2*Math.PI/this.longDivs;
+			}
+      theta-=Math.PI/this.latDivs;
+      phi=0;
+		}
+		
+		for(let stack = 0; stack < this.latDivs; stack++){
+			let base1 = (this.longDivs+1) * stack;
+			let base2 = (this.longDivs+1) * (stack+1);
+			for(let i = base1, j = base1 + 1, k = base2, l = base2+1; j < base2; ++i, ++j, ++k, ++l){
+				this.indices.push(i, k, l);
+				this.indices.push(i, l, j);
+			}
+		}
+		
+		this.primitiveType = this.scene.gl.TRIANGLES;
+		this.initGLBuffers();
+	}
+
+  		/**
+	 * @method updateTexCoords
+	 * Updates the list of texture coordinates of the quad
+	 * @param {Array} coords - Array of texture coordinates
+	 */
+       updateTexCoords(coords) {
+        this.texCoords = [...coords];
+        this.updateTexCoordsGLBuffers();
+      }
 }
-

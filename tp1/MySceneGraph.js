@@ -1,6 +1,7 @@
 import { CGFXMLreader } from '../lib/CGF.js';
 import { MyRectangle } from './MyRectangle.js';
 import { MyCylinder } from './MyCylinder.js';
+import { MySphere } from './MySphere.js';
 
 
 var DEGREE_TO_RAD = Math.PI / 180;
@@ -815,7 +816,8 @@ export class MySceneGraph {
 
         //To test the parsing/creation of the primitives, call the display function directly
         //this.primitives['demoRectangle'].display();
-        let cylinder = new MyCylinder(this.scene , 1, 1, 1, 3, 2, 2);
-        cylinder.display();
+        let cylinder = new MyCylinder(this.scene , 1, 1, 3, 10, 4);
+        let sphere = new MySphere(this.scene, 1, 10, 4);
+        sphere.display();
     }
 }
