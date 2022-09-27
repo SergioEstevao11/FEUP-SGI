@@ -59,7 +59,7 @@ export class MyTriangle extends CGFobject {
 			ab[0]*ac[1] - ab[1]*ac[0]
 		];
 
-		for(let i=0; i<3; i++){
+		for(let i=0; i<3; ++i){
 			this.normals.push(n[0], n[1], n[2])
 		}
 
