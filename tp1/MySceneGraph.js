@@ -612,10 +612,7 @@ export class MySceneGraph {
                     return "unable to parse z3 of the primitive coordinates for ID = " + primitiveId;
 
                 var triangle = new MyTriangle(this.scene, primitiveId, x1, x2, x3, y1, y2, y3, z1, z2, z3);
-                for(let i = 0; i < this.slices; i++){
-                    this.indices.push(2*i+1, 2*i, 2*i+2);
-                    this.indices.push(2*i+1, 2*i+2, 2*i+3);            
-                }
+                
                 this.primitives[primitiveId] = triangle;
             }
  
@@ -640,6 +637,33 @@ export class MySceneGraph {
                 if (!(base != null && !isNaN(base)))
                     return "unable to parse base of the primitive coordinates for ID = " + primitiveId;    
             }
+
+            else if (primitiveType == 'torus'){
+                // inner
+                let inner = this.reader.getFloat(grandChildren[0], 'inner');
+                if (!(inner != null && !isNaN(inner)))
+                    return "unable to parse inner of the primitive coordinates for ID = " + primitiveId;
+
+                // outer
+                let outer = this.reader.getFloat(grandChildren[0], 'outer');
+                if (!(outer != null && !isNaN(outer)))
+                    return "unable to parse outer of the primitive coordinates for ID = " + primitiveId;
+                
+                // slices
+                let slices = this.reader.getFloat(grandChildren[0], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
+                // x2
+                var loops = this.reader.getFloat(grandChildren[0], 'loops');
+                if (!(loops != null && !isNaN(loops)))
+                    return "unable to parse loops of the primitive coordinates for ID = " + primitiveId;
+
+                let torus = new MyTorus(this.scene, primitiveId, inner, outer, slices, loops);
+
+                this.primitives[primitiveId] = torus;
+            }
+
             else {
                 console.warn("To do: Parse other primitives.");
             }
@@ -821,12 +845,13 @@ export class MySceneGraph {
         //To do: Create display loop for transversing the scene graph
         //let tri = new MyTriangle(this.scene, "primitiveId", 0, 1, 1, 0, 0, 1, 0, 0, 1);
         //let rec = new MyRectangle(this.scene, "rectangle", 0, 1, 0, 1)
-        let tor = new MyTorus(this.scene, "torus", 1, 4, 50, 50);
+        //let tor = new MyTorus(this.scene, "torus", 1, 4, 50, 50);
         
-        tor.display();
+        //tor.display();
         //tri.display();
         //rec.display();
         //To test the parsing/creation of the primitives, call the display function directly
         //this.primitives['demoTriangle'].display();
+        this.primitives['demoTorus'].display();
     }
 }
