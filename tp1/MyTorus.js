@@ -18,72 +18,78 @@ export class MyTorus extends CGFobject {
 
 		this.initBuffers();
 	}
-	
-	initBuffers() {
-        this.vertices = [];
-        this.normals = [];
-        this.texCoords = [];
-        this.indices = [];
+    
+    
+    initBuffers() {
 
-        // Vertices and normals
-        const angle = 2*Math.PI;
-        
-        this.innerCos = [];
+		// Vertices, texCoords and normals
+		this.vertices  = [];
+		this.texCoords = [];
+		this.normals   = [];
+
+		this.innerCos = [];
         this.innerSin = [];
         this.outerCos = [];
         this.outerSin = [];
-        for (let ia = 0; ia <= angle; ia+= angle/this.slices){
-            this.innerCos.push(Math.cos(ia));
-            this.innerSin.push(Math.sin(ia));
+
+        for (let s = 0; s <= this.slices; ++s){
+			let angle = 2.0*Math.PI*s/this.slices;
+
+            this.innerCos.push(Math.cos(angle));
+            this.innerSin.push(Math.sin(angle));
         }
 
 
-        for (let oa = 0; oa <= angle; oa += angle/this.loops){
-            this.outerCos.push(Math.cos(oa));
-            this.outerSin.push(Math.sin(oa));
-        }
+        for (let l = 0; l <= this.loops; ++l){
+			let angle = 2.0*Math.PI*l/this.loops;
 
-        console.log(this.outerSin)
-
-        for(var l = 0; l <= this.loops; l++){
-            for (var i = 0; i <= this.slices; i++) {
-                let x = (this.outer + this.inner*this.innerCos[i])*this.outerCos[l];
-                let y = (this.outer + this.inner*this.innerCos[i])*this.outerSin[l];
-                let z = this.inner*this.innerSin[i];
-                this.vertices.push(x, y, z);
-                this.normals.push(x, y, z);
-                //this.texCoords.push(i/this.slices, 1);
-                //this.vertices.push(x, this.height, z);
-                //this.normals.push(x, 0, z);
-                //this.texCoords.push(i/this.slices, 0);
-            }
-        }
-        //Triangles
-        
-        for(let l = 0; l <= this.loops; l++){
-            for(let i = 0; i <= this.slices; i++){
-                let index = i + l*this.slices;
-                this.indices.push(index, index+this.slices, index+1);
-                this.indices.push(index+this.slices, index+this.slices+1, index+1);        
-            }
+            this.outerCos.push(Math.cos(angle));
+            this.outerSin.push(Math.sin(angle));
         }
         
 
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
+		for(let i = 0; i <= this.loops; ++i){
+			let l = i/this.loops;
 
-    }
 
-	/**
-	 * @method updateTexCoords
-	 * Updates the list of texture coordinates of the rectangle
-	 * @param {Array} coords - Array of texture coordinates
-	 */
-	/*
-	updateTexCoords(coords) {
-		this.texCoords = [...coords];
-		this.updateTexCoordsGLBuffers();
+			for(let j = 0; j <= this.slices; ++j){
+
+				let x = (this.inner*this.innerCos[j] + this.outer)*this.outerCos[i];
+				let y = (this.inner*this.innerCos[j] + this.outer)*this.outerSin[i];
+				let z = -this.inner*this.outerSin[j];
+				
+				this.vertices.push(x, y, z);
+
+
+				let Nx = -this.innerCos[j]*( this.inner*this.innerCos[j]*this.outerCos[i] + this.outer*this.outerCos[i]);
+				let Ny =  this.innerCos[j]*(-this.inner*this.innerCos[j]*this.outerSin[i] - this.outer*this.outerSin[i]);
+				let Nz = -this.outerSin[i]*this.innerSin[j]*(-this.inner*this.outerSin[i]*this.innerCos[j] - this.outer*this.outerSin[i])
+						 +this.outerCos[i]*this.innerSin[j]*( this.inner*this.outerCos[i]*this.innerCos[j] + this.outer*this.outerCos[i]);
+				let Nr = Math.sqrt(Nx*Nx + Ny*Ny + Nz*Nz);
+
+				this.normals.push(-Nx/Nr, -Ny/Nr, -Nz/Nr);
+
+				let s = j/this.slices;
+				this.texCoords.push(l, s);
+			}
+		}
+
+		// Indices
+		this.indices = [];
+
+		for(let loop = 0; loop < this.loops; ++loop){
+			let base1 = (this.slices+1) * loop;
+			let base2 = (this.slices+1) * (loop+1);
+			for(let i = base1, j = base1 + 1, k = base2, l = base2+1; j < base2; ++i, ++j, ++k, ++l){
+				this.indices.push(i, l, k);
+				this.indices.push(i, j, l);
+			}
+		}
+
+		// Others		
+		this.primitiveType = this.scene.gl.TRIANGLES;
+		this.initGLBuffers();
 	}
-	*/
+
 }
 

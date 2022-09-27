@@ -821,7 +821,7 @@ export class MySceneGraph {
         //To do: Create display loop for transversing the scene graph
         //let tri = new MyTriangle(this.scene, "primitiveId", 0, 1, 1, 0, 0, 1, 0, 0, 1);
         //let rec = new MyRectangle(this.scene, "rectangle", 0, 1, 0, 1)
-        let tor = new MyTorus(this.scene, "torus", 2, 5, 50, 50);
+        let tor = new MyTorus(this.scene, "torus", 1, 4, 50, 50);
         
         tor.display();
         //tri.display();
