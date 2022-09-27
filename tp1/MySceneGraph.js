@@ -482,12 +482,37 @@ export class MySceneGraph {
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
                     case 'scale':                        
-                        this.onXMLMinorError("To do: Parse scale transformations.");
+                        var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
+                        if (!Array.isArray(coordinates))
+                            return coordinates;
+
+                        transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
                         break;
+
                     case 'rotate':
-                        // angle
-                        this.onXMLMinorError("To do: Parse rotate transformations.");
-                        break;
+                        var axis = this.reader.getFloat(grandChildren[j], 'axis');
+                        if (!(axis != null))
+                            return "unable to parse axis of the transformation for ID = " + transformationID;
+
+                        var angle = this.reader.getFloat(grandChildren[j], 'angle');
+                        if (!(angle != null))
+                            return "unable to parse angle of the transformation for ID = " + transformationID;
+
+                        angle = angle * Math.PI / 180 //parse to rads
+                        switch(axis){
+                            case "x":
+                                mat4.rotateX(transfMatrix, transfMatrix, angle);
+                                break;
+
+                            case "y":
+                                mat4.rotateY(transfMatrix, transfMatrix, angle);
+                                break;
+                            
+                            case "z":
+                                mat4.rotateZ(transfMatrix, transfMatrix, angle);
+                                break;
+                        }
+                        
                 }
             }
             this.transformations[transformationID] = transfMatrix;
