@@ -752,7 +752,6 @@ export class MySceneGraph {
         if (!Array.isArray(position))
             return position;
 
-
         // w
         var w = this.reader.getFloat(node, 'w');
         if (!(w != null && !isNaN(w)))
@@ -836,6 +835,5 @@ export class MySceneGraph {
     }
 }
 
-//pullreq
 
 //materials texturecoords
