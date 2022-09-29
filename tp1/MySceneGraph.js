@@ -2,6 +2,8 @@ import { CGFXMLreader } from '../lib/CGF.js';
 import { MyRectangle } from './MyRectangle.js';
 import { MyTorus } from './MyTorus.js';
 import { MyTriangle } from './MyTriangle.js';
+import { MyComponent } from './MyComponent.js';
+
 
 var DEGREE_TO_RAD = Math.PI / 180;
 
@@ -490,7 +492,7 @@ export class MySceneGraph {
                         break;
 
                     case 'rotate':
-                        var axis = this.reader.getFloat(grandChildren[j], 'axis');
+                        var axis = this.reader.getString(grandChildren[j], 'axis');
                         if (!(axis != null))
                             return "unable to parse axis of the transformation for ID = " + transformationID;
 
@@ -499,6 +501,8 @@ export class MySceneGraph {
                             return "unable to parse angle of the transformation for ID = " + transformationID;
 
                         angle = angle * Math.PI / 180 //parse to rads
+                        console.log(axis);
+                        console.log(angle);
                         switch(axis){
                             case "x":
                                 mat4.rotateX(transfMatrix, transfMatrix, angle);
@@ -521,6 +525,7 @@ export class MySceneGraph {
         this.log("Parsed transformations");
         return null;
     }
+
 
     /**
      * Parses the <primitives> block.
@@ -703,12 +708,12 @@ export class MySceneGraph {
    * @param {components block element} componentsNode
    */
     parseComponents(componentsNode) {
-        var children = componentsNode.children;
+        var children = componentsNode.children; //components
 
         this.components = [];
 
         var grandChildren = [];
-        var grandgrandChildren = [];
+        var ComponentChildren = {};
         var nodeNames = [];
 
         // Any number of components.
@@ -740,14 +745,69 @@ export class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
-            this.onXMLMinorError("To do: Parse components.");
+            let component = new MyComponent(this.scene, componentID);
+            
             // Transformations
+
+            let transformation = grandChildren[transformationIndex]
+            
+            if(transformation == null || transformation.children.length == 0){
+                return "transformation parameters missing in component " + componentID;
+            }
+
+
+            let Tnodenames = []
+            for (var j = 0; j < transformation.children.length; j++) {
+                Tnodenames.push(transformation.children[j].nodeName);
+            }
+
+            if(Tnodenames.indexOf("transformationref") > 0){
+                return "conflict: transformationref and other transformation are present in component " + componentID;
+            }
+
+            if(Tnodenames.indexOf("transformationref") == 0){
+                let transformationID = this.reader.getString(children[i], 'id');
+                if (this.transformations[transformationID] == null){
+                    return "No transformation with that id " + transformationID;
+                }
+
+                component.addTransformation(this.transformations[transformationID])
+            }
+            else{
+                component.addTransformation(transformation)
+            }
 
             // Materials
 
+            //component.setMaterial(this.materials[materialsIndex]);
+
             // Texture
 
-            // Children
+            //component.setTexture(this.textures[textureIndex]);
+
+            // Children: primitives or other components
+
+            let descendents = grandChildren[childrenIndex]; 
+
+            //this.ComponentChildren[componentID] = [];
+
+            for(let i = 0; i < descendents.length; i++){
+                let descendent = descendents[i];
+
+                if(descendent.nodeName == "primitiveref"){
+                    let primitiveRefId = this.reader.getString(descendent, 'id');
+                    component.addChild(this.primitives[primitiveRefId]);
+                }
+                else if(descendent.nodeName == "componentref"){
+                    let componentRefId = this.reader.getString(descendent, 'id');
+                    component.addChild(this.components[componentRefId])
+                }
+
+            }
+
+            this.components[componentID] = component;
+
+
         }
     }
 
@@ -876,7 +936,10 @@ export class MySceneGraph {
         //tri.display();
         //rec.display();
         //To test the parsing/creation of the primitives, call the display function directly
-        //this.primitives['demoTriangle'].display();
-        this.primitives['demoTorus'].display();
+        this.scene.pushMatrix();
+        this.scene.multMatrix(this.transformations['demoTransform']);
+        this.primitives['demoTriangle'].display();
+        this.scene.popMatrix();
+        //this.components['demoRoot'].display();
     }
 }
