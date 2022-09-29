@@ -623,16 +623,29 @@ export class MySceneGraph {
                     return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
 
                 var height = this.reader.getFloat(grandChildren[0], 'height');                   
-                if (!(base != null && !isNaN(base)))
-                    return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
+                if (!(height != null && !isNaN(height)))
+                    return "unable to parse height of the primitive coordinates for ID = " + primitiveId;
 
-                var slices = this.reader.getFloat(grandChildren[0], 'base');
-                if (!(base != null && !isNaN(base)))
-                    return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
 
-                var stacks = this.reader.getFloat(grandChildren[0], 'base');
-                if (!(base != null && !isNaN(base)))
-                    return "unable to parse base of the primitive coordinates for ID = " + primitiveId;    
+                var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+                if (!(stacks != null && !isNaN(stacks)))
+                    return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;    
+            }
+            else if (primitiveType == 'sphere'){
+                var radius = this.reader.getFloat(grandChildren[0], 'base');
+                if (!(radius != null && !isNaN(radius)))
+                    return "unable to parse radius of the primitive coordinates for ID = " + primitiveId;
+
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
+                var stacks = this.reader.getFloat(grandChildren[0], 'stacks');                   
+                if (!(stacks != null && !isNaN(stacks)))
+                    return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
             }
             else {
                 console.warn("To do: Parse other primitives.");
@@ -818,6 +831,11 @@ export class MySceneGraph {
         //this.primitives['demoRectangle'].display();
         let cylinder = new MyCylinder(this.scene , 1, 1, 3, 10, 4);
         let sphere = new MySphere(this.scene, 1, 10, 4);
-        sphere.display();
+        let rectangle = new MyRectangle(this.scene, 1, 0, 0, 0, 0);
+        rectangle.display();
     }
 }
+
+//pullreq
+
+//materials texturecoords
