@@ -67,7 +67,25 @@
                 <texture id="demoTexture"/>
             <children>
                 <primitiveref id="demoTriangle" />
+                <primitiveref id="demoTorus" />
+
             </children>
         </component>
+
+        <component id="test">
+            <transformation>
+                <scale x="0.5" y="0.5" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+                <texture id="demoTexture"/>
+            <children>
+                <!-- <componentref id="demoRoot" /> -->
+                <componentref id="demoRoot" />
+
+            </children>
+        </component>
+        
     </components>
 </sxs>

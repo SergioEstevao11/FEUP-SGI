@@ -722,8 +722,10 @@ export class MySceneGraph {
         var grandChildren = [];
         var nodeNames = [];
 
+        // console.log(children);
         // Any number of components.
         for (var i = 0; i < children.length; i++) {
+
 
             if (children[i].nodeName != "component") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -741,6 +743,9 @@ export class MySceneGraph {
 
             grandChildren = children[i].children;
 
+            //console.log(grandChildren);
+
+
             nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
@@ -756,6 +761,8 @@ export class MySceneGraph {
             // Transformations
 
             let transformation = grandChildren[transformationIndex]
+
+            console.log(transformation)
             
             if(transformation == null || transformation.children.length == 0){
                 return "transformation parameters missing in component " + componentID;
@@ -773,7 +780,7 @@ export class MySceneGraph {
 
 
             if(Tnodenames.indexOf("transformationref") == 0){
-                let transformationID = this.reader.getString(transformation.children[i], 'id');
+                let transformationID = this.reader.getString(transformation.children[0], 'id');
                 if (this.transformations[transformationID] == null){
                     return "No transformation with that id " + transformationID;
                 }
@@ -952,7 +959,11 @@ export class MySceneGraph {
 
         //this.scene.pushMatrix();
         //this.scene.multMatrix(this.transformations['demoTransform']);
-        this.components['demoRoot'].display();
         //this.scene.popMatrix();
+
+
+        for(const componentID in this.components){
+            this.components[componentID].display();
+        }
     }
 }
