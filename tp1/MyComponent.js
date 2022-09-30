@@ -36,6 +36,8 @@ export class MyComponent extends CGFobject{
         
         this.scene.multMatrix(this.transformation);
 
+        //console.log(this.children)
+
         for(let i = 0; i < this.children.length; i++){
             this.children[i].display();
         }
