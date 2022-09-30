@@ -402,7 +402,7 @@ export class MySceneGraph {
         //For each texture in textures block, check ID and file URL
         for (let i=0; i< texturesNode.children.length; i++){
             var texture = texturesNode.children[i];
-            this.textures[texture.id] = new CGFtexture(this.scene, texture.attributes.path.value); 
+            this.textures[texture.id] = new CGFtexture(this.scene, this.reader.getString(texture, 'url')); 
         }
         this.log("Parsed textures");
         return null;
