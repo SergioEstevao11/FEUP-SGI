@@ -11,14 +11,13 @@ import {CGFobject} from '../lib/CGF.js';
    * @param stacks - number of stacks along Z axis
    */
 export class MyCylinder extends CGFobject {
-  constructor(scene, id, base, top, height, slices, stacks) {
+  constructor(scene, base, top, height, slices, stacks) {
     super(scene);
     this.base = base;
     this.top = top;
     this.height = height;
-    this.latDivs = stacks * 2;
-    this.longDivs = slices;
-
+    this.slices = slices;
+    this.stacks = stacks;
     this.initBuffers();
   }
 
@@ -32,63 +31,36 @@ export class MyCylinder extends CGFobject {
     this.normals = [];
     this.texCoords = [];
 
-    var phi = 0;
-    var theta = 0;
-    var phiInc = Math.PI / this.latDivs;
-    var thetaInc = (2 * Math.PI) / this.longDivs;
-    var latVertices = this.longDivs + 1;
+    let ang = 0;
+    let alphaAng = 2*Math.PI/this.slices;
+    let stackradius = this.base;
 
-    // build an all-around stack at a time, starting on "north pole" and proceeding "south"
-    for (let latitude = 0; latitude <= this.latDivs; latitude++) {
-      var sinPhi = Math.sin(phi);
-      var cosPhi = Math.cos(phi);
-
-      // in each stack, build all the slices around, starting on longitude 0
-      theta = 0;
-      for (let longitude = 0; longitude <= this.longDivs; longitude++) {
-        //--- Vertices coordinates
-        var x = Math.cos(theta) * sinPhi;
-        var y = cosPhi;
-        var z = Math.sin(-theta) * sinPhi;
-        this.vertices.push(x, y, z);
-
-        //--- Indices
-        if (latitude < this.latDivs && longitude < this.longDivs) {
-          var current = latitude * latVertices + longitude;
-          var next = current + latVertices;
-          // pushing two triangles using indices from this round (current, current+1)
-          // and the ones directly south (next, next+1)
-          // (i.e. one full round of slices ahead)
-          
-          this.indices.push( current + 1, current, next);
-          this.indices.push( current + 1, next, next +1);
-        }
-
-        //--- Normals
-        // at each vertex, the direction of the normal is equal to 
-        // the vector from the center of the sphere to the vertex.
-        // in a sphere of radius equal to one, the vector length is one.
-        // therefore, the value of the normal is equal to the position vectro
-        this.normals.push(x, y, z);
-        theta += thetaInc;
-
-        //--- Texture Coordinates
-        // To be done... 
-        // May need some additional code also in the beginning of the function.
-        this.texCoords.push(longitude/this.longDivs,latitude/this.latDivs);
+    for (var stack = 0; stack < this.stacks+1; stack++) {
+      for(var slice = 0; slice < this.slices+1; slice++) {
+          let x = Math.cos(ang)*stackradius;
+          let y = Math.sin(ang)*stackradius;
+          let z = stack*this.height/this.stacks;
+          this.vertices.push(x, y, z);
+          this.normals.push(Math.cos(ang), Math.sin(ang), (this.base-this.top)/this.height);//normalize
+          this.texCoords.push(slice/this.slices, 1-stack/(2*this.stacks));
+          ang+=alphaAng;
+          stackradius = this.base - (this.base-this.top)*stack;
       }
-      phi += phiInc;
+      ang=0;
     }
+
+    for (let stack = 0; stack < this.stacks; stack++) {
+      for(let slice = 0; slice < this.slices; slice++) {
+        let a = (this.slices+1)*stack + slice;
+        let b = a+1;
+        let c = (this.slices+1)*(stack+1)+slice;
+        let d = c+1;
+        this.indices.push(a, d, c);
+        this.indices.push(a, b, d);
+      }
+    }
+
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
   }
-      /**
-     * @method updateTexCoords
-     * Updates the list of texture coordinates of the cylinder
-     * @param {Array} coords - Array of texture coordinates
-     */
-    updateTexCoords(coords) {
-      this.texCoords = [...coords];
-      this.updateTexCoordsGLBuffers();
-    }
 }

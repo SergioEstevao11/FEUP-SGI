@@ -1,0 +1,301 @@
+ <sxs>
+    <scene root="groot" axis_length="40"/>
+
+    <views default="defaultCamera">
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="30" y="15" z="30" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+    </views>
+
+    <ambient>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </ambient>
+
+    <lights>
+        <omni id="demoLight" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="solar_panel" file="https://us.123rf.com/450wm/cek23/cek231706/cek23170600004/79887983-detailed-view-of-the-solar-panel-texture-of-an-ecological-power-plant.jpg" />
+        <texture id="sky" file="https://cdn.pixabay.com/photo/2017/11/14/05/14/universe-2947500_1280.jpg" />
+        <texture id="sun_texture" file="https://previews.123rf.com/images/voyata/voyata1906/voyata190600087/124867239-design-material-sun-texture-at-center-of-the-solar-system-universe-not-3d-render.jpg" />
+        <texture id="planet_texture" file="https://as1.ftcdn.net/v2/jpg/01/70/43/08/500_F_170430812_MJgU75hqcuzfjwLVcRiVFmxp0DKLniZz.jpg" />
+    </textures>
+
+    <materials>
+        <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="sun_yellow" shininess="10">
+            <emission r="0.3" g="0.3" b="0.3" a="0.7" />
+            <ambient r="1.0" g="1.0" b="0.0" a="1.0" />
+            <diffuse r="0.6" g="0.6" b="0.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="silver_spacestation" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </material>
+
+        <material id="planet" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.2" g="0.1" b="0.1" a="1.0" />
+            <specular r="0.2" g="0.1" b="0.1" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="origin_transform">
+                <!-- <translate x="0" y="0" z="-0.5"/> -->
+        </transformation>
+    </transformations>
+
+    <primitives>
+        <primitive id="rectangle">
+            <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5"/>
+        </primitive>
+        <primitive id="sphere">
+            <sphere radius="1" slices="50" stacks="50" />
+        </primitive>
+
+        <primitive id="torus">
+            <torus inner="0.05" outer="2" slices="50" loops="50" />
+        </primitive>
+        <primitive id="cylinder">      
+            <cylinder base="1" top="1" height="3" slices="50" stacks="50" /> 
+        </primitive>
+    </primitives>
+
+    <components>
+        <!-- assuming the rectangle is placed on the xy plane, x is front, y is right and z is up-->
+        <component id="lowerpanel">
+            <transformation>
+                <translate x="0" y="0" z="-10" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="upperpanel">
+            <transformation>
+                <rotate axis="x" angle="180" />
+                <translate x="0" y="0" z="10" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="frontpanel">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="0" y="0" z="-10" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="backpanel">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="0" y="0" z="10" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="rightpanel">
+            <transformation>
+                <rotate axis="x" angle="90" />
+                <translate x="0" y="0" z="-10" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="leftpanel">
+            <transformation>
+                <rotate axis="x" angle="-90" />
+                <translate x="0" y="0" z="10" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="sky"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+
+        <component id="cubemap">
+            <transformation>
+                <scale x="20" y="20" z="20" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="lowerpanel" />
+                <componentref id="upperpanel" />
+                <componentref id="frontpanel" />
+                <componentref id="backpanel" />
+                <componentref id="rightpanel" />
+                <componentref id="leftpanel" />
+            </children>
+        </component>
+    
+
+        <component id="star">
+            <transformation>
+                <transformationref id="origin_transform" />
+                <scale x="5" y="5" z="5"/>
+            </transformation>
+            <materials>
+                <material id="sun_yellow" />
+            </materials>
+            <texture id="sun_texture"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <component id="spacestation_panels">
+            <transformation>
+                <rotate axis="y" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="solar_panel"/>
+            <children>
+                <rectangle x1="0.0" y1="0.0" x2="0.5" y2="1.0" />
+                <rectangle x1="3.0" y1="0.0" x2="3.5" y2="1.0" />
+                <rectangle x1="0.0" y1="-1.0" x2="1.0" y2="-2.0" />
+                <rectangle x1="0.0" y1="-1.0" x2="3.5" y2="-2.0" />
+            </children>
+        </component>
+
+        <component id="spacestation">
+            <transformation>
+                <scale x="2" y="2" z="2"/>
+                <translate x="0" y="10" z="-1.5" />
+            </transformation>
+            <materials>
+                <material id="silver_spacestation" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="cylinder" />
+                <componentref id="spacestation_panels"/>
+            </children>
+        </component>
+
+        <component id="spacestation_orbit">
+            <transformation>
+                <scale x="10" y="10" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="torus" />
+            </children>
+        </component>
+
+        <component id="saturn_sphere">
+            <transformation>
+                <transformationref id="origin_transform"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <component id="saturn_ring">
+            <transformation>
+                <scale x="2" y="2" z="0.2" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="torus" />
+            </children>
+        </component>
+
+        <component id="saturn">
+            <transformation>
+                <scale x="2" y="2" z="2" />
+                <translate x="10" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="planet_material" />
+            </materials>
+            <texture id="planet_texture"/>
+            <children>
+                <componentref id="saturn_sphere" />
+                <componentref id="saturn_ring"/>
+            </children>
+        </component>
+
+        <component id="saturn_orbit">
+            <transformation>
+                <scale x="10" y="10" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="torus" />
+            </children>
+        </component>
+    </components>
+</sxs>

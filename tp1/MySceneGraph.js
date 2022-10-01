@@ -1,5 +1,7 @@
-import { CGFXMLreader } from '../lib/CGF.js';
+import { CGFappearance, CGFtexture, CGFXMLreader } from '../lib/CGF.js';
 import { MyRectangle } from './MyRectangle.js';
+import { MyCylinder } from './MyCylinder.js';
+import { MySphere } from './MySphere.js';
 import { MyTorus } from './MyTorus.js';
 import { MyTriangle } from './MyTriangle.js';
 import { MyComponent } from './MyComponent.js';
@@ -398,9 +400,13 @@ export class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
-
+        this.textures=[];
         //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
+        for (let i=0; i< texturesNode.children.length; i++){
+            var texture = texturesNode.children[i];
+            this.textures[texture.id] = new CGFtexture(this.scene, this.reader.getString(texture, 'file')); 
+        }
+        this.log("Parsed textures");
         return null;
     }
 
@@ -433,11 +439,41 @@ export class MySceneGraph {
             if (this.materials[materialID] != null)
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
 
-            //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
-        }
+            var material = new CGFappearance(this.scene);
 
-        //this.log("Parsed materials");
+            //do something with vars id, shininess etc
+            var shininess = this.reader.getString(children[i], 'shininess');
+            if (shininess == null)
+                return "no shininess defined for material";
+
+            
+
+            grandChildren = children[i].children;
+            for (let i=0; i<grandChildren.length; i++){
+                var gc = grandChildren[i];
+                if (gc.nodename == "ambient"){
+                    material.ambient = this.parseColor(gc,"ambient");
+                }
+                else if (gc.nodename == "diffuse"){
+                    material.diffuse = this.parseColor(gc,"diffuse");
+                }
+                else if (gc.nodename == "emissive"){
+                    material.emissive = this.parseColor(gc,"emissive");
+                }
+                else if (gc.nodename == "specular"){
+                    material.specular = this.parseColor(gc,"specular");
+                }
+                else{
+                    this.onXMLMinorError("missing material component");
+                }
+            }
+
+            
+            this.materials[materialID] = material;
+        }
+        this.scene.materials = this.materials;
+
+        this.log("Parsed materials");
         return null;
     }
 
@@ -663,16 +699,38 @@ export class MySceneGraph {
                     return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
 
                 var height = this.reader.getFloat(grandChildren[0], 'height');                   
-                if (!(base != null && !isNaN(base)))
-                    return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
+                if (!(height != null && !isNaN(height)))
+                    return "unable to parse height of the primitive coordinates for ID = " + primitiveId;
 
-                var slices = this.reader.getFloat(grandChildren[0], 'base');
-                if (!(base != null && !isNaN(base)))
-                    return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
 
-                var stacks = this.reader.getFloat(grandChildren[0], 'base');
-                if (!(base != null && !isNaN(base)))
-                    return "unable to parse base of the primitive coordinates for ID = " + primitiveId;    
+                var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+                if (!(stacks != null && !isNaN(stacks)))
+                    return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+                    
+                var cylinder = new MyCylinder(this.scene, primitiveId, top, height, slices, stacks);
+
+                this.primitives[primitiveId] = cylinder;
+            }
+
+            else if(primitiveType == 'sphere'){
+                var radius = this.reader.getFloat(grandChildren[0], 'radius');
+                if (!(radius != null && !isNaN(radius)))
+                    return "unable to parse radius of the primitive coordinates for ID = " + primitiveId;
+
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
+                var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+                if (!(stacks != null && !isNaN(stacks)))
+                    return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+
+                var sphere = new MySphere(this.scene, radius, slices, stacks);
+
+                this.primitives[primitiveId] = sphere;
             }
 
             else if (primitiveType == 'torus'){
@@ -722,7 +780,7 @@ export class MySceneGraph {
         var grandChildren = [];
         var nodeNames = [];
 
-        // console.log(children);
+        console.log(children.length);
         // Any number of components.
         for (var i = 0; i < children.length; i++) {
 
@@ -873,7 +931,6 @@ export class MySceneGraph {
         if (!Array.isArray(position))
             return position;
 
-
         // w
         var w = this.reader.getFloat(node, 'w');
         if (!(w != null && !isNaN(w)))
@@ -963,7 +1020,11 @@ export class MySceneGraph {
 
 
         for(const componentID in this.components){
+            //console.log(componentID);
             this.components[componentID].display();
         }
     }
 }
+
+
+//materials texturecoords
