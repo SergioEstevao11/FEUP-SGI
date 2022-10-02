@@ -465,8 +465,6 @@ export class MySceneGraph {
                     this.onXMLMinorError("missing material component");
                 }
             }
-
-            
             this.materials[materialID] = material;
         }
         this.scene.materials = this.materials;
@@ -672,6 +670,26 @@ export class MySceneGraph {
                 var stacks = this.reader.getFloat(grandChildren[0], 'base');
                 if (!(base != null && !isNaN(base)))
                     return "unable to parse base of the primitive coordinates for ID = " + primitiveId;    
+
+                var cylinder = new MyCylinder(this.scene, primitiveId, base, top, height, slices, stacks);
+                this.primitives[primitiveId] = cylinder;
+            }
+
+            else if (primitiveType == 'sphere'){
+                var radius = this.reader.getFloat(grandChildren[0], 'radius');
+                if (!(radius != null && !isNaN(radius)))
+                    return "unable to parse radius of the primitive coordinates for ID = " + primitiveId;
+
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
+
+                var stacks = this.reader.getFloat(grandChildren[0], 'stacks');                   
+                if (!(stacks != null && !isNaN(stacks)))
+                    return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
+
+                var sphere = new MySphere(this.scene, radius, slices, stacks);
+                this.primitives[primitiveId] = sphere;
             }
 
             else if (primitiveType == 'torus'){
@@ -887,11 +905,15 @@ export class MySceneGraph {
         //rec.display();
         //To test the parsing/creation of the primitives, call the display function directly
         //this.primitives['demoRectangle'].display();
-        let cylinder = new MyCylinder(this.scene , 1, 1, 3, 10, 4);
-        let sphere = new MySphere(this.scene, 1, 10, 4);
-        let rectangle = new MyRectangle(this.scene, 1, 0, 0, 0, 0);
+        //let cylinder = new MyCylinder(this.scene , 1, 1, 3, 10, 4);
+        //let sphere = new MySphere(this.scene, 1, 10, 4);
+        //let rectangle = new MyRectangle(this.scene, 1, 0, 0, 0, 0);
         //this.primitives['demoTriangle'].display();
-        this.primitives['demoTorus'].display();
+        //cylinder.display();
+        //this.primitives['demoTorus'].display();
+        //this.scene.pushMatrix();
+        //this.scene.pushApperance();
+        
     }
 }
 
