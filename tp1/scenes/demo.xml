@@ -37,9 +37,9 @@
 
     <transformations>
         <transformation id="demoTransform">
-            <scale x="5" y="1" z="5" />
-            <rotate axis="x" angle="-45" />
-            <rotate axis="z" angle="-45" />
+            <!-- <translate x="2" y="2" z="0" /> -->
+            <!-- <scale x="3" y="3" z="3" /> -->
+            <rotate axis="y" angle="-45" />
         </transformation>
     </transformations>
 
@@ -65,16 +65,33 @@
     <components>
         <component id="demoRoot">
             <transformation>
-                <translate x="0" y="0" z="1" />
-                <scale x="2" y="1" z="1" />
+                <transformationref id="demoTransform"/>
             </transformation>
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+                <texture id="demoTexture"/>
             <children>
                 <primitiveref id="demoTriangle" />
+                <primitiveref id="demoTorus" />
+
             </children>
         </component>
+
+        <component id="test">
+            <transformation>
+                <scale x="0.5" y="0.5" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+                <texture id="demoTexture"/>
+            <children>
+                <!-- <componentref id="demoRoot" /> -->
+                <componentref id="demoRoot" />
+
+            </children>
+        </component>
+        
     </components>
 </sxs>

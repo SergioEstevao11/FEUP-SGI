@@ -24,8 +24,8 @@
 
     <textures>
         <texture id="demoTexture" file="scenes/images/vidral.jpg" />
-        <texture id="solar_panel" file="https://i.pinimg.com/originals/8a/9f/50/8a9f505d6f1855d51ba656c87802ead2.jpg" />
-        <texture id="sky" file="https://images.freeimages.com/images/large-previews/6f3/starry-sky-1152539.jpg" />
+        <texture id="solar_panel" file="https://us.123rf.com/450wm/cek23/cek231706/cek23170600004/79887983-detailed-view-of-the-solar-panel-texture-of-an-ecological-power-plant.jpg" />
+        <texture id="sky" file="https://cdn.pixabay.com/photo/2017/11/14/05/14/universe-2947500_1280.jpg" />
         <texture id="sun_texture" file="https://previews.123rf.com/images/voyata/voyata1906/voyata190600087/124867239-design-material-sun-texture-at-center-of-the-solar-system-universe-not-3d-render.jpg" />
         <texture id="planet_texture" file="https://as1.ftcdn.net/v2/jpg/01/70/43/08/500_F_170430812_MJgU75hqcuzfjwLVcRiVFmxp0DKLniZz.jpg" />
     </textures>
@@ -62,7 +62,7 @@
 
     <transformations>
         <transformation id="origin_transform">
-                <translate x="0" y="0" z="-0.5"/>
+                <!-- <translate x="0" y="0" z="-0.5"/> -->
         </transformation>
     </transformations>
 
@@ -71,14 +71,14 @@
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5"/>
         </primitive>
         <primitive id="sphere">
-            <sphere radius="1" slices="5" stacks="5" />
+            <sphere radius="1" slices="50" stacks="50" />
         </primitive>
 
         <primitive id="torus">
-            <torus inner="0.05" outer="2" slices="10" loops="10" />
+            <torus inner="0.05" outer="2" slices="50" loops="50" />
         </primitive>
         <primitive id="cylinder">      
-            <cylinder base="1" top="1" height="3" slices="10" stacks="10" /> 
+            <cylinder base="1" top="1" height="3" slices="50" stacks="50" /> 
         </primitive>
     </primitives>
 
@@ -93,7 +93,7 @@
             </materials>
             <texture id="sky"/>
             <children>
-                <primitiveref id="demoRectangle" />
+                <primitiveref id="rectangle" />
             </children>
         </component>
 
@@ -107,7 +107,7 @@
             </materials>
             <texture id="sky"/>
             <children>
-                <primitiveref id="demoRectangle" />
+                <primitiveref id="rectangle" />
             </children>
         </component>
 
@@ -121,10 +121,9 @@
             </materials>
             <texture id="sky"/>
             <children>
-                <primitiveref id="demoRectangle" />
+                <primitiveref id="rectangle" />
             </children>
         </component>
-    </components>
 
         <component id="backpanel">
             <transformation>
@@ -136,7 +135,7 @@
             </materials>
             <texture id="sky"/>
             <children>
-                <primitiveref id="demoRectangle" />
+                <primitiveref id="rectangle" />
             </children>
         </component>
 
@@ -150,7 +149,7 @@
             </materials>
             <texture id="sky"/>
             <children>
-                <primitiveref id="demoRectangle" />
+                <primitiveref id="rectangle" />
             </children>
         </component>
 
@@ -164,7 +163,7 @@
             </materials>
             <texture id="sky"/>
             <children>
-                <primitiveref id="demoRectangle" />
+                <primitiveref id="rectangle" />
             </children>
         </component>
 
@@ -177,7 +176,12 @@
             </materials>
             <texture id="inherit"/>
             <children>
-                <componentref id="demoRectangle" />
+                <componentref id="lowerpanel" />
+                <componentref id="upperpanel" />
+                <componentref id="frontpanel" />
+                <componentref id="backpanel" />
+                <componentref id="rightpanel" />
+                <componentref id="leftpanel" />
             </children>
         </component>
     
@@ -198,7 +202,7 @@
 
         <component id="spacestation_panels">
             <transformation>
-                <rotate axys="y" angle="-90"/>
+                <rotate axis="y" angle="-90"/>
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -223,7 +227,7 @@
             <texture id="demoTexture"/>
             <children>
                 <primitiveref id="cylinder" />
-                <componentref id="spacestation_panels">
+                <componentref id="spacestation_panels"/>
             </children>
         </component>
 
@@ -242,7 +246,7 @@
 
         <component id="saturn_sphere">
             <transformation>
-                <transformationref id="origin_transform">
+                <transformationref id="origin_transform"/>
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -284,7 +288,7 @@
         <component id="saturn_orbit">
             <transformation>
                 <scale x="10" y="10" z="1" />
-            </transformation>*-**/*-
+            </transformation>
             <materials>
                 <material id="demoMaterial" />
             </materials>
@@ -293,4 +297,5 @@
                 <primitiveref id="torus" />
             </children>
         </component>
+    </components>
 </sxs>
