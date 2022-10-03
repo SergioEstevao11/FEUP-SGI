@@ -236,7 +236,42 @@ export class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        this.onXMLMinorError("To do: Parse views and create cameras.");
+        var default_name = this.reader.getString(viewsNode, 'default')
+        if (default_name == null)
+            return "no default view defined"
+        
+        for(let i=0; i<viewsNode.children.length; i++){
+            var camera = viewsNode.children[i];
+            if (camera.nodeName == "perspective"){
+                var camera_id = this.reader.getString(camera, 'id');
+                if (camera_id == null){
+                    this.onXMLMinorError("Camera id not defined");
+                }
+                var camera_near = this.reader.getFloat(camera, 'near');
+                var camera_far = this.reader.getFloat(camera, 'far');
+                var camera_angle = this.reader.getFloat(camera, 'angle');
+                
+                var camera_from = camera.children[0];
+                var camera_to = camera.children[1];
+
+                if(camera_from==null || camera_to==null){
+                    this.onXMLMinorError("Camera specs not defined");
+                }
+                var camera_from_x = this.reader.getFloat(camera_from, 'x');
+                var camera_from_y = this.reader.getFloat(camera_from, 'y');
+                var camera_from_z = this.reader.getFloat(camera_from, 'x');
+
+                var camera_to_x = this.reader.getFloat(camera_to, 'x');
+                var camera_to_y = this.reader.getFloat(camera_to, 'y');
+                var camera_to_z = this.reader.getFloat(camera_to, 'x');
+            }
+            else if (camera.nodeName == "ortho"){
+                this.onXMLMinorError("ortho.");
+            }
+            else{
+                this.onXMLMinorError("Type of view not defined");
+            }
+        }
 
         return null;
     }
@@ -443,28 +478,29 @@ export class MySceneGraph {
 
             //do something with vars id, shininess etc
             var shininess = this.reader.getString(children[i], 'shininess');
-            if (shininess == null)
+            if (shininess == null){
                 return "no shininess defined for material";
+            }
 
             
 
             grandChildren = children[i].children;
             for (let i=0; i<grandChildren.length; i++){
                 var gc = grandChildren[i];
-                if (gc.nodename == "ambient"){
+                if (gc.nodeName == "emission"){
+                    material.emissive = this.parseColor(gc,"emission");
+                }
+                else if (gc.nodeName == "ambient"){
                     material.ambient = this.parseColor(gc,"ambient");
                 }
-                else if (gc.nodename == "diffuse"){
+                else if (gc.nodeName == "diffuse"){
                     material.diffuse = this.parseColor(gc,"diffuse");
                 }
-                else if (gc.nodename == "emissive"){
-                    material.emissive = this.parseColor(gc,"emissive");
-                }
-                else if (gc.nodename == "specular"){
+                else if (gc.nodeName == "specular"){
                     material.specular = this.parseColor(gc,"specular");
                 }
                 else{
-                    this.onXMLMinorError("missing material component");
+                    this.onXMLMinorError(gc.nodeName + "material component not defined");
                 }
             }
             this.materials[materialID] = material;
@@ -1023,6 +1059,3 @@ export class MySceneGraph {
         }
     }
 }
-
-
-//materials texturecoords
