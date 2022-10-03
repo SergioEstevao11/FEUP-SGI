@@ -1,4 +1,4 @@
-import { CGFappearance, CGFtexture, CGFXMLreader } from '../lib/CGF.js';
+import { CGFappearance, CGFcamera, CGFtexture, CGFXMLreader } from '../lib/CGF.js';
 import { MyRectangle } from './MyRectangle.js';
 import { MyCylinder } from './MyCylinder.js';
 import { MySphere } from './MySphere.js';
@@ -236,43 +236,65 @@ export class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
+        this.views = []
+    
+
         var default_name = this.reader.getString(viewsNode, 'default')
         if (default_name == null)
             return "no default view defined"
+
+        var camera_node, camera_id, camera_near, camera_far, camera_angle, camera_from, camera_to, camera_up, camera
         
         for(let i=0; i<viewsNode.children.length; i++){
-            var camera = viewsNode.children[i];
-            if (camera.nodeName == "perspective"){
-                var camera_id = this.reader.getString(camera, 'id');
+            camera_node = viewsNode.children[i];
+            if (camera_node.nodeName == "perspective"){
+                camera_id = this.reader.getString(camera_node, 'id');
                 if (camera_id == null){
                     this.onXMLMinorError("Camera id not defined");
                 }
-                var camera_near = this.reader.getFloat(camera, 'near');
-                var camera_far = this.reader.getFloat(camera, 'far');
-                var camera_angle = this.reader.getFloat(camera, 'angle');
+                camera_near = this.reader.getFloat(camera_node, 'near');
+                camera_far = this.reader.getFloat(camera_node, 'far');
+                camera_angle = this.reader.getFloat(camera_node, 'angle');
                 
-                var camera_from = camera.children[0];
-                var camera_to = camera.children[1];
+                camera_from = this.parseCoordinates3D(camera_node.children[0]);
+                camera_to = this.parseCoordinates3D(camera_node.children[1]);
 
                 if(camera_from==null || camera_to==null){
                     this.onXMLMinorError("Camera specs not defined");
                 }
-                var camera_from_x = this.reader.getFloat(camera_from, 'x');
-                var camera_from_y = this.reader.getFloat(camera_from, 'y');
-                var camera_from_z = this.reader.getFloat(camera_from, 'x');
+                camera = new CGFcamera(camera_angle*Math.PI/180, camera_near, camera_far, camera_from, camera_to)
+                this.views[camera_id] = camera
 
-                var camera_to_x = this.reader.getFloat(camera_to, 'x');
-                var camera_to_y = this.reader.getFloat(camera_to, 'y');
-                var camera_to_z = this.reader.getFloat(camera_to, 'x');
             }
-            else if (camera.nodeName == "ortho"){
-                this.onXMLMinorError("ortho.");
+            else if (camera_node.nodeName == "ortho"){
+                camera_id = this.reader.getString(camera_node, 'id');
+                if (camera_id == null){
+                    this.onXMLMinorError("Camera id not defined");
+                }
+                camera_near = this.reader.getFloat(camera_node, 'near');
+                camera_far = this.reader.getFloat(camera_node, 'far');
+                camera_angle = this.reader.getFloat(camera_node, 'angle');
+                
+                camera_from = this.parseCoordinates3D(camera_node.children[0]);
+                camera_to = this.parseCoordinates3D(camera_node.children[1]);
+                camera_up = this.parseCoordinates3D(camera_node.children[2]);
+
+                if(camera_from==null || camera_to==null || camera_up==null){
+                    this.onXMLMinorError("Camera specs not defined");
+                }
+
+                camera = new CGFcamera(camera_angle*Math.PI/180, camera_near, camera_far, camera_from, camera_to, camera_up)
+                this.views[camera_id] = camera
             }
             else{
-                this.onXMLMinorError("Type of view not defined");
+                this.onXMLMinorError("View not defined");
             }
-        }
 
+        }
+        if (camera_id == default_name){
+            this.views.default = camera
+        }
+        this.log("Parsed views");
         return null;
     }
 
