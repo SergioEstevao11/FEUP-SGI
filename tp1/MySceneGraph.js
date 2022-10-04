@@ -856,41 +856,47 @@ export class MySceneGraph {
 
             console.log(transformation)
             
-            if(transformation == null || transformation.children.length == 0){
+            if(transformation == null){
                 return "transformation parameters missing in component " + componentID;
             }
 
-
-            let Tnodenames = []
-            for (var j = 0; j < transformation.children.length; j++) {
-                Tnodenames.push(transformation.children[j].nodeName);
-            }
-
-            if(Tnodenames.indexOf("transformationref") > 0){
-                return "conflict: transformationref and other transformation are present in component " + componentID;
-            }
-
-
-            if(Tnodenames.indexOf("transformationref") == 0){
-                let transformationID = this.reader.getString(transformation.children[0], 'id');
-                if (this.transformations[transformationID] == null){
-                    return "No transformation with that id " + transformationID;
+            if(transformation.children.length != 0){
+                let Tnodenames = []
+                for (var j = 0; j < transformation.children.length; j++) {
+                    Tnodenames.push(transformation.children[j].nodeName);
                 }
 
-                component.addTransformation(this.transformations[transformationID])
+                if(Tnodenames.indexOf("transformationref") > 0){
+                    return "conflict: transformationref and other transformation are present in component " + componentID;
+                }
+
+
+                if(Tnodenames.indexOf("transformationref") == 0){
+                    let transformationID = this.reader.getString(transformation.children[0], 'id');
+                    if (this.transformations[transformationID] == null){
+                        return "No transformation with that id " + transformationID;
+                    }
+
+                    component.addTransformation(this.transformations[transformationID])
+                }
+                else{
+                    component.addTransformation(this.getTransformationMatrix(transformation.children, componentID));
+                    
+                }
             }
-            else{
-                component.addTransformation(this.getTransformationMatrix(transformation.children, componentID));
-                
-            }
+
+
+            
 
             // Materials
 
-            //component.setMaterial(this.materials[materialsIndex]);
+            console.log(this.materials[materialsIndex]);
+
+            component.setMaterial(this.materials[materialsIndex]);
 
             // Texture
-
-            //component.setTexture(this.textures[textureIndex]);
+            
+            component.setTexture(this.textures[textureIndex]);
 
             // Children: primitives or other components
 
@@ -1038,20 +1044,9 @@ export class MySceneGraph {
      */
     displayScene() {
         //To do: Create display loop for transversing the scene graph
-        //let tri = new MyTriangle(this.scene, "primitiveId", 0, 1, 1, 0, 0, 1, 0, 0, 1);
-        //let rec = new MyRectangle(this.scene, "rectangle", 0, 1, 0, 1)
-        //let tor = new MyTorus(this.scene, "torus", 1, 4, 50, 50);
-        
-        //tor.display();
-        //tri.display();
-        //rec.display();
-        //To test the parsing/creation of the primitives, call the display function directly
-        
 
-        //this.scene.pushMatrix();
-        //this.scene.multMatrix(this.transformations['demoTransform']);
-        //this.scene.popMatrix();
 
+        //this.components['root'].display();
 
         for(const componentID in this.components){
             //console.log(componentID);

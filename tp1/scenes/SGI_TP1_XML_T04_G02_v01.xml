@@ -1,0 +1,701 @@
+<sxs>
+    <scene root="root" axis_length="0"/>
+
+    <views default="defaultCamera">
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="50" y="25" z="50" />
+            <to x="0" y="25" z="0" />
+        </perspective>
+    </views>
+
+    <ambient>
+        <ambient r="0.05" g="0.05" b="0.05" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </ambient>
+
+    <lights>
+        <omni id="sunlight" enabled="1">
+            <location x="240" y="-35" z="3" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="earthDayTexture" file="scenes/images/space/earth_day.jpg" />
+        <texture id="moonTexture" file="scenes/images/space/moon.jpg" />
+        <texture id="sunTexture" file="scenes/images/space/sun.jpg" />
+        <texture id="solarPanelTexture" file="scenes/images/space/solar_panel.jpg" />
+        <texture id="whiteMetalTexture" file="scenes/images/space/white_metal.jpg" />
+        <texture id="metalChainTexture" file="scenes/images/space/metal_chains.jpg" />
+        <texture id="spaceshipBodyTexture" file="scenes/images/space/spaceship_body.jpg" />
+    </textures>
+
+    <materials>
+        <material id="defaultMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="reflectiveMaterial" shininess="0.5">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </material>
+        <material id="darkMaterial" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.9" g="0.9" b="0.9" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+        <material id="planetMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="sunMaterial" shininess="1">
+            <emission r="1.0" g="1.0" b="0.4" a="1.0" />
+            <ambient r="1.0" g="1.0" b="0.3" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="0.3" a="1.0" />
+            <specular r="1.0" g="1.0" b="0.3" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+    </transformations>
+
+    <primitives>
+        <primitive id="spacestationBody">
+            <torus inner="0.5" outer="3.5" slices="50" loops="50" />
+        </primitive>
+        <primitive id="spacestationCenter">
+            <cylinder top="0.5" base="1.25" height="1" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="square">
+            <rectangle x1="0" y1="0" x2="1" y2="1" />
+        </primitive>
+        <primitive id="sphere">
+            <sphere radius="1" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="equilateralTriangle">
+            <triangle x1="0" y1="0" z1="0" 
+                      x2="1" y2="0" z2="0"
+                      x3="0.5" y3="0.86602540378" z3="0" />
+        </primitive>
+    </primitives>
+
+    <components>
+        <component id="root">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="metalTilesTexture"/>
+            <children>
+                <componentref id="spacestation" />
+                <componentref id="sun" />
+                <componentref id="earth" />
+                <componentref id="moon" /> 
+            </children>
+        </component>
+
+        <!-- ============ -->
+        <!-- Sun & Planets -->
+        <component id="sun">
+            <transformation>
+                <translate x="250" y="35" z="3" />
+                <scale x="5" y="5" z="5" />
+            </transformation>
+            <materials>
+                <material id="sunMaterial" />
+            </materials>
+            <texture id="sunTexture"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+        <component id="earth">
+            <transformation>
+                <translate x="-35" y="-40" z="-25" />
+                <scale x="30" y="30" z="30" />
+                <rotate axis="x" angle="-66.5" />
+            </transformation>
+            <materials>
+                <material id="planetMaterial" />
+            </materials>
+            <texture id="earthDayTexture"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+        <component id="moon">
+            <transformation>
+                <translate x="-65" y="-60" z="-115" />
+                <scale x="3.5" y="3.5" z="3.5" />
+                <rotate axis="y" angle="20" />
+                <rotate axis="x" angle="-85" />
+            </transformation>
+            <materials>
+                <material id="planetMaterial" />
+            </materials>
+            <texture id="moonTexture"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <!-- ============ -->
+        <!-- Spacestation -->
+        <component id="spacestation">
+            <transformation>
+                <rotate axis="z" angle="-15" />
+                <rotate axis="y" angle="-95" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="spacestationBodyComponent" />
+                <componentref id="spacestationCenterComponent" />
+                <componentref id="spacestationStem" />
+                <componentref id="spacestationArm1" />
+                <componentref id="spacestationArm2" />
+                <componentref id="spacestationArm3" />
+                <componentref id="spacestationArm4" />
+                <componentref id="spacestationArm5" />
+                <componentref id="spacestationArm6" />
+            </children>
+        </component>
+
+        <!-- Space station torus component-->
+        <component id="spacestationBodyComponent">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="spaceshipBodyTexture" />
+            <children>
+                <primitiveref id="spacestationBody" />
+            </children>
+        </component>
+
+        <!-- Center component -->
+        <component id="spacestationCenterComponent">
+            <transformation>
+                <translate x="0" y="0" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="whiteMetalTexture"/>
+            <children>
+                <primitiveref id="spacestationCenter" />
+                <componentref id="spacestationCenterComponentTop" />
+                <componentref id="spacestationCenterComponentBottom" />
+            </children>
+        </component>
+        <component id="spacestationCenterComponentTop">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+                <scale x="0.495" y="0.495" z="0.2" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="whiteMetalTexture"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+        <component id="spacestationCenterComponentBottom">
+            <transformation>
+                <scale x="1.24" y="1.24" z="0.2" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="whiteMetalTexture"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <!-- Stem -->
+        <component id="spacestationStem">
+            <transformation>
+                <translate x="-0.075" y="-0.075" z="-5.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="spacestationStemTube" />
+                <componentref id="spacestationStemPanel1" />
+                <componentref id="spacestationStemPanel2" />
+                <componentref id="spacestationStemPanel3" />
+                <componentref id="spacestationStemTail" />
+                <componentref id="spacestationMainMirror" />
+            </children>
+        </component>
+        <component id="spacestationStemTube">
+            <transformation>
+                <scale x="0.15" y="0.15" z="8" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="metalChainTexture" length_s="5" length_t="0.2" />
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="spacestationStemTail">
+            <transformation>
+                <translate x="-0.125" y="-0.125" z="0" />
+                <scale x="0.4" y="0.4" z="0.4" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="metalChainTexture" length_s="2.0" length_t="2.0"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="spacestationStemPanel1">
+            <transformation>
+                <translate x="0" y="0.075" z="1.75" />
+                <rotate axis="x" angle="-90" />
+                <scale x="2" y="0.75" z="1" />
+            </transformation>
+            <materials>
+                <material id="reflectiveMaterial" />
+            </materials>
+            <texture id="solarPanelTexture" length_s="2.0" length_t="4.0"/>
+            <children>
+                <componentref id="doubleSidedSquare" />
+            </children>
+        </component>
+        <component id="spacestationStemPanel2">
+            <transformation>
+                <translate x="0" y="0" z="1.25" />
+                <scale x="1.4" y="1" z="1" />
+                <translate x="0" y="0.075" z="1.75" />
+                <rotate axis="x" angle="-90" />
+                <scale x="2" y="0.75" z="1" />
+            </transformation>
+            <materials>
+                <material id="reflectiveMaterial" />
+            </materials>
+            <texture id="solarPanelTexture" length_s="1.4" length_t="1.0" />
+            <children>
+                <componentref id="doubleSidedSquare" />
+            </children>
+        </component>
+        <component id="spacestationStemPanel3">
+            <transformation>
+                <translate x="0" y="0" z="2.5" />
+                <scale x="1.9" y="1" z="1" />
+                <translate x="0" y="0.075" z="1.75" />
+                <rotate axis="x" angle="-90" />
+                <scale x="2" y="0.75" z="1" />
+            </transformation>
+            <materials>
+                <material id="reflectiveMaterial" />
+            </materials>
+            <texture id="solarPanelTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="doubleSidedSquare" />
+            </children>
+        </component>
+
+        <!-- Main Mirror -->
+        <component id="spacestationMainMirror">
+            <transformation>
+                <translate x="0" y="0" z="6.75" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="spacestationMainMirrorPanel" />
+                <componentref id="spacestationMainMirrorPanelBack" />
+                <componentref id="spacestationMainMirrorStemArticulation" />
+                <componentref id="spacestationMainMirrorSupport1" />
+                <componentref id="spacestationMainMirrorSupport2" />
+            </children>
+        </component>
+        <component id="spacestationMainMirrorPanel">
+            <transformation>
+                <rotate axis="x" angle="-40" />
+                <translate x="0" y="0" z="2.35" />
+                <scale x="1.75" y="1.75" z="1" />
+            </transformation>
+            <materials>
+                <material id="reflectiveMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="hexagon" />
+            </children>
+        </component>
+        <component id="spacestationMainMirrorPanelBack">
+            <transformation>
+                <rotate axis="x" angle="-40" />
+                <translate x="0" y="0" z="2.35" />
+                <scale x="1.75" y="1.75" z="1" />
+                <rotate axis="x" angle="-180" />
+            </transformation>
+            <materials>
+                <material id="darkMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="hexagon" />
+            </children>
+        </component>
+        <component id="spacestationMainMirrorStemArticulation">
+            <transformation>
+                <translate x="-0.125" y="-0.125" z="0" />
+                <scale x="0.4" y="0.4" z="0.7" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="metalChainTexture" length_s="2.0" length_t="4.0" />
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="spacestationMainMirrorSupport1">
+            <transformation>
+                <rotate axis="y" angle="-30" />
+                <translate x="0" y="0" z="0.3" />
+                <rotate axis="x" angle="-40" />
+                <scale x="0.15" y="0.15" z="2.25" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="metalChainTexture" length_s="0.4" length_t="8" />
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="spacestationMainMirrorSupport2">
+            <transformation>
+                <rotate axis="y" angle="30" />
+                <translate x="0" y="0" z="0.3" />
+                <rotate axis="x" angle="-40" />
+                <scale x="0.15" y="0.15" z="2.25" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="metalChainTexture" length_s="0.1" length_t="10" />
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+
+
+        <!-- Arms -->
+        <component id="spacestationArm1">
+            <transformation>
+                <translate x="0.75" y="-0.075" z="-0.075" />
+                <scale x="2.5" y="0.15" z="0.15" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="metalChainTexture" length_s="0.4" length_t="8" />
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="spacestationArm2">
+            <transformation>
+                <rotate axis="z" angle="60" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="spacestationArm1" />
+            </children>
+        </component>
+        <component id="spacestationArm3">
+            <transformation>
+                <rotate axis="z" angle="120" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="spacestationArm1" />
+            </children>
+        </component>
+        <component id="spacestationArm4">
+            <transformation>
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="spacestationArm1" />
+            </children>
+        </component>
+        <component id="spacestationArm5">
+            <transformation>
+                <rotate axis="z" angle="240" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="spacestationArm1" />
+            </children>
+        </component>
+        <component id="spacestationArm6">
+            <transformation>
+                <rotate axis="z" angle="300" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="spacestationArm1" />
+            </children>
+        </component>
+        
+
+        <!-- ============ -->
+        <!-- Cube -->
+        <component id="cube">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cubeFace1" />
+                <componentref id="cubeFace2" />
+                <componentref id="cubeFace3" />
+                <componentref id="cubeFace4" />
+                <componentref id="cubeFace5" />
+                <componentref id="cubeFace6" />
+            </children>
+        </component>
+        <component id="cubeFace1">
+            <transformation>
+                <translate x="1" y="0" z="0" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square" />
+            </children>
+        </component>
+        <component id="cubeFace2">
+            <transformation>
+                <translate x="1" y="1" z="0" />
+                <rotate axis="x" angle="-90" />
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square" />
+            </children>
+        </component>
+        <component id="cubeFace3">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square" />
+            </children>
+        </component>
+        <component id="cubeFace4">
+            <transformation>
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square" />
+            </children>
+        </component>
+        <component id="cubeFace5">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square" />
+            </children>
+        </component>
+        <component id="cubeFace6">
+            <transformation>
+                <translate x="1" y="0" z="1" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square" />
+            </children>
+        </component>
+
+        <!-- ============ -->
+        <!-- Hexagon -->
+        <component id="hexagon">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="hexagonPart1" />
+                <componentref id="hexagonPart2" />
+                <componentref id="hexagonPart3" />
+                <componentref id="hexagonPart4" />
+                <componentref id="hexagonPart5" />
+                <componentref id="hexagonPart6" />
+            </children>
+        </component>
+        <component id="hexagonPart1">
+            <transformation>
+                <rotate axis="z" angle="60" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="equilateralTriangle" />
+            </children>
+        </component>
+        <component id="hexagonPart2">
+            <transformation>
+                <rotate axis="z" angle="120" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="equilateralTriangle" />
+            </children>
+        </component>
+        <component id="hexagonPart3">
+            <transformation>
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="equilateralTriangle" />
+            </children>
+        </component>
+        <component id="hexagonPart4">
+            <transformation>
+                <rotate axis="z" angle="240" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="equilateralTriangle" />
+            </children>
+        </component>
+        <component id="hexagonPart5">
+            <transformation>
+                <rotate axis="z" angle="300" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="equilateralTriangle" />
+            </children>
+        </component>
+        <component id="hexagonPart6">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="equilateralTriangle" />
+            </children>
+        </component>
+
+        <!-- ============ -->
+        <!-- doubleSidedSquare -->
+        <component id="doubleSidedSquare">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square" />
+                <componentref id="squareBack" />
+            </children>
+        </component>
+        <component id="squareBack">
+            <transformation>
+                <translate x="0" y="1" z="0" />
+                <rotate axis="x" angle="180" />
+            </transformation>
+            <materials>
+                <material id="darkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square" />
+            </children>
+        </component>
+    </components>
+</sxs>

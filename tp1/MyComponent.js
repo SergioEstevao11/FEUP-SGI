@@ -1,4 +1,4 @@
-import {CGFobject} from '../lib/CGF.js';
+import {CGFappearance, CGFobject} from '../lib/CGF.js';
 
 /**
  * 
@@ -37,8 +37,12 @@ export class MyComponent extends CGFobject{
         this.scene.multMatrix(this.transformation);
 
         //console.log(this.children)
+        //this.material.setTexture(this.texture);
+        //console.log(this.material);
+
 
         for(let i = 0; i < this.children.length; i++){
+            //this.material.apply();
             this.children[i].display();
         }
 

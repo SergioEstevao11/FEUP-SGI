@@ -24,7 +24,7 @@
 
     <textures>
         <texture id="demoTexture" file="scenes/images/vidral.jpg" />
-        <texture id="solar_panel" file="https://us.123rf.com/450wm/cek23/cek231706/cek23170600004/79887983-detailed-view-of-the-solar-panel-texture-of-an-ecological-power-plant.jpg" />
+        <texture id="solar_panel" file="scenes/images/solar_panel.jpg" />
         <texture id="sky" file="https://cdn.pixabay.com/photo/2017/11/14/05/14/universe-2947500_1280.jpg" />
         <texture id="sun_texture" file="https://previews.123rf.com/images/voyata/voyata1906/voyata190600087/124867239-design-material-sun-texture-at-center-of-the-solar-system-universe-not-3d-render.jpg" />
         <texture id="planet_texture" file="https://as1.ftcdn.net/v2/jpg/01/70/43/08/500_F_170430812_MJgU75hqcuzfjwLVcRiVFmxp0DKLniZz.jpg" />
