@@ -1,0 +1,698 @@
+<sxs>
+    <scene root="groot" axis_length="40"/>
+
+    <views default="defaultCamera">
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="30" y="15" z="30" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+    </views>
+
+    <ambient>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </ambient>
+
+    <lights>
+        <omni id="demoLight" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="solar_panel" file="https://us.123rf.com/450wm/cek23/cek231706/cek23170600004/79887983-detailed-view-of-the-solar-panel-texture-of-an-ecological-power-plant.jpg" />
+        <texture id="sky" file="https://cdn.pixabay.com/photo/2017/11/14/05/14/universe-2947500_1280.jpg" />
+        <texture id="sun_texture" file="https://previews.123rf.com/images/voyata/voyata1906/voyata190600087/124867239-design-material-sun-texture-at-center-of-the-solar-system-universe-not-3d-render.jpg" />
+        <texture id="planet_texture" file="https://as1.ftcdn.net/v2/jpg/01/70/43/08/500_F_170430812_MJgU75hqcuzfjwLVcRiVFmxp0DKLniZz.jpg" />
+    </textures>
+
+    <materials>
+        <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="origin_transform">
+                <!-- <translate x="0" y="0" z="-0.5"/> -->
+        </transformation>
+    </transformations>
+
+    <primitives>
+        <primitive id="triangle">
+            <triangle x1="0" x2="0" x3="1" y1="1" y2="0" y3="0" z1="0" z2="0" z3="0" />
+        </primitive> 
+        <primitive id="propulsor_triangle">
+            <triangle x1="0.156" x2="0" x3="0.31" y1="0.99" y2="0" y3="0" z1="0" z2="0" z3="0" />
+        </primitive> 
+        <primitive id="rectangle">
+            <rectangle x1="0" x2="1" y1="0" y2="1" />
+        </primitive>
+        <primitive id="sphere">
+            <sphere radius="1" slices="20" stacks="20" />
+        </primitive>
+        <primitive id="torus">
+            <torus inner="0.05" outer="1" slices="20" loops="20" />
+        </primitive>
+        <primitive id="cylinder">      
+            <cylinder base="1" top="1" height="1" slices="20" stacks="20" /> 
+        </primitive>
+        <primitive id="cockpit_front">      
+            <cylinder base="1" top="0.6" height="1" slices="20" stacks="20" /> 
+        </primitive>
+        <primitive id="hexa_cylinder">      
+            <cylinder base="1" top="1" height="1" slices="6" stacks="20" /> 
+        </primitive>
+        <primitive id="hexa_sphere">
+            <sphere radius="1" slices="6" stacks="6" />
+        </primitive>
+    </primitives>
+
+    <components>
+        <component id="cube_first_rectangle">
+            <transformation>
+                <translate x="1" y="0" z="0" />
+                <rotate axis="y" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle"/>
+            </children>
+        </component>
+        <component id="cube_second_rectangle">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle"/>
+            </children>
+        </component>
+        <component id="cube_third_rectangle">
+            <transformation>
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle"/>
+            </children>
+        </component>
+        <component id="cube_fourth_rectangle">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle"/>
+            </children>
+        </component>
+        <component id="cube_fifth_rectangle">
+            <transformation>
+                <translate x="0" y="1" z="1"/>
+                <rotate axis="x" angle="270" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle"/>
+            </children>
+        </component>
+        <component id="cube_sixth_rectangle">
+            <transformation>
+                <translate x="1" y="0" z="1"/>
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle"/>
+            </children>
+        </component>
+
+        <component id="prism_first_triangle">
+            <transformation>
+                <scale x="-1" y="1" z="1" />
+                <rotate axis="z" angle="90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="triangle" />
+            </children>
+        </component>
+        <component id="prism_second_triangle">
+            <transformation>
+                <translate x="0" y="0" z="1"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="triangle" />
+            </children>
+        </component>
+        <component id="prism_first_rectangle">
+            <transformation>
+                <rotate axis="y" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+        <component id="prism_second_rectangle">
+            <transformation>
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+        <component id="prism_third_rectangle">
+            <transformation>
+                <translate x="0" y="1" z="1"/>
+                <rotate axis="z" angle="-45"/>
+                <scale x="1.4142" y="1" z="1" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+        <component id="prism">
+            <transformation>
+                <translate x="0" y="0" z="-0.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="prism_first_triangle" />
+                <componentref id="prism_second_triangle" />
+                <componentref id="prism_first_rectangle" />
+                <componentref id="prism_second_rectangle" />
+                <componentref id="prism_second_rectangle" />
+            </children>
+        </component>
+        
+        <component id="propulsor_first_triangle">
+            <transformation>
+                <translate x="0" y="0" z="1"/>
+                <scale x="5" y="5" z="1" />
+                <rotate axis="z" angle="9"/>
+                <translate x="-0.156" y="-0.99" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="propulsor_triangle"/>
+            </children>
+        </component>
+        <component id="propulsor_second_triangle">
+            <transformation>
+                <rotate axis="z" angle="18"/>
+                <rotate axis="y" angle="180"/>
+                <scale x="5" y="5" z="1"/>
+                <rotate axis="z" angle="9"/>
+                <translate x="-0.156" y="-0.99" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="propulsor_triangle"/>
+            </children>
+        </component>
+        <component id="propulsor_first_rectangle">
+            <transformation>
+                <translate x="0" y="-5" z="0" />
+                <rotate axis="z" angle="9"/>
+                <scale x="1.55" y="5" z="1"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle"/>
+            </children>
+        </component>
+        <component id="propulsor_second_rectangle">
+            <transformation>
+                <rotate axis="z" angle="-90"/>
+                <scale x="5" y="5" z="1"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle"/>
+            </children>
+        </component>
+        <component id="propulsor_third_rectangle">
+            <transformation>
+                <translate x="0" y="0" z="1"/>
+                <rotate axis="z" angle="-72" />
+                <rotate axis="x" angle="-90"/>
+                <scale x="5" y="1" z="1"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="rectangle"/>
+            </children>
+        </component>
+
+        <component id="propulsor_part">
+            <transformation>
+                <translate x="0" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="propulsor_first_triangle"/>
+                <componentref id="propulsor_second_triangle"/>
+                <componentref id="propulsor_first_rectangle"/>
+                <componentref id="propulsor_second_rectangle"/>
+                <componentref id="propulsor_third_rectangle"/>
+            </children>
+        </component>
+ 
+
+        <component id="top_hexagon">
+            <transformation>
+                <scale x="1" y="1" z="0.001" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="hexa_sphere"/>
+            </children>
+        </component>
+        <component id="base_hexagon">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="top_hexagon"/>
+            </children>
+        </component>
+        <component id="hexa_prism">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="top_hexagon"/>
+                <componentref id="base_hexagon"/>
+                <primitiveref id="hexa_cylinder"/>
+            </children>
+        </component>
+
+        <component id="base_cylinder">
+            <transformation>
+                <scale x="1" y="1" z="0.001" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="sphere"/>
+            </children>
+        </component>
+        <component id="top_cylinder">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="base_cylinder"/>
+            </children>
+        </component>
+        <component id="cylinder_complete">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="top_cylinder"/>
+                <componentref id="base_cylinder"/>
+                <primitiveref id="cylinder"/>
+            </children>
+        </component>
+        
+        <component id="middle_cylinder">
+            <transformation>
+                <scale x="1.2" y="1.2" z="2.2"/>
+                <translate x="0" y="0" z="-0.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+
+        <component id="middle_parallelipiped">
+            <transformation>
+                <translate x="3" y="0" z="0"/>
+                <scale x="6" y="1.5" z="2"/>
+                <translate x="-0.5" y="-0.5" z="-0.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube_first_rectangle"/>
+                <componentref id="cube_second_rectangle"/>
+                <componentref id="cube_third_rectangle"/>
+                <componentref id="cube_fourth_rectangle"/>
+                <componentref id="cube_fifth_rectangle"/>
+                <componentref id="cube_sixth_rectangle"/>
+            </children>
+        </component>
+
+        <component id="spaceship_right_front_prism">
+            <transformation>
+                <translate x="2.2" y="0.6" z="0" />
+                <scale x="6" y="3.3" z="1"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="prism"/>
+            </children>
+        </component>
+        <component id="spaceship_left_front_prism">
+            <transformation>
+                <rotate axis="x" angle="180" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="spaceship_right_front_prism"/>
+            </children>
+        </component>
+
+        <component id="spaceship_body_sphere">
+            <transformation>
+                <scale x="5" y="5" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="sphere"/>
+            </children>
+        </component>
+
+        <component id="side_hexagon">
+            <transformation>
+                <rotate axis="x" angle="90" />
+                <scale x="1.1" y="1.1" z="9" />
+                <translate x="0" y="0" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="hexa_prism"/>
+            </children>
+        </component>
+        <component id="side_cylinder">
+            <transformation>
+                <rotate axis="x" angle="90" />
+                <scale x="0.5" y="0.5" z="10" />
+                <translate x="0" y="0" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cylinder_complete"/>
+            </children>
+        </component>
+
+        <component id="cockpit_top">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+                <scale x="0.6" y="0.6" z="0.001"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="sphere"/>
+            </children>
+        </component>
+        <component id="spaceship_back_cockpit">
+            <transformation>
+                <translate x="2" y="-3" z="0.1" />
+                <rotate axis="z" angle="-60"/>
+                <rotate axis="y" angle="90" />
+                <scale x="0.8" y="0.8" z="2.5"/>
+                <translate x="0" y="0" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="cylinder"/>
+            </children>
+        </component>
+        <component id="spaceship_connect_cockpit">
+            <transformation>
+                <translate x="2" y="-3" z="0.1" />
+                <rotate axis="z" angle="-60"/>
+                <translate x="1" y="0" z="0" />
+                <scale x="0.8" y="0.8" z="0.8"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="sphere"/>
+            </children>
+        </component>
+        <component id="spaceship_middle_cockpit">
+            <transformation>
+                <translate x="2.9" y="-3.9" z="0.1" />
+                <rotate axis="y" angle="90" />
+                <scale x="0.8" y="0.8" z="1"/>
+                <translate x="0" y="0" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="cylinder"/>
+            </children>
+        </component>
+        <component id="spaceship_front_cockpit">
+            <transformation>
+                <translate x="3.9" y="-3.9" z="0.1" />
+                <rotate axis="y" angle="90" />
+                <scale x="0.8" y="0.8" z="1"/>
+                <translate x="0" y="0" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="cockpit_front"/>
+                <componentref id="cockpit_top"/>
+            </children>
+        </component>
+        <component id="cockpit">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="spaceship_front_cockpit"/>
+                <componentref id="spaceship_middle_cockpit"/>
+                <componentref id="spaceship_connect_cockpit"/>
+                <componentref id="spaceship_back_cockpit"/>
+            </children>
+        </component>
+
+        <component id="first_propulsor">
+            <transformation>
+                <rotate axis="z" angle="-54" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="propulsor_part"/>
+            </children>
+        </component>
+        <component id="second_propulsor">
+            <transformation>
+                <rotate axis="z" angle="-72" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="propulsor_part"/>
+            </children>
+        </component>
+        <component id="third_propulsor">
+            <transformation>
+                <rotate axis="z" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="propulsor_part"/>
+            </children>
+        </component>
+        <component id="first_half_propulsor">
+            <transformation>
+                <rotate axis="z" angle="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="first_propulsor"/>
+                <componentref id="second_propulsor"/>
+                <componentref id="third_propulsor"/>
+            </children>
+        </component>
+        <component id="second_half_propulsor">
+            <transformation>
+                <rotate axis="z" angle="-54" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="first_propulsor"/>
+                <componentref id="second_propulsor"/>
+                <componentref id="third_propulsor"/>
+            </children>
+        </component>
+        <component id="propulsor">
+            <transformation>
+                <translate x="0" y="0" z="-0.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="first_half_propulsor"/>
+                <componentref id="second_half_propulsor"/>
+            </children>
+        </component>
+
+
+        <component id="top torus">
+            <transformation>
+                <translate x="-2" y="0" z="1" />
+                <scale x="0.4" y="0.4" z="1"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="torus"/>
+            </children>
+        </component>
+
+        
+
+
+    </components>
+</sxs>

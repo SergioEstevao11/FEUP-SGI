@@ -44,7 +44,7 @@ export class MyCylinder extends CGFobject {
           this.normals.push(Math.cos(ang), Math.sin(ang), (this.base-this.top)/this.height);//normalize
           this.texCoords.push(slice/this.slices, 1-stack/(2*this.stacks));
           ang+=alphaAng;
-          stackradius = this.base - (this.base-this.top)*stack;
+          stackradius = this.base - (this.base-this.top)*stack/this.stacks;
       }
       ang=0;
     }
