@@ -25,7 +25,7 @@ export class MyCylinder extends CGFobject {
    * @method initBuffers
    * Initializes the cylinder buffers
    */
-  initBuffers() {
+   initBuffers() {
     this.vertices = [];
     this.indices = [];
     this.normals = [];
