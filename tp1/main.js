@@ -29,11 +29,7 @@ function main() {
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
-<<<<<<< HEAD
     var filename=getUrlVars()['file'] || "millenium_falcon.xml";
-=======
-    var filename=getUrlVars()['file'] || "demo.xml";
->>>>>>> sergio/display
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
