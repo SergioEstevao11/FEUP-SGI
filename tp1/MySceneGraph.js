@@ -915,7 +915,7 @@ export class MySceneGraph {
             let textureId = this.reader.getString(componentTextures, 'id');
             if (textureId == "inherit" || textureId == "none"){
 
-                component.setTexture(this.textures[textureId]);
+                component.setTexture(textureId);
 
             }
             else{

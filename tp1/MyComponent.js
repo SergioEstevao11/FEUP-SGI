@@ -73,6 +73,7 @@ export class MyComponent extends CGFobject{
 
         //textures
         if(this.texture == "inherit"){
+            console.log("father texture: ", father.texture);
             currentMaterial.setTexture(father.texture);
             currentMaterial.setTextureWrap('REPEAT', 'REPEAT'); //usar depois length_s e length_t do father
         }

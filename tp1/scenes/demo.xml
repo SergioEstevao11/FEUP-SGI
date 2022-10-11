@@ -75,8 +75,8 @@
             </transformation>
             <materials>
                 <material id="demoMaterial" />
-            </materials>
-                <texture id="demoTexture" length_s="3" length_t="3"/>
+            </materials> 
+            <texture id="none"/>
             <children>
                 <!-- <componentref id="demoRoot" /> -->
                 <primitiveref id="demoTorus" />
