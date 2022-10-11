@@ -95,7 +95,7 @@
             <materials>
                 <material id="defaultMaterial" />
             </materials>
-            <texture id="metalTilesTexture"/>
+            <texture id="whiteMetalTexture"/>
             <children>
                 <componentref id="spacestation" />
                 <componentref id="sun" />
@@ -160,7 +160,7 @@
             <materials>
                 <material id="defaultMaterial" />
             </materials>
-            <texture id="none"/>
+            <texture id="whiteMetalTexture"/>
             <children>
                 <componentref id="spacestationBodyComponent" />
                 <componentref id="spacestationCenterComponent" />

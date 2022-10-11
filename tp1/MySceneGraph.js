@@ -744,7 +744,7 @@ export class MySceneGraph {
                 if (!(stacks != null && !isNaN(stacks)))
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
                     
-                var cylinder = new MyCylinder(this.scene, primitiveId, top, height, slices, stacks);
+                let cylinder = new MyCylinder(this.scene, base, top, height, slices, stacks);
 
                 this.primitives[primitiveId] = cylinder;
             }
@@ -890,14 +890,53 @@ export class MySceneGraph {
 
             // Materials
 
-            console.log(this.materials[materialsIndex]);
+            console.log("material index:", materialsIndex);
 
-            component.setMaterial(this.materials[materialsIndex]);
+            let componentMaterials = grandChildren[materialsIndex];
+
+            if (componentMaterials.children.length > 1){
+                return "Too many materials in component " + componentID;
+            }
+
+            let materialId = this.reader.getString(componentMaterials.children[0], 'id');
+
+            if (this.materials[materialId] == null){
+                return "Invalid material ID in component " + componentID;
+            }
+
+            component.addMaterial(this.materials[materialId]);
+
 
             // Texture
             
-            component.setTexture(this.textures[textureIndex]);
+            let componentTextures = grandChildren[textureIndex];
 
+
+            let textureId = this.reader.getString(componentTextures, 'id');
+            if (textureId == "inherit" || textureId == "none"){
+
+                component.setTexture(this.textures[textureId]);
+
+            }
+            else{
+                // let length_s = this.reader.getFloat(componentTextures, 'length_s');
+                // let length_t = this.reader.getFloat(componentTextures, 'length_t');
+
+                if (this.textures[textureId] == null){
+                    return "Invalid texture ID in component " + componentID;
+                }
+                // if (length_s == null || length_t == null){
+                //     return "Invalid texture sizes in component " + componentID;
+                // }
+
+                // component.setTexture(this.textures[textureId], length_s, length_t);
+
+                component.setTexture(this.textures[textureId]);
+
+            }
+            
+
+            
             // Children: primitives or other components
 
             var descendents = grandChildren[childrenIndex].children; 
@@ -1045,12 +1084,17 @@ export class MySceneGraph {
     displayScene() {
         //To do: Create display loop for transversing the scene graph
 
+        //this.materials
+        //this.primitives['demoCylinder'].display();
 
-        //this.components['root'].display();
+        // let testCylinder = new MyCylinder(this.scene, 2, 2, 10, 30, 30);
+        // testCylinder.display();
 
-        for(const componentID in this.components){
-            //console.log(componentID);
-            this.components[componentID].display();
-        }
+        this.components['demoRoot'].display(null);
+
+        // for(const componentID in this.components){
+        //     //console.log(componentID);
+        //     this.components[componentID].display();
+        // }
     }
 }
