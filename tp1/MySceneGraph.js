@@ -923,11 +923,17 @@ export class MySceneGraph {
 
             let materialId = this.reader.getString(componentMaterials.children[0], 'id');
 
-            if (this.materials[materialId] == null){
-                return "Invalid material ID in component " + componentID;
+            if (materialId == "inherit"){
+                component.addMaterial(materialId);
+            }
+            else{
+                if (this.materials[materialId] == null){
+                    return "Invalid material ID in component " + componentID;
+                }
+    
+                component.addMaterial(this.materials[materialId]);
             }
 
-            component.addMaterial(this.materials[materialId]);
 
 
             // Texture

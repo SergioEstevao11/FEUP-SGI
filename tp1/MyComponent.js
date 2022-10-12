@@ -65,16 +65,17 @@ export class MyComponent extends CGFobject{
 
         //materials
         if (this.materials[this.materialIndex] == "inherit"){
-            currentMaterial = father.materials[father.materialIndex]
+            this.materials[this.materialIndex] = father.materials[father.materialIndex]
         }
-        else{
-            currentMaterial = this.materials[this.materialIndex]
-        }
+        
+        currentMaterial = this.materials[this.materialIndex]
+        
 
         //textures
         if(this.texture == "inherit"){
             console.log("father texture: ", father.texture);
-            currentMaterial.setTexture(father.texture);
+            this.texture = father.texture
+            currentMaterial.setTexture(this.texture);
             currentMaterial.setTextureWrap('REPEAT', 'REPEAT'); //usar depois length_s e length_t do father
         }
         else if(this.texture != "none"){
@@ -86,7 +87,7 @@ export class MyComponent extends CGFobject{
   
         for(let i = 0; i < this.children.length; i++){
 
-            this.materials[this.materialIndex].apply();
+            currentMaterial.apply();
             
             this.children[i].display(this);
             this.scene.popMatrix();
