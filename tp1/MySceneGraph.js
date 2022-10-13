@@ -879,42 +879,93 @@ export class MySceneGraph {
 
             console.log(transformation)
             
-            if(transformation == null || transformation.children.length == 0){
+            if(transformation == null){
                 return "transformation parameters missing in component " + componentID;
             }
 
-
-            let Tnodenames = []
-            for (var j = 0; j < transformation.children.length; j++) {
-                Tnodenames.push(transformation.children[j].nodeName);
-            }
-
-            if(Tnodenames.indexOf("transformationref") > 0){
-                return "conflict: transformationref and other transformation are present in component " + componentID;
-            }
-
-
-            if(Tnodenames.indexOf("transformationref") == 0){
-                let transformationID = this.reader.getString(transformation.children[0], 'id');
-                if (this.transformations[transformationID] == null){
-                    return "No transformation with that id " + transformationID;
+            if(transformation.children.length != 0){
+                let Tnodenames = []
+                for (var j = 0; j < transformation.children.length; j++) {
+                    Tnodenames.push(transformation.children[j].nodeName);
                 }
 
-                component.addTransformation(this.transformations[transformationID])
+                if(Tnodenames.indexOf("transformationref") > 0){
+                    return "conflict: transformationref and other transformation are present in component " + componentID;
+                }
+
+
+                if(Tnodenames.indexOf("transformationref") == 0){
+                    let transformationID = this.reader.getString(transformation.children[0], 'id');
+                    if (this.transformations[transformationID] == null){
+                        return "No transformation with that id " + transformationID;
+                    }
+
+                    component.addTransformation(this.transformations[transformationID])
+                }
+                else{
+                    component.addTransformation(this.getTransformationMatrix(transformation.children, componentID));
+                    
+                }
             }
-            else{
-                component.addTransformation(this.getTransformationMatrix(transformation.children, componentID));
-                
-            }
+
+
+            
 
             // Materials
 
-            //component.setMaterial(this.materials[materialsIndex]);
+            console.log("material index:", materialsIndex);
+
+            let componentMaterials = grandChildren[materialsIndex];
+
+            if (componentMaterials.children.length > 1){
+                return "Too many materials in component " + componentID;
+            }
+
+            let materialId = this.reader.getString(componentMaterials.children[0], 'id');
+
+            if (materialId == "inherit"){
+                component.addMaterial(materialId);
+            }
+            else{
+                if (this.materials[materialId] == null){
+                    return "Invalid material ID in component " + componentID;
+                }
+    
+                component.addMaterial(this.materials[materialId]);
+            }
+
+
 
             // Texture
+            
+            let componentTextures = grandChildren[textureIndex];
 
-            //component.setTexture(this.textures[textureIndex]);
 
+            let textureId = this.reader.getString(componentTextures, 'id');
+            if (textureId == "inherit" || textureId == "none"){
+
+                component.setTexture(textureId);
+
+            }
+            else{
+                // let length_s = this.reader.getFloat(componentTextures, 'length_s');
+                // let length_t = this.reader.getFloat(componentTextures, 'length_t');
+
+                if (this.textures[textureId] == null){
+                    return "Invalid texture ID in component " + componentID;
+                }
+                // if (length_s == null || length_t == null){
+                //     return "Invalid texture sizes in component " + componentID;
+                // }
+
+                // component.setTexture(this.textures[textureId], length_s, length_t);
+
+                component.setTexture(this.textures[textureId]);
+
+            }
+            
+
+            
             // Children: primitives or other components
 
             var descendents = grandChildren[childrenIndex].children; 
@@ -1061,24 +1112,18 @@ export class MySceneGraph {
      */
     displayScene() {
         //To do: Create display loop for transversing the scene graph
-        //let tri = new MyTriangle(this.scene, "primitiveId", 0, 1, 1, 0, 0, 1, 0, 0, 1);
-        //let rec = new MyRectangle(this.scene, "rectangle", 0, 1, 0, 1)
-        //let tor = new MyTorus(this.scene, "torus", 1, 4, 50, 50);
-        
-        //tor.display();
-        //tri.display();
-        //rec.display();
-        //To test the parsing/creation of the primitives, call the display function directly
-        
 
-        //this.scene.pushMatrix();
-        //this.scene.multMatrix(this.transformations['demoTransform']);
-        //this.scene.popMatrix();
-        
+        //this.materials
+        //this.primitives['demoCylinder'].display();
 
-        for(const componentID in this.components){
-            //console.log(componentID);
-            this.components[componentID].display();
-        }
+        // let testCylinder = new MyCylinder(this.scene, 2, 2, 10, 30, 30);
+        // testCylinder.display();
+
+        this.components['demoRoot'].display(null);
+
+        // for(const componentID in this.components){
+        //     //console.log(componentID);
+        //     this.components[componentID].display();
+        // }
     }
 }
