@@ -1119,7 +1119,7 @@ export class MySceneGraph {
         // let testCylinder = new MyCylinder(this.scene, 2, 2, 10, 30, 30);
         // testCylinder.display();
 
-        this.components['demoRoot'].display(null);
+        this.components['groot'].display(null);
 
         // for(const componentID in this.components){
         //     //console.log(componentID);

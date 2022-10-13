@@ -677,6 +677,19 @@
             </children>
         </component>
 
+        <component id="groot">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="propulsor"/>
+                
+            </children>
+        </component>
+
 
         <component id="top torus">
             <transformation>
@@ -691,9 +704,6 @@
                 <primitiveref id="torus"/>
             </children>
         </component>
-
-        
-
 
     </components>
 </sxs>
