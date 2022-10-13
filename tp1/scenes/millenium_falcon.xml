@@ -28,6 +28,7 @@
         <texture id="sky" file="https://cdn.pixabay.com/photo/2017/11/14/05/14/universe-2947500_1280.jpg" />
         <texture id="sun_texture" file="https://previews.123rf.com/images/voyata/voyata1906/voyata190600087/124867239-design-material-sun-texture-at-center-of-the-solar-system-universe-not-3d-render.jpg" />
         <texture id="planet_texture" file="https://as1.ftcdn.net/v2/jpg/01/70/43/08/500_F_170430812_MJgU75hqcuzfjwLVcRiVFmxp0DKLniZz.jpg" />
+        <texture id ="sphere_top" file="scenes/images/millenium_falcon_top_circle.jpg" />
     </textures>
 
     <materials>
@@ -154,8 +155,8 @@
 
         <component id="prism_first_triangle">
             <transformation>
-                <scale x="-1" y="1" z="1" />
-                <rotate axis="z" angle="90" />
+                <rotate axis="z" angle="90"/>
+                <rotate axis="x" angle="180"/>
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -229,7 +230,7 @@
                 <componentref id="prism_second_triangle" />
                 <componentref id="prism_first_rectangle" />
                 <componentref id="prism_second_rectangle" />
-                <componentref id="prism_second_rectangle" />
+                <componentref id="prism_third_rectangle" />
             </children>
         </component>
         
@@ -472,7 +473,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="sphere_top"/>
             <children>
                 <primitiveref id="sphere"/>
             </children>

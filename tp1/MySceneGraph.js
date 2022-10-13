@@ -1074,7 +1074,7 @@ export class MySceneGraph {
         //this.scene.pushMatrix();
         //this.scene.multMatrix(this.transformations['demoTransform']);
         //this.scene.popMatrix();
-
+        
 
         for(const componentID in this.components){
             //console.log(componentID);
