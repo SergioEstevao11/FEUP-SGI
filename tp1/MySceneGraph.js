@@ -948,19 +948,19 @@ export class MySceneGraph {
 
             }
             else{
-                // let length_s = this.reader.getFloat(componentTextures, 'length_s');
-                // let length_t = this.reader.getFloat(componentTextures, 'length_t');
+                let length_s = this.reader.getFloat(componentTextures, 'length_s');
+                let length_t = this.reader.getFloat(componentTextures, 'length_t');
 
                 if (this.textures[textureId] == null){
                     return "Invalid texture ID in component " + componentID;
                 }
-                // if (length_s == null || length_t == null){
-                //     return "Invalid texture sizes in component " + componentID;
-                // }
+                if (length_s == null || length_t == null){
+                    return "Invalid texture sizes in component " + componentID;
+                }
 
-                // component.setTexture(this.textures[textureId], length_s, length_t);
+                component.setTexture(this.textures[textureId], length_s, length_t);
 
-                component.setTexture(this.textures[textureId]);
+                //component.setTexture(this.textures[textureId]);
 
             }
             

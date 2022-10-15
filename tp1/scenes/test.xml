@@ -1,0 +1,876 @@
+<sxs>
+    <scene root="demoRoot" axis_length="5"/>
+
+    <views default="defaultCamera">
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="90" y="90" z="90" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+        <ortho id="orthoCamera"  near="0.1" far="500" left="100" right="100" top="100" bottom="100" >
+            <from x="1" y="0" z="1" />
+            <to x="0" y="1" z="0" />
+            <up x="0" y="1" z="0" /> <!-- opcional, default 0,1,0 -->
+        </ortho>
+    </views>
+
+    <ambient>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </ambient>
+
+    <lights>
+        <omni id="demoLight" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="MJ" file="scenes/images/michael-jackson.jpeg"/>
+    </textures>
+
+    <materials>
+        <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="blue" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="1.0" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="0.6" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </material>
+        <material id="floorColor" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="1.0" b="0.5" a="1.0" />
+            <diffuse r="0.0" g="1.0" b="0.4" a="1.0" />
+            <specular r="0.0" g="1.0" b="0.5" a="1.0" />
+        </material>
+        <material id="white" shininess="10">
+            <emission r="1.0" g="1.0" b="1.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="demoTransform">
+            <scale x="5" y="1" z="5" />
+            <rotate axis="x" angle="-45" />
+            <rotate axis="z" angle="-45" />
+        </transformation>
+        <transformation id="demoTransform1">
+            <translate x="1" y="2" z="3" />
+        </transformation>
+    </transformations>
+
+    <primitives>
+        <primitive id="Dc" >
+            <cylinder base="5" top="1" height="4" slices="100" stacks="100" />
+        </primitive>
+        <primitive id="demoRectangle">
+            <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
+        </primitive>
+        <primitive id="demoTriangle">
+            <triangle x1="4" y1="0" z1="0" 
+                       x2="0" y2="4" z2="0" 
+                       x3="0" y3="0" z3="4"/>
+        </primitive>
+        <primitive id="demoSphere" >
+             <sphere radius="1" slices="100" stacks="100" />
+        </primitive>
+        <primitive id = "dumbellWeightSphere">
+            <sphere radius="1" slices="6" stacks="6" />
+        </primitive>
+        <primitive id="demoCylinder" >
+            <cylinder base="1" top="1" height="1" slices="100" stacks="2" />
+        </primitive>
+        <primitive id = "pyramidCut">
+             <cylinder base="2" top="1" height="1" slices="4" stacks="100" />
+        </primitive>
+        <primitive id="square">
+            <rectangle x1="-1" y1="-1" x2="1" y2="1" />
+        </primitive> 
+        <primitive id="barbellWeightCylinder" >
+            <cylinder base="1" top="1" height="1" slices="100" stacks="100" />
+        </primitive>
+        <primitive id="demoTorus" >
+            <torus inner="2" outer="4" slices="100" loops="100" />
+        </primitive>
+        <primitive id="benchTorus">
+            <torus inner="0.5" outer="4" slices="100" loops="4" />
+        </primitive>
+    </primitives>
+
+    <components>
+        <component id = "cubeFace1">
+            <transformation>
+                <translate x='0' y='0' z='1'/> 
+            </transformation>
+            <materials>
+                <material id="inherit"/>
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square"/>
+            </children>
+        </component>
+        <component id = "cubeFace2">
+            <transformation>
+                <translate x='0' y='0' z='1'/>
+                <rotate axis='x' angle='180'/>  
+            </transformation>
+            <materials>
+                <material id="inherit"/>
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square"/>
+            </children>
+        </component>
+        <component id = "cubeFace3">
+            <transformation>
+                <rotate axis='x' angle='-90'/> 
+                <translate x='0' y='1' z='0'/> 
+            </transformation>
+            <materials>
+                <material id="inherit"/>
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square"/>
+            </children>
+        </component>
+        <component id = "cubeFace4">
+            <transformation>
+                <rotate axis='x' angle='-90'/> 
+                <translate x='0' y='1' z='0'/>
+                <rotate axis='z' angle='180' /> 
+            </transformation>
+            <materials>
+                <material id="inherit"/>
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square"/>
+            </children>
+        </component>
+        <component id = "cubeFace5">
+            <transformation>
+                <rotate axis='y' angle='90'/>
+                <translate x='1' y='0' z='0'/>
+            </transformation>
+            <materials>
+                <material id="inherit"/>
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square"/>
+            </children>
+        </component>
+        <component id = "cubeFace6">
+            <transformation>
+                <rotate axis='y' angle='90'/>
+                <translate x='1' y='0' z='0'/>
+                <rotate axis='z' angle='180' />    
+            </transformation>
+            <materials>
+                <material id="inherit"/>
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="square"/>
+            </children>
+        </component>
+        <component id = "cube">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit"/>
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cubeFace1" />
+                <componentref id="cubeFace2" />
+                <componentref id="cubeFace3" />
+                <componentref id="cubeFace4" />
+                <componentref id="cubeFace5" />
+                <componentref id="cubeFace6" />
+            </children>
+        </component>
+        <component id = "circle">
+            <transformation>
+                <translate x="0" y="0" z="15" />
+                <scale x="1" y="1" z="0.001" />
+            </transformation>
+            <materials>
+                <material id="white" />
+            </materials>
+            <texture id="MJ"/>
+            <children>
+                <primitiveref id="demoSphere" />
+            </children>
+        </component>
+        <component id = "cylinderTop">
+            <transformation>
+                <scale x="1" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="circle" />
+            </children>
+        </component>
+        <component id = "cylinderBottom">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+                <scale x="1" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="circle" />
+            </children>
+        </component>
+        <component id = "closedCylinder">
+            <transformation>
+                <scale x="1" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="demoCylinder" />
+                <componentref id = "cylinderTop" />
+                <componentref id = "cylinderBottom" />
+            </children>
+        </component>
+        <component id ="floor">
+            <transformation>
+                <scale x="50" y="50" z="1" />
+                <rotate axis="x" angle= "-90"/>
+            </transformation>
+            <materials>
+                <material id="floorColor" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="square"/>
+            </children>
+        </component>
+        <component id = "benchSupportFloor">
+            <transformation>
+                <scale x="0.30" y="0.25" z="2" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id = "benchSupportRubber1">
+            <transformation>
+                <scale x="0.35" y="0.30" z="0.25" />
+                <translate x="0" y="0" z="2" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id = "benchSupportRubber2">
+            <transformation>
+                <scale x="0.35" y="0.30" z="0.25" />
+                <translate x="0" y="0" z="-2" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id = "benchSupportConnector">
+            <transformation>
+                <scale x="0.25" y="2" z="0.30" />
+                <translate x="0" y="2" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id = "benchSupport1">
+            <transformation>
+                <translate x="-5" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="benchSupportFloor"/>
+                <componentref id="benchSupportRubber1"/>
+                <componentref id="benchSupportRubber2"/>
+                <componentref id="benchSupportConnector"/>
+            </children>
+        </component>
+        <component id = "benchSupport2">
+            <transformation>
+                <translate x="5" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="benchSupportFloor"/>
+                <componentref id="benchSupportRubber1"/>
+                <componentref id="benchSupportRubber2"/>
+                <componentref id="benchSupportConnector"/>
+            </children>
+        </component>
+        <component id = "cushionFace1">
+            <transformation>
+                <scale x="3" y="3" z="1"/>
+                <rotate axis="z" angle="45"/>
+                <translate x="0" y="0" z="0.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="square"/>
+            </children>
+        </component>
+        <component id = "cushionFace2">
+            <transformation>
+                <rotate axis="y" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cushionFace1"/>
+            </children>
+        </component>
+        <component id ="cushion">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="MJ"/>
+            <children>
+                <primitiveref id="benchTorus"/>
+                <componentref id="cushionFace1"/>
+                <componentref id="cushionFace2"/>
+            </children>
+        </component>
+        <component id = "benchCushion">
+            <transformation>
+                <rotate axis="z" angle="45"/>
+                <rotate axis="x" angle="90"/>
+                <scale x="2" y="1" z="0.75"/>
+                <translate x="0" y="4" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cushion"/>
+            </children>
+        </component>
+        <component id = "bench">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="benchSupport1"/>
+                <componentref id="benchSupport2"/>
+                <componentref id="benchCushion"/>
+            </children>
+        </component>
+        <component id = "dumbellStandConnector1">
+            <transformation>
+                <scale x="0.25" y="5" z="0.30" />
+                <rotate axis="x" angle = "20"/> 
+                <translate x="0" y="4.85" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id = "dumbellStandConnector2">
+            <transformation>
+                <scale x="0.25" y="2" z="0.30" />
+                <rotate axis="x" angle = "-10"/> 
+                <translate x="0" y="2" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id = "dumbellStandSupport1">
+            <transformation>
+                <translate x="-4" y="0" z ="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="benchSupportFloor"/>
+                <componentref id="benchSupportRubber1"/>
+                <componentref id="benchSupportRubber2"/>
+                <componentref id="dumbellStandConnector2"/>
+                <componentref id="dumbellStandConnector1"/>
+            </children>
+        </component>
+        <component id = "dumbellStandSupport2">
+            <transformation>
+                <translate x="4" y="0" z ="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="benchSupportFloor"/>
+                <componentref id="benchSupportRubber1"/>
+                <componentref id="benchSupportRubber2"/>
+                <componentref id="dumbellStandConnector2"/>
+                <componentref id="dumbellStandConnector1"/>
+            </children>
+        </component>
+        <component id = "dumbellHolderSupport1">
+            <transformation>
+                <scale x="0.7" y = "0.7" z="0.7"/>
+                <translate x="0" y="0" z ="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="benchSupportFloor"/>
+                <componentref id="benchSupportRubber1"/>
+                <componentref id="benchSupportRubber2"/>
+            </children>
+        </component>
+        <component id = "dumbellHolderSupport2">
+            <transformation>
+                <scale x="0.7" y = "0.7" z="0.7"/>
+                <translate x="-8" y="0" z ="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="benchSupportFloor"/>
+                <componentref id="benchSupportRubber1"/>
+                <componentref id="benchSupportRubber2"/>
+            </children>
+        </component>
+        <component id = "dumbellHolderLength1">
+            <transformation>
+                <scale x="4" y = "0.05" z="0.4"/>
+                <translate x="-4" y="0" z ="1"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id = "dumbellHolderLength2">
+            <transformation>
+                <scale x="4" y = "0.05" z="0.4"/>
+                <translate x="-4" y="0" z ="-1"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id = "dumbellHolderHeight1">
+            <transformation>
+                <scale x="4" y = "0.05" z="0.075"/>
+                <rotate axis="x" angle="90"/>
+                <translate x="-4" y="0.1" z ="0.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id = "dumbellHolderHeight2">
+            <transformation>
+                <scale x="4" y = "0.05" z="0.075"/>
+                <rotate axis="x" angle="90"/>
+                <translate x="-4" y="0.1" z ="-0.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id = "dumbellHolder1">
+            <transformation>
+                <translate x="4" y="5" z ="0.6"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="dumbellHolderSupport1"/>
+                <componentref id="dumbellHolderSupport2"/>
+                <componentref id="dumbellHolderLength1"/>
+                <componentref id="dumbellHolderLength2"/>
+                <componentref id="dumbellHolderHeight1"/>
+                <componentref id="dumbellHolderHeight2"/>
+            </children>
+        </component>
+        <component id = "dumbellHolder2">
+            <transformation>
+                <translate x="4" y="8" z ="1.7"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="dumbellHolderSupport1"/>
+                <componentref id="dumbellHolderSupport2"/>
+                <componentref id="dumbellHolderLength1"/>
+                <componentref id="dumbellHolderLength2"/>
+                <componentref id="dumbellHolderHeight1"/>
+                <componentref id="dumbellHolderHeight2"/>
+            </children>
+        </component>
+        <component id = "dumbellWeight1">
+            <transformation>
+                <translate x="0" y="0" z="5.5" />
+                <scale x="1" y="1" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="dumbellWeightSphere" />
+            </children>
+        </component>
+        <component id = "dumbellWeight2">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <scale x="1" y="1" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="dumbellWeightSphere" />
+            </children>
+        </component>
+        <component id = "dumbellBar">
+            <transformation>               
+                <scale x="0.3" y="0.3" z="2.6" />
+            </transformation>
+            <materials>
+                <material id="blue" />
+            </materials>
+            <texture id="MJ"/>
+            <children>
+                <primitiveref id="demoCylinder" />
+            </children>
+        </component>
+        <component id = "dumbell1A">
+            <transformation>
+                <scale x="0.7" y = "0.7" z = "0.7"/>
+                <translate x="3" y="5.7" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="dumbellBar" />
+                <componentref id="dumbellWeight1" />
+                <componentref id="dumbellWeight2" />
+            </children>
+        </component>
+        <component id = "dumbell1B">
+            <transformation>
+                <scale x="0.7" y = "0.7" z = "0.7"/>
+                <translate x="1.5" y="5.7" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="dumbellBar" />
+                <componentref id="dumbellWeight1" />
+                <componentref id="dumbellWeight2" />
+            </children>
+        </component>
+        <component id = "dumbell2A">
+            <transformation>
+                <scale x="0.8" y = "0.8" z = "0.8"/>
+                <translate x="-1" y="5.85" z="-0.4" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="dumbellBar" />
+                <componentref id="dumbellWeight1" />
+                <componentref id="dumbellWeight2" />
+            </children>
+        </component>
+        <component id = "dumbell2B">
+            <transformation>
+                <scale x="0.8" y = "0.8" z = "0.8"/>
+                <translate x="-2.7" y="5.85" z="-0.4" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="dumbellBar" />
+                <componentref id="dumbellWeight1" />
+                <componentref id="dumbellWeight2" />
+            </children>
+        </component>
+        <component id = "dumbellStand">
+            <transformation>
+                <translate x="4" y="0" z ="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="dumbellStandSupport1"/>
+                <componentref id="dumbellStandSupport2"/>
+                <componentref id="dumbellHolder1"/>
+                <componentref id="dumbellHolder2"/>
+                <componentref id="dumbell1A"/>
+                <componentref id="dumbell1B"/>
+                <componentref id="dumbell2A"/>
+                <componentref id="dumbell2B"/>
+            </children>
+        </component>
+
+        <component id = "barbellWeight1">
+            <transformation>
+                <translate x="0" y="0" z="15" />
+                <scale x="1.5" y="1.5" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="closedCylinder" />
+            </children>
+        </component>
+        <component id = "barbellWeight2">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <scale x="1.5" y="1.5" z="0.5" />>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="closedCylinder" />
+            </children>
+        </component>
+        <component id = "barbellBar">
+            <transformation>               
+                <scale x="0.3" y="0.3" z="7.5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="demoCylinder" />
+            </children>
+        </component>
+        <component id = "barbell">
+            <transformation>
+                <rotate axis = 'y' angle = "90"/>
+                <translate x="-3" y="1.45" z="8" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="barbellBar" />
+                <componentref id="barbellWeight1" />
+                <componentref id="barbellWeight2" />
+            </children>
+        </component>
+        
+        <component id = "tvButton">
+             <transformation>        
+                <scale x = "0.05" y = "0.05" z = "0.05"/>
+                <rotate axis = 'y' angle = "90"/>
+                <rotate axis = 'x' angle = "-90"/>
+                <translate x = "0.06" y = "-0.9" z = "0"/>
+            </transformation>
+            <materials>
+                <material id="blue" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id = "demoRectangle" />
+                <componentref id="circle" />
+            </children>
+        </component>
+        <component id = "tvScreen">
+             <transformation>        
+                <scale x = "1.7" y = "1.4" z = "1"/>
+                <rotate axis = 'y' angle = "90"/>
+                <rotate axis = 'x' angle = "-90"/>
+                <translate x = "0.06" y = "0.05" z = "0"/>    
+            </transformation>
+            <materials>
+                <material id="blue" />
+            </materials>
+            <texture id="MJ" length_s="2" length_t="10"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>  
+        <component id = "tvBox">
+             <transformation>
+                <scale x ="0.05" y = "1" z = "1.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id = "tvBase">
+             <transformation>
+                 <rotate axis = 'z' angle = "45"/>
+                 <rotate axis = 'y' angle = "-90"/>
+                <scale x ="0.2" y = "0.3" z = "0.5"/>
+                <translate x = "0" y = "0" z = "0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="pyramidCut" />
+            </children>
+        </component>
+        <component id = "tvBaseCloser">
+             <transformation>
+                 <scale x = "0.423" y = "0.36" z = "1"/>
+                <rotate axis = 'y' angle = "-90"/>
+                <rotate axis = 'x' angle = "-90"/>
+                <translate x = "-0.2" y = "0" z = "0"/> 
+            </transformation>
+            <materials>
+                <material id="blue" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+        <component id = "tv">
+             <transformation>
+                <scale x="4" y="4" z="4"/>
+                <rotate axis = "y" angle = "30"/>
+                <translate x="-10" y="15" z="15"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id = "tvScreen" />
+                <componentref id = "tvButton" />
+                <componentref id = "tvBox" />
+                <componentref id = "tvBase"/>
+                <componentref id = "tvBaseCloser"/>
+            </children>
+        </component>
+        <component id="demoRoot">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="blue" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id = "bench"/>
+                <componentref id = "tv"/>
+                <componentref id = "barbell"/>
+                <componentref id = "floor"/>
+            </children>
+        </component>
+    </components>
+</sxs>

@@ -91,11 +91,7 @@ export class MyComponent extends CGFobject{
             currentMaterial.setTexture(this.texture);
             currentMaterial.setTextureWrap('REPEAT', 'REPEAT');
         }
-        // else{
-        //     let noneTex = new CGFtexture(this.scene, null)
-        //     currentMaterial.setTexture(noneTex);
-        //     currentMaterial.setTextureWrap('REPEAT', 'REPEAT');
-        // }
+        
 
   
         for(let i = 0; i < this.children.length; i++){
@@ -103,10 +99,16 @@ export class MyComponent extends CGFobject{
             this.setupMatrix(father);
 
             
-            currentMaterial.apply();
 
-            
+            this.children[i].changeTexCoords(this.length_s, this.length_t);
+            currentMaterial.apply();
+            //console.log(this.children[i].texCoords)
+
             this.children[i].display(this);
+
+            //console.log(this.children[i].texCoords)
+            
+            this.children[i].resetTexCoords(this.length_s, this.length_t);
             this.scene.popMatrix();
             
         }
