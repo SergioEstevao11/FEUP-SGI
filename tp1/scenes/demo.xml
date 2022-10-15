@@ -36,6 +36,20 @@
             <specular r="0.6" g="0.0" b="0.0" a="1.0" />
         </material>
 
+        <material id="blue" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0" g="0.0" b="1.0" a="1.0" />
+            <diffuse r="0" g="0.0" b="0.6" a="1.0" />
+            <specular r="0" g="0.0" b="0.6" a="1.0" />
+        </material>
+
+        <material id="green" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0" g="1.0" b="0.0" a="1.0" />
+            <diffuse r="0" g="0.6" b="0.0" a="1.0" />
+            <specular r="0" g="0.6" b="0.0" a="1.0" />
+        </material>
+
         <material id="silver_spacestation" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -73,13 +87,29 @@
 
 
     <components>
+        <component id="xx">
+            <transformation>
+                <translate x="5" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="green" />
+            </materials> 
+            <texture id="none"/>
+            <children>
+                <!-- <componentref id="demoRoot" /> -->
+                
+                <!-- <componentref id="ball"/> -->
+                <primitiveref id="demoCylinder" />
+
+            </children>
+        </component>
 
         <component id="ball">
             <transformation>
-                <translate x="0" y="5" z="0" />
+                <!-- <scale x="1.5" y="1.5" z="1.5" /> -->
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="green" />
             </materials> 
             <texture id="solar_panel"/>
             <children>
@@ -93,12 +123,28 @@
                 <translate x="0" y="0" z="5" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="blue" />
             </materials> 
             <texture id="none"/>
             <children>
                 <!-- <componentref id="demoRoot" /> -->
-                <primitiveref id="demoTorus" />
+                <primitiveref id="sphere" />
+
+            </children>
+        </component>
+        
+        <component id="sideBall">
+            <transformation>
+                <translate x="0" y="1" z="-5" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials> 
+            <texture id="solar_panel"/>
+            <children>
+                <!-- <componentref id="demoRoot" /> -->
+                <!-- <componentref id="ball"/> -->
+                <primitiveref id="sphere" />
 
             </children>
         </component>
@@ -107,30 +153,34 @@
                 <translate x="0" y="5" z="0" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="demoMaterial" />
             </materials> 
             <texture id="none"/>
             <children>
                 <!-- <componentref id="demoRoot" /> -->
+                
                 <componentref id="dummy"/>
-                <componentref id="ball"/>
-                <primitiveref id="demoTorus" />
+                <componentref id="sideBall"/>
+                <!-- <componentref id="ball"/> -->
+                <primitiveref id="sphere" />
 
             </children>
         </component>
         <component id="demoRoot">
             <transformation>
-                <transformationref id="demoTransform"/>
+                <!-- <transformationref id="demoTransform"/> -->
+                <translate x="5" y="0" z="0" />
+
             </transformation>
             <materials>
                 <material id="silver_spacestation" />
             </materials>
             <texture id="none"/>
             <children>
-                <componentref id="test" />
-                <primitiveref id="demoCylinder" />
-                <!-- <primitiveref id="demoTorus" /> -->
+                <componentref id="xx" />
 
+                <componentref id="test" />
+                <primitiveref id="sphere" />
             </children>
         </component>
         
