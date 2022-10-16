@@ -110,6 +110,5 @@ export class MyComponent extends CGFobject{
             this.scene.popMatrix();
             
         }
-
     }
 }

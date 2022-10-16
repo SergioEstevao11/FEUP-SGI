@@ -576,8 +576,8 @@ export class MySceneGraph {
     getTransformationMatrix(grandChildren, transformationID){
         var transfMatrix = mat4.create();
 
-        for (var j = grandChildren.length-1; j >= 0; j--) {
-        //for (var j = 0; j <= grandChildren.length-1; j++) {
+        //for (var j = grandChildren.length-1; j >= 0; j--) {
+        for (var j = 0; j < grandChildren.length; j++) {
             switch (grandChildren[j].nodeName) {
                 case 'translate':
                     var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
@@ -874,9 +874,9 @@ export class MySceneGraph {
 
             let component = new MyComponent(this.scene, componentID);
             
-            // Transformations
+            // Transformations 
 
-            let transformation = grandChildren[transformationIndex]
+            let transformation = grandChildren[transformationIndex] //tr block
 
             console.log(transformation)
             

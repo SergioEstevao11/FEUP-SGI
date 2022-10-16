@@ -28,7 +28,19 @@
         <texture id="sky" file="https://cdn.pixabay.com/photo/2017/11/14/05/14/universe-2947500_1280.jpg" />
         <texture id="sun_texture" file="https://previews.123rf.com/images/voyata/voyata1906/voyata190600087/124867239-design-material-sun-texture-at-center-of-the-solar-system-universe-not-3d-render.jpg" />
         <texture id="planet_texture" file="https://as1.ftcdn.net/v2/jpg/01/70/43/08/500_F_170430812_MJgU75hqcuzfjwLVcRiVFmxp0DKLniZz.jpg" />
-        <texture id ="sphere_top" file="scenes/images/millenium_falcon_top_circle.jpg" />
+        <texture id ="light_ray" file="scenes/images/light_ray.png" />
+        <texture id ="mf_front_rec" file="scenes/images/mf_front_rec.png" />
+        <texture id ="mf_middle_square" file="scenes/images/mf_middle_square.png" />
+        <texture id ="mf_middle_big_square" file="scenes/images/mf_middle_big_square.png" />
+        <texture id ="mf_side_front_rec" file="scenes/images/mf_side_front_rec.png" />
+        <texture id ="mf_side_rec" file="scenes/images/mf_side_rec.png" />
+        <texture id ="mf_side" file="scenes/images/mf_side.png" />
+        <texture id ="mf_back" file="scenes/images/mf_back.png" />
+        <texture id ="mf_strip" file="scenes/images/mf_strip.png" />
+        <texture id ="metal_tex" file="scenes/images/metal_tex.png" />
+        <texture id ="grid" file="scenes/images/grid.png" />
+        <texture id ="sp_tex" file="scenes/images/spaceship_tex.png" />
+        <texture id ="cp_tex" file="scenes/images/cockpit_tex.jpg" />
     </textures>
 
     <materials>
@@ -38,11 +50,17 @@
             <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
-        <material id="greyMaterial" shininess="10">
+        <material id="light_grey_metal" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </material>
+        <material id="propulsor_blue" shininess="10">
+            <emission r="0.2" g="0.7" b="0.9" a="1.0" />
+            <ambient r="0.2" g="0.7" b="0.9" a="1.0" />
+            <diffuse r="0.2" g="0.7" b="0.9" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
         </material>
     </materials>
 
@@ -89,9 +107,9 @@
                 <rotate axis="y" angle="180"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -101,9 +119,9 @@
                 <translate x="0" y="0" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -113,9 +131,9 @@
                 <rotate axis="x" angle="90" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -125,9 +143,9 @@
                 <rotate axis="y" angle="-90" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -138,9 +156,9 @@
                 <rotate axis="x" angle="270" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -151,9 +169,9 @@
                 <rotate axis="y" angle="90" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -161,13 +179,13 @@
 
         <component id="prism_first_triangle">
             <transformation>
-                <rotate axis="z" angle="-90"/>
+                <rotate axis="z" angle="90"/>
                 <rotate axis="x" angle="180"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="triangle" />
             </children>
@@ -177,9 +195,9 @@
                 <translate x="0" y="0" z="1"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="triangle" />
             </children>
@@ -189,9 +207,9 @@
                 <rotate axis="y" angle="-90"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="sphere_top"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="rectangle" />
             </children>
@@ -201,9 +219,9 @@
                 <rotate axis="x" angle="90" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="rectangle" />
             </children>
@@ -212,13 +230,13 @@
             <transformation>
                 <translate x="1" y="0" z="1"/>
                 <rotate axis="z" angle="45"/>
-                <rotate axis ="y" angle="90"/>
                 <scale x="1" y="1.4142" z="1"/>
+                <rotate axis ="y" angle="90"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="sp_tex"/>
             <children>
                 <primitiveref id="rectangle" />
             </children>
@@ -228,9 +246,9 @@
                 <translate x="0" y="0" z="-0.5"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="prism_first_triangle" />
                 <componentref id="prism_second_triangle" />
@@ -248,9 +266,9 @@
                 <translate x="-0.156" y="-0.99" z="0" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="mf_back"/>
             <children>
                 <primitiveref id="propulsor_triangle"/>
             </children>
@@ -264,9 +282,9 @@
                 <translate x="-0.156" y="-0.99" z="0" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="mf_back"/>
             <children>
                 <primitiveref id="propulsor_triangle"/>
             </children>
@@ -279,9 +297,9 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="propulsor_blue" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="light_ray"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -293,9 +311,9 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="mf_front_rec"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -308,9 +326,9 @@
                 <scale x="5" y="1" z="1"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="mf_front_rec"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -321,9 +339,9 @@
                 <translate x="0" y="0" z="0"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="mf_side_rec"/>
             <children>
                 <componentref id="propulsor_first_triangle"/>
                 <componentref id="propulsor_second_triangle"/>
@@ -339,9 +357,9 @@
                 <scale x="1" y="1" z="0.001" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="hexa_sphere"/>
             </children>
@@ -351,9 +369,9 @@
                 <translate x="0" y="0" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="top_hexagon"/>
             </children>
@@ -363,9 +381,9 @@
                 <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="sp_tex"/>
             <children>
                 <componentref id="top_hexagon"/>
                 <componentref id="base_hexagon"/>
@@ -378,9 +396,9 @@
                 <scale x="1" y="1" z="0.001" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="sphere"/>
             </children>
@@ -390,9 +408,9 @@
                 <translate x="0" y="0" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="sp_tex"/>
             <children>
                 <componentref id="base_cylinder"/>
             </children>
@@ -402,9 +420,9 @@
                 <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="top_cylinder"/>
                 <componentref id="base_cylinder"/>
@@ -418,24 +436,24 @@
                 <translate x="0" y="0" z="-0.5"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="sp_tex"/>
             <children>
-                <primitiveref id="cylinder" />
+                <componentref id="cylinder_complete" />
             </children>
         </component>
 
         <component id="middle_parallelipiped">
             <transformation>
                 <translate x="3" y="0" z="0"/>
-                <scale x="6" y="1.5" z="2"/>
+                <scale x="5" y="1.5" z="2"/>
                 <translate x="-0.5" y="-0.5" z="-0.5"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="mf_front_rec"/>
             <children>
                 <componentref id="cube_first_rectangle"/>
                 <componentref id="cube_second_rectangle"/>
@@ -452,9 +470,9 @@
                 <scale x="6" y="3.3" z="1"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="mf_front_rec"/>
             <children>
                 <componentref id="prism"/>
             </children>
@@ -464,22 +482,34 @@
                 <rotate axis="x" angle="180" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="mf_front_rec"/>
             <children>
                 <componentref id="spaceship_right_front_prism"/>
             </children>
         </component>
+        <component id="front_wings">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="spaceship_right_front_prism"/>
+                <componentref id="spaceship_left_front_prism"/>
+            </children>
+        </component>
 
-        <component id="spaceship_body_sphere">
+        <component id="body_sphere">
             <transformation>
                 <scale x="5" y="5" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="sphere_top"/>
+            <texture id="mf_middle_big_square"/>
             <children>
                 <primitiveref id="sphere"/>
             </children>
@@ -492,9 +522,9 @@
                 <translate x="0" y="0" z="-0.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="sp_tex"/>
             <children>
                 <componentref id="hexa_prism"/>
             </children>
@@ -506,11 +536,23 @@
                 <translate x="0" y="0" z="-0.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="grid"/>
             <children>
                 <componentref id="cylinder_complete"/>
+            </children>
+        </component>
+        <component id="side_part">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="grid"/>
+            <children>
+                <componentref id="side_cylinder"/>
+                <componentref id="side_hexagon"/>
             </children>
         </component>
 
@@ -520,9 +562,9 @@
                 <scale x="0.6" y="0.6" z="0.001"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="sphere"/>
             </children>
@@ -536,9 +578,9 @@
                 <translate x="0" y="0" z="-0.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="cylinder"/>
             </children>
@@ -551,9 +593,9 @@
                 <scale x="0.8" y="0.8" z="0.8"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="sphere"/>
             </children>
@@ -566,9 +608,9 @@
                 <translate x="0" y="0" z="-0.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="cylinder"/>
             </children>
@@ -581,9 +623,9 @@
                 <translate x="0" y="0" z="-0.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="cp_tex"/>
             <children>
                 <primitiveref id="cockpit_front"/>
                 <componentref id="cockpit_top"/>
@@ -594,9 +636,9 @@
                 <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="sp_tex"/>
             <children>
                 <componentref id="spaceship_front_cockpit"/>
                 <componentref id="spaceship_middle_cockpit"/>
@@ -610,9 +652,9 @@
                 <rotate axis="z" angle="-54" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="propulsor_part"/>
             </children>
@@ -622,9 +664,9 @@
                 <rotate axis="z" angle="-72" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="propulsor_part"/>
             </children>
@@ -634,9 +676,9 @@
                 <rotate axis="z" angle="-90" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="propulsor_part"/>
             </children>
@@ -646,9 +688,9 @@
                 <rotate axis="z" angle="0" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="first_propulsor"/>
                 <componentref id="second_propulsor"/>
@@ -660,9 +702,9 @@
                 <rotate axis="z" angle="-54" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="first_propulsor"/>
                 <componentref id="second_propulsor"/>
@@ -671,17 +713,37 @@
         </component>
         <component id="propulsor">
             <transformation>
+                <scale x="1" y="1" z="1.5"/>
                 <translate x="0" y="0" z="-0.5"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="first_half_propulsor"/>
                 <componentref id="second_half_propulsor"/>
             </children>
         </component>
+
+        <component id="millenium_falcon">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square"/>
+            <children>
+                <componentref id="propulsor"/>
+                <componentref id="cockpit"/>
+                <componentref id="side_part"/>
+                <componentref id="body_sphere"/>
+                <componentref id="front_wings"/>
+                <componentref id="middle_parallelipiped"/>
+                <componentref id="middle_cylinder"/>
+            </children>
+        </component>
+
 
         <component id="demoRoot">
             <transformation>
@@ -691,11 +753,9 @@
             </materials>
             <texture id="demoTexture"/>
             <children>
-                <componentref id="prism"/>
-                
+                <componentref id="millenium_falcon"/>
             </children>
         </component>
-
 
         <component id="top torus">
             <transformation>
