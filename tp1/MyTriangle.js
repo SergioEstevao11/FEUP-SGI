@@ -63,9 +63,13 @@ export class MyTriangle extends CGFobject {
 			this.normals.push(n[0], n[1], n[2])
 		}
 		
-		this.a = Math.sqrt(Math.pow(this.x2-this.x1, 2) + Math.pow(this.y2-this.y1, 2));
-		this.b = Math.sqrt(Math.pow(this.x3-this.x2, 2) + Math.pow(this.y3-this.y2, 2));
-		this.c = Math.sqrt(Math.pow(this.x1-this.x3, 2) + Math.pow(this.y1-this.y3, 2));
+		this.a = Math.sqrt(Math.pow(this.x2-this.x1, 2) + Math.pow(this.y2-this.y1, 2) + Math.pow(this.z2-this.z1, 2));
+		this.b = Math.sqrt(Math.pow(this.x3-this.x2, 2) + Math.pow(this.y3-this.y2, 2) + Math.pow(this.z3-this.z2, 2));
+		this.c = Math.sqrt(Math.pow(this.x1-this.x3, 2) + Math.pow(this.y1-this.y3, 2) + Math.pow(this.z1-this.z3, 2));
+
+		// this.a = Math.sqrt(Math.pow(this.x2-this.x1, 2) + Math.pow(this.y2-this.y1, 2));
+		// this.b = Math.sqrt(Math.pow(this.x3-this.x2, 2) + Math.pow(this.y3-this.y2, 2));
+		// this.c = Math.sqrt(Math.pow(this.x1-this.x3, 2) + Math.pow(this.y1-this.y3, 2));
 
 		this.cosA = (Math.pow(this.a, 2) - Math.pow(this.b, 2) + Math.pow(this.c, 2)) / (2*this.a*this.c);
 		this.sinA = Math.sqrt(1 - Math.pow(this.cosA, 2));
@@ -73,8 +77,11 @@ export class MyTriangle extends CGFobject {
 		this.texCoords = [
 			0, 0,
 			this.a, 0,
-			this.c * this.cosA, this.c * this.sinA
+			this.c * this.cosA, this.c * this.sinA,
+			
+			
 		];
+		console.log("texCoords: ",this.texCoords)
 
 		//The defined indices (and corresponding vertices)
 		//will be read in groups of three to draw triangles
@@ -88,31 +95,37 @@ export class MyTriangle extends CGFobject {
 	 * Updates the list of texture coordinates of the rectangle
 	 * @param {Array} coords - Array of texture coordinates
 	 */
-	 updateTexCoords(coords) {
-		this.texCoords = [...coords];
-		this.updateTexCoordsGLBuffers();
-	}
+	//  updateTexCoords(coords) {
+	// 	this.texCoords = [...coords];
+	// 	this.updateTexCoordsGLBuffers();
+	// }
 
 	changeTexCoords(length_s, length_t){
-		for(let i = 0; i < this.texCoords.length; i++){
-			if (i%2 ==0){
-				this.texCoords[i] *= length_s;
-			}
-			else{
-				this.texCoords[i] *= length_t;
-			}
-		}
-	}
-
-	resetTexCoords(){
 		for(let i = 0; i < this.texCoords.length; i++){
 			if (i%2 ==0){
 				this.texCoords[i] /= length_s;
 			}
 			else{
-				this.texCoords[i] /= length_t;
+				this.texCoords[i] /= (1-length_t);
 			}
 		}
+
+		this.initGLBuffers();
+
+	}
+
+	resetTexCoords(length_s, length_t){
+		for(let i = 0; i < this.texCoords.length; i++){
+			if (i%2 ==0){
+				this.texCoords[i] *= length_s;
+			}
+			else{
+				this.texCoords[i] *= (1-length_t);
+			}
+		}
+
+		this.initGLBuffers();
+
 	}
 }
 

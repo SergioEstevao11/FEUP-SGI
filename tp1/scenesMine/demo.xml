@@ -111,7 +111,7 @@
             <materials>
                 <material id="green" />
             </materials> 
-            <texture id="solar_panel"/>
+            <texture id="none"/>
             <children>
                 <!-- <componentref id="demoRoot" /> -->
                 <primitiveref id="sphere" />
@@ -140,7 +140,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials> 
-            <texture id="solar_panel"/>
+            <texture id="none"/>
             <children>
                 <!-- <componentref id="demoRoot" /> -->
                 <!-- <componentref id="ball"/> -->

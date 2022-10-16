@@ -60,7 +60,7 @@
             <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
         </primitive>
         <primitive id="demoTriangle">
-            <triangle x1="4" y1="0" z1="0" 
+            <triangle x1="0" y1="0" z1="0" 
                        x2="0" y2="4" z2="0" 
                        x3="0" y3="0" z3="4"/>
         </primitive>
@@ -78,15 +78,15 @@
     <components>
         <component id="demoRoot">
             <transformation>
-                <translate x="0" y="0" z="1" />
-                <scale x="2" y="1" z="1" />
+                <!-- <translate x="0" y="0" z="1" /> -->
+                <!-- <scale x="2" y="1" z="1" /> -->
             </transformation>
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="3" length_t="2" />
+            <texture id="demoTexture" length_s="3" length_t="3" />
             <children>
-                <primitiveref id="demoRectangle" />
+                <primitiveref id="demoTriangle" />
             </children>
         </component>
     </components>
