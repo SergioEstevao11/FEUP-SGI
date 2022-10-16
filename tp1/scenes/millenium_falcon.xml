@@ -1,5 +1,5 @@
 <sxs>
-    <scene root="groot" axis_length="40"/>
+    <scene root="demoRoot" axis_length="40"/>
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
@@ -33,6 +33,12 @@
 
     <materials>
         <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+        <material id="greyMaterial" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
@@ -155,7 +161,7 @@
 
         <component id="prism_first_triangle">
             <transformation>
-                <rotate axis="z" angle="90"/>
+                <rotate axis="z" angle="-90"/>
                 <rotate axis="x" angle="180"/>
             </transformation>
             <materials>
@@ -185,7 +191,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="sphere_top"/>
             <children>
                 <primitiveref id="rectangle" />
             </children>
@@ -204,10 +210,10 @@
         </component>
         <component id="prism_third_rectangle">
             <transformation>
-                <translate x="0" y="1" z="1"/>
-                <rotate axis="z" angle="-45"/>
-                <scale x="1.4142" y="1" z="1" />
-                <rotate axis="x" angle="-90" />
+                <translate x="1" y="0" z="1"/>
+                <rotate axis="z" angle="45"/>
+                <rotate axis ="y" angle="90"/>
+                <scale x="1" y="1.4142" z="1"/>
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -677,7 +683,7 @@
             </children>
         </component>
 
-        <component id="groot">
+        <component id="demoRoot">
             <transformation>
             </transformation>
             <materials>
@@ -685,7 +691,7 @@
             </materials>
             <texture id="demoTexture"/>
             <children>
-                <componentref id="propulsor"/>
+                <componentref id="prism"/>
                 
             </children>
         </component>

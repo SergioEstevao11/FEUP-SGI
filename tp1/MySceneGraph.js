@@ -577,6 +577,7 @@ export class MySceneGraph {
         var transfMatrix = mat4.create();
 
         for (var j = grandChildren.length-1; j >= 0; j--) {
+        //for (var j = 0; j <= grandChildren.length-1; j++) {
             switch (grandChildren[j].nodeName) {
                 case 'translate':
                     var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
@@ -1126,7 +1127,7 @@ export class MySceneGraph {
         // <componentref id="treeTop"/>
         // <componentref id="treeBase2"/>
 
-        this.components['groot'].display(null);
+        this.components['demoRoot'].display(null);
 
         // for(const componentID in this.components){
         //     //console.log(componentID);
