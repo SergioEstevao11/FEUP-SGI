@@ -99,14 +99,16 @@ export class MyComponent extends CGFobject{
             this.setupMatrix(father);
 
 
-
-            this.children[i].changeTexCoords(this.length_s, this.length_t);
+            if (this.texture != "none"){
+                this.children[i].changeTexCoords(this.length_s, this.length_t);
+            }
             currentMaterial.apply();
 
             this.children[i].display(this);
 
-
-            this.children[i].resetTexCoords(this.length_s, this.length_t);
+            if (this.texture != "none"){
+                this.children[i].resetTexCoords(this.length_s, this.length_t);
+            }
             this.scene.popMatrix();
 
         }

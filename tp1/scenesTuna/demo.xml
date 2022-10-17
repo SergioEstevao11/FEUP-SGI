@@ -1,0 +1,93 @@
+<sxs>
+    <scene root="demoRoot" axis_length="5"/>
+
+    <views default="defaultCamera">
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="30" y="15" z="30" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+        <ortho id="orthoCamera"  near="0.1" far="500" left="100" right="100" top="100" bottom="100" >
+            <from x="1" y="0" z="1" />
+            <to x="0" y="1" z="0" />
+            <up x="0" y="1" z="0" /> <!-- opcional, default 0,1,0 -->
+        </ortho>
+    </views>
+
+    <ambient>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </ambient>
+
+    <lights>
+        <omni id="demoLight" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="demoTexture" file="scenes/images/michael-jackson.jpeg" />
+    </textures>
+
+    <materials>
+        <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="demoTransform">
+            <scale x="5" y="1" z="5" />
+            <rotate axis="x" angle="-45" />
+            <rotate axis="z" angle="-45" />
+        </transformation>
+        <transformation id="demoTransform1">
+            <translate x="1" y="2" z="3" />
+        </transformation>
+        <transformation id='trans2'>
+            <translate x="0" y="0" z="1" />
+            <scale x="2" y="1" z="1" />
+        </transformation>
+    </transformations>
+
+    <primitives>
+        <primitive id="demoRectangle">
+            <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
+        </primitive>
+        <primitive id="demoTriangle">
+            <triangle x1="0" y1="0" z1="4" 
+                       x2="0" y2="0" z2="0" 
+                       x3="0" y3="4" z3="0"/>
+        </primitive>
+        <primitive id="demoSphere" >
+             <sphere radius="4" slices="100" stacks="100" />
+        </primitive>
+        <primitive id="demoCylinder" >
+            <cylinder base="4" top="1" height="8" slices="100" stacks="100" />
+        </primitive>
+        <primitive id="demoTorus" >
+            <torus inner="2" outer="4" slices="100" loops="100" />
+        </primitive>
+    </primitives>
+
+    <components>
+        <component id="demoRoot">
+            <transformation>
+                <!-- <translate x="0" y="0" z="1" /> -->
+                <!-- <scale x="2" y="1" z="1" /> -->
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="demoTriangle" />
+            </children>
+        </component>
+    </components>
+</sxs>

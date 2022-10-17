@@ -77,7 +77,7 @@ export class MyTriangle extends CGFobject {
 		this.texCoords = [
 			0, 0,
 			this.a, 0,
-			this.c * this.cosA, this.c * this.sinA,
+			this.c * this.cosA, 1-this.c * this.sinA,
 			
 			
 		];
@@ -101,28 +101,26 @@ export class MyTriangle extends CGFobject {
 	// }
 
 	changeTexCoords(length_s, length_t){
-		for(let i = 0; i < this.texCoords.length; i++){
-			if (i%2 ==0){
-				this.texCoords[i] /= length_s;
-			}
-			else{
-				this.texCoords[i] /= (1-length_t);
-			}
-		}
+		this.texCoords = [
+			0, 0,
+			this.a / length_s, 0,
+			this.c * this.cosA / length_s, 1-(this.c * this.sinA / length_t),
+			
+			
+		];
 
 		this.initGLBuffers();
 
 	}
 
 	resetTexCoords(length_s, length_t){
-		for(let i = 0; i < this.texCoords.length; i++){
-			if (i%2 ==0){
-				this.texCoords[i] *= length_s;
-			}
-			else{
-				this.texCoords[i] *= (1-length_t);
-			}
-		}
+		this.texCoords = [
+			0, 0,
+			this.a, 0,
+			this.c * this.cosA, 1-this.c * this.sinA,
+			
+			
+		];
 
 		this.initGLBuffers();
 
