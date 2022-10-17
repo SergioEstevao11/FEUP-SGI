@@ -66,8 +66,33 @@ export class MySphere extends CGFobject {
 	 * Updates the list of texture coordinates of the quad
 	 * @param {Array} coords - Array of texture coordinates
 	 */
-       updateTexCoords(coords) {
-        this.texCoords = [...coords];
-        this.updateTexCoordsGLBuffers();
+  updateTexCoords(coords) {
+    this.texCoords = [...coords];
+    this.updateTexCoordsGLBuffers();
+  }
+
+  changeTexCoords(length_s, length_t){
+    for(let i = 0; i < this.texCoords.length; i++){
+      if (i%2 ==0){
+        this.texCoords[i] *= length_s;
       }
+      else{
+        this.texCoords[i] *= length_t;
+      }
+    }
+      this.initGLBuffers();
+
+  }
+
+  resetTexCoords(){
+    for(let i = 0; i < this.texCoords.length; i++){
+      if (i%2 ==0){
+        this.texCoords[i] /= length_s;
+      }
+      else{
+        this.texCoords[i] /= length_t;
+      }
+    }
+      this.initGLBuffers();
+  }
 }

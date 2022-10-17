@@ -1,7 +1,7 @@
 import {CGFappearance, CGFtexture, CGFobject} from '../lib/CGF.js';
 
 /**
- * 
+ *
  */
 export class MyComponent extends CGFobject{
     constructor(scene, id) {
@@ -54,7 +54,7 @@ export class MyComponent extends CGFobject{
         // if (father != null){
         //     //console.log(this.id)
         //     mat4.mul(this.accumulative_transformation, this.transformation, father.accumulative_transformation);
-        // } 
+        // }
         // else{
         //     this.accumulative_transformation = this.transformation
         // }
@@ -75,10 +75,10 @@ export class MyComponent extends CGFobject{
         if (this.materials[this.materialIndex] == "inherit"){
             this.materials[this.materialIndex] = father.materials[father.materialIndex]
         }
-        
+
         //currentMaterial = this.materials[this.materialIndex]
         Object.assign(currentMaterial, this.materials[this.materialIndex])
-        
+
 
         //textures
         if(this.texture == "inherit"){
@@ -91,24 +91,26 @@ export class MyComponent extends CGFobject{
             currentMaterial.setTexture(this.texture);
             currentMaterial.setTextureWrap('REPEAT', 'REPEAT');
         }
-        // else{
-        //     let noneTex = new CGFtexture(this.scene, null)
-        //     currentMaterial.setTexture(noneTex);
-        //     currentMaterial.setTextureWrap('REPEAT', 'REPEAT');
-        // }
 
-  
+
+
         for(let i = 0; i < this.children.length; i++){
 
             this.setupMatrix(father);
 
-            
+
+            if (this.texture != "none"){
+                this.children[i].changeTexCoords(this.length_s, this.length_t);
+            }
             currentMaterial.apply();
 
-            
             this.children[i].display(this);
+
+            if (this.texture != "none"){
+                this.children[i].resetTexCoords(this.length_s, this.length_t);
+            }
             this.scene.popMatrix();
-            
+
         }
     }
 }
