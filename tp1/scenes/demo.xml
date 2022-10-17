@@ -6,6 +6,11 @@
             <from x="30" y="15" z="30" />
             <to x="0" y="-2" z="0" />
         </perspective>
+        <ortho id="orthoCamera"  near="0.1" far="500" left="100" right="100" top="100" bottom="100" >
+            <from x="1" y="0" z="1" />
+            <to x="0" y="1" z="0" />
+            <up x="0" y="1" z="0" /> <!-- opcional, default 0,1,0 -->
+        </ortho>
     </views>
 
     <ambient>
@@ -23,46 +28,30 @@
     </lights>
 
     <textures>
-        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
-
-        <texture id="solar_panel" file="scenes/images/solar_panel.jpg" />
+        <texture id="demoTexture" file="scenes/images/michael-jackson.jpeg" />
     </textures>
 
     <materials>
         <material id="demoMaterial" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
-        </material>
-
-        <material id="blue" shininess="10">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0" g="0.0" b="1.0" a="1.0" />
-            <diffuse r="0" g="0.0" b="0.6" a="1.0" />
-            <specular r="0" g="0.0" b="0.6" a="1.0" />
-        </material>
-
-        <material id="green" shininess="10">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0" g="1.0" b="0.0" a="1.0" />
-            <diffuse r="0" g="0.6" b="0.0" a="1.0" />
-            <specular r="0" g="0.6" b="0.0" a="1.0" />
-        </material>
-
-        <material id="silver_spacestation" shininess="10">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
-            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
         </material>
     </materials>
 
     <transformations>
         <transformation id="demoTransform">
-            <translate x="5" y="0" z="0" />
-            <!-- <scale x="3" y="3" z="3" /> -->
-            <!-- <rotate axis="y" angle="-45" /> -->
+            <scale x="5" y="1" z="5" />
+            <rotate axis="x" angle="-45" />
+            <rotate axis="z" angle="-45" />
+        </transformation>
+        <transformation id="demoTransform1">
+            <translate x="1" y="2" z="3" />
+        </transformation>
+        <transformation id='trans2'>
+            <translate x="0" y="0" z="1" />
+            <scale x="2" y="1" z="1" />
         </transformation>
     </transformations>
 
@@ -70,124 +59,35 @@
         <primitive id="demoRectangle">
             <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
         </primitive>
-        <primitive id="demoCylinder">
-            <cylinder base="1" top="1" height="3" slices="10" stacks="10" />
-        </primitive>
         <primitive id="demoTriangle">
-            <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="1" y3="1" z3="0" />
+            <triangle x1="0" y1="0" z1="4" 
+                       x2="0" y2="0" z2="0" 
+                       x3="0" y3="4" z3="0"/>
         </primitive>
-        <primitive id="demoTorus">
-            <torus inner="1" outer="4" slices="50" loops="50" />
+        <primitive id="demoSphere" >
+             <sphere radius="4" slices="100" stacks="100" />
         </primitive>
-        <primitive id="sphere">
-            <sphere radius="1" slices="50" stacks="50" />
+        <primitive id="demoCylinder" >
+            <cylinder base="4" top="1" height="8" slices="100" stacks="100" />
         </primitive>
-
+        <primitive id="demoTorus" >
+            <torus inner="2" outer="4" slices="100" loops="100" />
+        </primitive>
     </primitives>
 
-
     <components>
-        <component id="xx">
-            <transformation>
-                <translate x="5" y="0" z="0" />
-            </transformation>
-            <materials>
-                <material id="green" />
-            </materials> 
-            <texture id="none"/>
-            <children>
-                <!-- <componentref id="demoRoot" /> -->
-                
-                <!-- <componentref id="ball"/> -->
-                <primitiveref id="demoCylinder" />
-
-            </children>
-        </component>
-
-        <component id="ball">
-            <transformation>
-                <!-- <scale x="1.5" y="1.5" z="1.5" /> -->
-            </transformation>
-            <materials>
-                <material id="green" />
-            </materials> 
-            <texture id="none"/>
-            <children>
-                <!-- <componentref id="demoRoot" /> -->
-                <primitiveref id="sphere" />
-
-            </children>
-        </component>
-        <component id="dummy">
-            <transformation>
-                <translate x="0" y="0" z="5" />
-            </transformation>
-            <materials>
-                <material id="blue" />
-                <material id="green" />
-            </materials> 
-            <texture id="none"/>
-            <children>
-                <!-- <componentref id="demoRoot" /> -->
-                <primitiveref id="sphere" />
-
-            </children>
-        </component>
-        
-        <component id="sideBall">
-            <transformation>
-                <translate x="0" y="1" z="-5" />
-            </transformation>
-            <materials>
-                <material id="green" />
-                <material id="demoMaterial" />
-            </materials> 
-            <texture id="none"/>
-            <children>
-                <!-- <componentref id="demoRoot" /> -->
-                <!-- <componentref id="ball"/> -->
-                <primitiveref id="sphere" />
-
-            </children>
-        </component>
-        <component id="test">
-            <transformation>
-                <translate x="0" y="5" z="0" />
-            </transformation>
-            <materials>
-                <material id="demoMaterial" />
-                <material id="green" />
-            </materials> 
-            <texture id="none"/>
-            <children>
-                <!-- <componentref id="demoRoot" /> -->
-                
-                <componentref id="dummy"/>
-                <componentref id="sideBall"/>
-                <!-- <componentref id="ball"/> -->
-                <primitiveref id="sphere" />
-
-            </children>
-        </component>
         <component id="demoRoot">
             <transformation>
-                <!-- <transformationref id="demoTransform"/> -->
-                <translate x="5" y="0" z="0" />
-
+                <!-- <translate x="0" y="0" z="1" /> -->
+                <!-- <scale x="2" y="1" z="1" /> -->
             </transformation>
             <materials>
-                <material id="silver_spacestation" />
-                <material id="green" />
-                <material id="blue" />
+                <material id="demoMaterial" />
             </materials>
-            <texture id="none"/>
+            <texture id="demoTexture" length_s="0.001" length_t="0.001" />
             <children>
-                <componentref id="xx" />
-
-                <componentref id="test" />
-                <primitiveref id="sphere" />
+                <primitiveref id="demoTriangle" />
             </children>
         </component>
-        
     </components>
 </sxs>
