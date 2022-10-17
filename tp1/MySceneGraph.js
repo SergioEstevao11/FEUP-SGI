@@ -1116,7 +1116,7 @@ export class MySceneGraph {
     async checkKeys()  {
         var text="Keys pressed: ";
 
-        console.log("---checking keys---")
+        //console.log("---checking keys---")
 
 
         if (this.scene.interface.isKeyPressed("KeyM")) {

@@ -72,27 +72,29 @@ export class MySphere extends CGFobject {
   }
 
   changeTexCoords(length_s, length_t){
-    for(let i = 0; i < this.texCoords.length; i++){
-      if (i%2 ==0){
-        this.texCoords[i] *= length_s;
-      }
-      else{
-        this.texCoords[i] *= length_t;
-      }
-    }
-      this.initGLBuffers();
+    // for(let i = 0; i < this.texCoords.length; i++){
+    //   if (i%2 ==0){
+    //     this.texCoords[i] *= length_s;
+    //   }
+    //   else{
+    //     this.texCoords[i] *= length_t;
+    //   }
+    // }
+    //   this.initGLBuffers();
+    return;
 
   }
 
   resetTexCoords(){
-    for(let i = 0; i < this.texCoords.length; i++){
-      if (i%2 ==0){
-        this.texCoords[i] /= length_s;
-      }
-      else{
-        this.texCoords[i] /= length_t;
-      }
-    }
-      this.initGLBuffers();
+    // for(let i = 0; i < this.texCoords.length; i++){
+    //   if (i%2 ==0){
+    //     this.texCoords[i] /= length_s;
+    //   }
+    //   else{
+    //     this.texCoords[i] /= length_t;
+    //   }
+    // }
+    //   this.initGLBuffers();
+    return;
   }
 }
