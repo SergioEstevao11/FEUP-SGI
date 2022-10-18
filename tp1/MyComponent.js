@@ -67,14 +67,11 @@ export class MyComponent extends CGFobject{
 
     display(father){
 
-        //console.log("displaying: ", this.id)
-        //console.log(matrix)
 
         let currentMaterial = new CGFappearance(this.scene)
 
         //materials
         if (this.isMaterialInherit[this.materialIndex]){
-            console.log(this.id, this.materialIndex)
             this.materials[this.materialIndex] = father.materials[father.materialIndex]
         }
 
@@ -83,7 +80,6 @@ export class MyComponent extends CGFobject{
 
         //textures
         if(this.texture == "inherit"){
-            console.log("father texture: ", father.texture);
             this.texture = father.texture;
             this.length_s = father.length_s;
             this.length_t = father.length_t;

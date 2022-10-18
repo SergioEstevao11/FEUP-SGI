@@ -52,7 +52,7 @@
         </material>
         <material id="light_grey_metal" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </material>
@@ -73,14 +73,14 @@
         <material id="snow_white" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
-            <diffuse r="0.9" g="0.0.9" b="0.9" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
             <specular r="0.2" g="0.2" b="0.2" a="1.0" />
         </material>
 
-        <material id="lighting_yellow" shininess="7">
+        <material id="lightning_yellow" shininess="7">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
-            <diffuse r="1" g="0.81" b="0.14" a="1.0" />
+            <diffuse r="0.5" g="0.4" b="0.1" a="1.0" />
             <specular r="1" g="0.81" b="0.14" a="1.0" />
         </material>
         
@@ -459,6 +459,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="snow_white" />
             </materials>
             <texture id="sp_tex" length_s="1" length_t="1"/>
             <children>
@@ -474,6 +475,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="lightning_yellow" />
             </materials>
             <texture id="mf_front_rec" length_s="1" length_t="1"/>
             <children>
@@ -515,7 +517,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="lighting_yellow" />
+                <material id="lightning_yellow" />
                 <material id="snow_white" />
                 <material id="inherit" />
             </materials>
@@ -572,6 +574,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="snow_white" />
             </materials>
             <texture id="grid" length_s="1" length_t="1"/>
             <children>
@@ -742,6 +745,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="snow_white" />
             </materials>
             <texture id="inherit"/>
             <children>

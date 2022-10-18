@@ -606,8 +606,7 @@ export class MySceneGraph {
                         return "unable to parse angle of the transformation for ID = " + transformationID;
 
                     angle = angle * Math.PI / 180 //parse to rads
-                    console.log(axis);
-                    console.log(angle);
+                    
                     switch(axis){
                         case "x":
                             mat4.rotateX(transfMatrix, transfMatrix, angle);
@@ -840,7 +839,6 @@ export class MySceneGraph {
         var grandChildren = [];
         var nodeNames = [];
 
-        console.log(children.length);
         // Any number of components.
         for (var i = 0; i < children.length; i++) {
 
@@ -861,7 +859,6 @@ export class MySceneGraph {
 
             grandChildren = children[i].children;
 
-            //console.log(grandChildren);
 
 
             nodeNames = [];
@@ -880,7 +877,6 @@ export class MySceneGraph {
 
             let transformation = grandChildren[transformationIndex] //tr block
 
-            console.log(transformation)
             
             if(transformation == null){
                 return "transformation parameters missing in component " + componentID;
@@ -916,7 +912,6 @@ export class MySceneGraph {
 
             // Materials
 
-            console.log("material index:", materialsIndex);
 
             let componentMaterials = grandChildren[materialsIndex];
 
@@ -978,12 +973,10 @@ export class MySceneGraph {
 
             //this.ComponentChildren[componentID] = [];
 
-            //console.log(descendents);
 
             for(let i = 0; i < descendents.length; ++i){
                 let descendent = descendents[i];
 
-                console.log(descendent)
 
                 if(descendent.nodeName == "primitiveref"){
                     let primitiveRefId = this.reader.getString(descendent, 'id');
@@ -1113,10 +1106,9 @@ export class MySceneGraph {
         console.log("   " + message);
     }
 
-    async checkKeys()  {
+    checkKeys()  {
         var text="Keys pressed: ";
 
-        console.log("---checking keys---")
 
 
         if (this.scene.interface.isKeyPressed("KeyM")) {
@@ -1126,7 +1118,6 @@ export class MySceneGraph {
                 }
                 text+="M";
                 this.keysPressed = true;
-                console.log("click")
             }
         }
         else{
@@ -1155,7 +1146,6 @@ export class MySceneGraph {
         // this.components["treeBase2"].display(null);
         // <componentref id="treeTop"/>
         // <componentref id="treeBase2"/>
-        this.checkKeys();
         this.components['demoRoot'].display(null);
 
        

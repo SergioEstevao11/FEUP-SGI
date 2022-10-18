@@ -15,6 +15,8 @@ export class XMLscene extends CGFscene {
     constructor(myinterface) {
         super();
 
+        this.myGraph = null;
+
         this.interface = myinterface;
     }
 
@@ -104,6 +106,10 @@ export class XMLscene extends CGFscene {
         this.initLights();
 
         this.sceneInited = true;
+    }
+
+    update(t){
+        this.myGraph.checkKeys();
     }
 
     /**
