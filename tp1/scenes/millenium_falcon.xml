@@ -183,7 +183,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="mf_front_rec" length_s="0.6" length_t="0.3"/>
             <children>
                 <primitiveref id="triangle" />
             </children>
@@ -195,7 +195,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="mf_front_rec" length_s="0.6" length_t="0.3"/>
             <children>
                 <primitiveref id="triangle" />
             </children>
@@ -234,7 +234,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="sp_tex"/>
+            <texture id="sp_tex" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="rectangle" />
             </children>
@@ -266,7 +266,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_back"/>
+            <texture id="mf_back" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="propulsor_triangle"/>
             </children>
@@ -282,7 +282,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_back"/>
+            <texture id="mf_back" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="propulsor_triangle"/>
             </children>
@@ -297,7 +297,7 @@
             <materials>
                 <material id="propulsor_blue" />
             </materials>
-            <texture id="light_ray"/>
+            <texture id="light_ray" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -311,7 +311,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_front_rec"/>
+            <texture id="mf_front_rec" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -326,7 +326,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_front_rec"/>
+            <texture id="mf_front_rec" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -338,7 +338,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_side_rec"/>
+            <texture id="mf_side_rec" length_s="1" length_t="1"/>
             <children>
                 <componentref id="propulsor_first_triangle"/>
                 <componentref id="propulsor_second_triangle"/>
@@ -379,7 +379,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="sp_tex"/>
+            <texture id="sp_tex" length_s="1" length_t="1"/>
             <children>
                 <componentref id="top_hexagon"/>
                 <componentref id="base_hexagon"/>
@@ -406,7 +406,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="sp_tex"/>
+            <texture id="sp_tex" length_s="1" length_t="1"/>
             <children>
                 <componentref id="base_cylinder"/>
             </children>
@@ -433,7 +433,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="sp_tex"/>
+            <texture id="sp_tex" length_s="1" length_t="1"/>
             <children>
                 <componentref id="cylinder_complete" />
             </children>
@@ -448,7 +448,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_front_rec"/>
+            <texture id="mf_front_rec" length_s="1" length_t="1"/>
             <children>
                 <componentref id="cube_first_rectangle"/>
                 <componentref id="cube_second_rectangle"/>
@@ -467,7 +467,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_front_rec"/>
+            <texture id="mf_front_rec" length_s="1" length_t="1"/>
             <children>
                 <componentref id="prism"/>
             </children>
@@ -479,7 +479,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_front_rec"/>
+            <texture id="mf_front_rec"  length_s="1" length_t="1"/>
             <children>
                 <componentref id="spaceship_right_front_prism"/>
             </children>
@@ -504,7 +504,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_middle_big_square"/>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="sphere"/>
             </children>
@@ -519,7 +519,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="sp_tex"/>
+            <texture id="sp_tex" length_s="1" length_t="1"/>
             <children>
                 <componentref id="hexa_prism"/>
             </children>
@@ -533,7 +533,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="grid"/>
+            <texture id="grid" length_s="1" length_t="1"/>
             <children>
                 <componentref id="cylinder_complete"/>
             </children>
@@ -544,7 +544,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="grid"/>
+            <texture id="grid" length_s="1" length_t="1"/>
             <children>
                 <componentref id="side_cylinder"/>
                 <componentref id="side_hexagon"/>
@@ -620,7 +620,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cp_tex"/>
+            <texture id="cp_tex" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="cockpit_front"/>
                 <componentref id="cockpit_top"/>
@@ -632,7 +632,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="sp_tex"/>
+            <texture id="sp_tex" length_s="1" length_t="1"/>
             <children>
                 <componentref id="spaceship_front_cockpit"/>
                 <componentref id="spaceship_middle_cockpit"/>
@@ -725,7 +725,7 @@
             <materials>
                 <material id="light_grey_metal" />
             </materials>
-            <texture id="mf_middle_big_square"/>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
             <children>
                 <componentref id="propulsor"/>
                 <componentref id="cockpit"/>
@@ -744,7 +744,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="millenium_falcon"/>
             </children>
@@ -758,7 +758,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="torus"/>
             </children>

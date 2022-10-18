@@ -34,6 +34,8 @@ export class MySceneGraph {
         this.scene = scene;
         scene.graph = this;
 
+        this.keysPressed=false;
+
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
@@ -918,22 +920,25 @@ export class MySceneGraph {
 
             let componentMaterials = grandChildren[materialsIndex];
 
-            if (componentMaterials.children.length > 1){
-                return "Too many materials in component " + componentID;
+            if (componentMaterials.children.length < 1){
+                return "No materials in component " + componentID;
             }
 
-            let materialId = this.reader.getString(componentMaterials.children[0], 'id');
+            for(let m=0; m < componentMaterials.children.length; m++){
+                let materialId = this.reader.getString(componentMaterials.children[m], 'id');
 
-            if (materialId == "inherit"){
-                component.addMaterial(materialId);
-            }
-            else{
-                if (this.materials[materialId] == null){
-                    return "Invalid material ID in component " + componentID;
+                if (materialId == "inherit"){
+                    component.addMaterial(materialId);
                 }
-    
-                component.addMaterial(this.materials[materialId]);
+                else{
+                    if (this.materials[materialId] == null){
+                        return "Invalid material ID in component " + componentID;
+                    }
+        
+                    component.addMaterial(this.materials[materialId]);
+                }
             }
+
 
 
 
@@ -949,19 +954,19 @@ export class MySceneGraph {
 
             }
             else{
-                // let length_s = this.reader.getFloat(componentTextures, 'length_s');
-                // let length_t = this.reader.getFloat(componentTextures, 'length_t');
+                let length_s = this.reader.getFloat(componentTextures, 'length_s');
+                let length_t = this.reader.getFloat(componentTextures, 'length_t');
 
                 if (this.textures[textureId] == null){
                     return "Invalid texture ID in component " + componentID;
                 }
-                // if (length_s == null || length_t == null){
-                //     return "Invalid texture sizes in component " + componentID;
-                // }
+                if (length_s == null || length_t == null){
+                    return "Invalid texture sizes in component " + componentID;
+                }
 
-                // component.setTexture(this.textures[textureId], length_s, length_t);
+                component.setTexture(this.textures[textureId], length_s, length_t);
 
-                component.setTexture(this.textures[textureId]);
+                //component.setTexture(this.textures[textureId]);
 
             }
             
@@ -1136,9 +1141,32 @@ export class MySceneGraph {
         console.log("   " + message);
     }
 
+    async checkKeys()  {
+        var text="Keys pressed: ";
+
+        //console.log("---checking keys---")
+
+
+        if (this.scene.interface.isKeyPressed("KeyM")) {
+            if(!this.keysPressed){
+                for (const [key, value] of Object.entries(this.components)) {
+                    this.components[key].incrementMaterialIndex();
+                }
+                text+="M";
+                this.keysPressed = true;
+            }
+        }
+        else{
+            this.keysPressed = false
+        }
+
+    }
+
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
+
+    
     displayScene() {
         //To do: Create display loop for transversing the scene graph
 
@@ -1154,8 +1182,10 @@ export class MySceneGraph {
         // this.components["treeBase2"].display(null);
         // <componentref id="treeTop"/>
         // <componentref id="treeBase2"/>
-
+        this.checkKeys();
         this.components['demoRoot'].display(null);
+
+       
 
         // for(const componentID in this.components){
         //     //console.log(componentID);

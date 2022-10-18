@@ -1,7 +1,7 @@
 import {CGFappearance, CGFtexture, CGFobject} from '../lib/CGF.js';
 
 /**
- * 
+ *
  */
 export class MyComponent extends CGFobject{
     constructor(scene, id) {
@@ -43,26 +43,20 @@ export class MyComponent extends CGFobject{
     setupMatrix(father){
         this.scene.pushMatrix();
 
-        //this.scene.multMatrix(matrix)
-
-        //transformations
-        //this.scene.multMatrix(this.transformation);
-
         this.scene.multMatrix(this.transformation);
 
 
-        // if (father != null){
-        //     //console.log(this.id)
-        //     mat4.mul(this.accumulative_transformation, this.transformation, father.accumulative_transformation);
-        // } 
-        // else{
-        //     this.accumulative_transformation = this.transformation
-        // }
-
-        // this.scene.multMatrix(this.accumulative_transformation)
-
-
     }
+    changeTexCoords(length_s, length_t){
+        //dummy function
+		return;
+
+	}
+
+	resetTexCoords(){
+		//dummy function
+		return;
+	}
 
     display(father){
 
@@ -75,15 +69,17 @@ export class MyComponent extends CGFobject{
         if (this.materials[this.materialIndex] == "inherit"){
             this.materials[this.materialIndex] = father.materials[father.materialIndex]
         }
-        
+
         //currentMaterial = this.materials[this.materialIndex]
         Object.assign(currentMaterial, this.materials[this.materialIndex])
-        
+
 
         //textures
         if(this.texture == "inherit"){
             console.log("father texture: ", father.texture);
-            this.texture = father.texture
+            this.texture = father.texture;
+            this.length_s = father.length_s;
+            this.length_t = father.length_t;
             currentMaterial.setTexture(this.texture);
             currentMaterial.setTextureWrap('REPEAT', 'REPEAT'); //usar depois length_s e length_t do father
         }
@@ -91,24 +87,26 @@ export class MyComponent extends CGFobject{
             currentMaterial.setTexture(this.texture);
             currentMaterial.setTextureWrap('REPEAT', 'REPEAT');
         }
-        // else{
-        //     let noneTex = new CGFtexture(this.scene, null)
-        //     currentMaterial.setTexture(noneTex);
-        //     currentMaterial.setTextureWrap('REPEAT', 'REPEAT');
-        // }
 
-  
+
+
         for(let i = 0; i < this.children.length; i++){
 
             this.setupMatrix(father);
 
-            
+
+            if (this.texture != "none"){
+                this.children[i].changeTexCoords(this.length_s, this.length_t);
+            }
             currentMaterial.apply();
 
-            
             this.children[i].display(this);
+
+            if (this.texture != "none"){
+                this.children[i].resetTexCoords(this.length_s, this.length_t);
+            }
             this.scene.popMatrix();
-            
+
         }
     }
 }
