@@ -36,7 +36,7 @@
         <texture id ="mf_side_rec" file="scenes/images/mf_side_rec.png" />
         <texture id ="mf_side" file="scenes/images/mf_side.png" />
         <texture id ="mf_back" file="scenes/images/mf_back.png" />
-        <texture id ="mf_strip" file="scenes/images/mf_strip.png" />
+        <!-- <texture id ="mf_strip" file="scenes/images/mf_strip.png" /> -->
         <texture id ="metal_tex" file="scenes/images/metal_tex.png" />
         <texture id ="grid" file="scenes/images/grid.png" />
         <texture id ="sp_tex" file="scenes/images/spaceship_tex.png" />
@@ -62,6 +62,28 @@
             <diffuse r="0.2" g="0.7" b="0.9" a="1.0" />
             <specular r="0" g="0" b="0" a="1.0" />
         </material>
+
+        <material id="night_black" shininess="7">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.6" g="0.6" b="0.6" a="1.0" />
+        </material>
+
+        <material id="snow_white" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="0.9" g="0.0.9" b="0.9" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+
+        <material id="lighting_yellow" shininess="7">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1" g="0.81" b="0.14" a="1.0" />
+            <specular r="1" g="0.81" b="0.14" a="1.0" />
+        </material>
+        
     </materials>
 
     <transformations>
@@ -493,6 +515,8 @@
             <transformation>
             </transformation>
             <materials>
+                <material id="lighting_yellow" />
+                <material id="snow_white" />
                 <material id="inherit" />
             </materials>
             <texture id="inherit"/>
@@ -730,7 +754,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="light_grey_metal" />
+                <material id="night_black" />
             </materials>
             <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
             <children>
@@ -744,6 +768,8 @@
             </children>
         </component>
 
+        
+
 
         <component id="demoRoot">
             <transformation>
@@ -754,6 +780,7 @@
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="millenium_falcon"/>
+
             </children>
         </component>
 
