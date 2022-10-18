@@ -1,4 +1,4 @@
-import { CGFappearance, CGFcamera, CGFtexture, CGFXMLreader } from '../lib/CGF.js';
+import { CGFappearance, CGFcamera, CGFlight, CGFtexture, CGFXMLreader } from '../lib/CGF.js';
 import { MyRectangle } from './MyRectangle.js';
 import { MyCylinder } from './MyCylinder.js';
 import { MySphere } from './MySphere.js';
@@ -356,14 +356,20 @@ export class MySceneGraph {
             var attributeTypes = [];
 
             //Check type of light
-            if (children[i].nodeName != "omni" && children[i].nodeName != "spot") {
+            if (children[i].nodeName == "omni") {
+                attributeNames.push(...["location", "ambient", "diffuse", "specular", "attenuation"]);
+                attributeTypes.push(...["position", "color", "color", "color", "att"]);
+            }
+            else if( children[i].nodeName == "spot"){
+                attributeNames.push(...["location", "target", "ambient", "diffuse", "specular", "attenuation"]);
+                attributeTypes.push(...["position", "position", "color", "color", "color", "attenuation"]);
+            }
+            else {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
-            else {
-                attributeNames.push(...["location", "ambient", "diffuse", "specular"]);
-                attributeTypes.push(...["position", "color", "color", "color"]);
-            }
+            global.push(children[i].nodeName);
+            
 
             // Get id of the current light.
             var lightId = this.reader.getString(children[i], 'id');
@@ -373,18 +379,30 @@ export class MySceneGraph {
             // Checks for repeated IDs.
             if (this.lights[lightId] != null)
                 return "ID must be unique for each light (conflict: ID = " + lightId + ")";
-
-            // Light enable/disable
+            global.push(lightId);
+            
+            // get light enable/disable
             var enableLight = true;
             var aux = this.reader.getBoolean(children[i], 'enabled');
-            if (!(aux != null && !isNaN(aux) && (aux == true || aux == false)))
+            if (aux != true && aux != false)
                 this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
-
             enableLight = aux || 1;
-
             //Add enabled boolean and type name to light info
             global.push(enableLight);
-            global.push(children[i].nodeName);
+
+            
+            // Gets the additional attributes of the spot light
+            if (children[i].nodeName == "spot") {
+                var angle = this.reader.getFloat(children[i], 'angle');
+                if (!(angle != null && !isNaN(angle)))
+                    return "unable to parse angle of the light for ID = " + lightId;
+                global.push(angle)
+                var exponent = this.reader.getFloat(children[i], 'exponent');
+                if (!(exponent != null && !isNaN(exponent)))
+                    return "unable to parse exponent of the light for ID = " + lightId;
+                global.push(exponent)
+            }
+
 
             grandChildren = children[i].children;
             // Specifications for the current light.
@@ -400,6 +418,9 @@ export class MySceneGraph {
                 if (attributeIndex != -1) {
                     if (attributeTypes[j] == "position")
                         var aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
+                    else if(attributeTypes[j] == "attenuation"){
+                        var aux = this.parseAttenuation(grandChildren[attributeIndex], "light attenuation for ID" + lightID)
+                    }
                     else
                         var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
 
@@ -408,36 +429,15 @@ export class MySceneGraph {
 
                     global.push(aux);
                 }
-                else
+                else{
+                    this.log(attributeNames[j])
                     return "light " + attributeNames[i] + " undefined for ID = " + lightId;
-            }
-
-            // Gets the additional attributes of the spot light
-            if (children[i].nodeName == "spot") {
-                var angle = this.reader.getFloat(children[i], 'angle');
-                if (!(angle != null && !isNaN(angle)))
-                    return "unable to parse angle of the light for ID = " + lightId;
-
-                var exponent = this.reader.getFloat(children[i], 'exponent');
-                if (!(exponent != null && !isNaN(exponent)))
-                    return "unable to parse exponent of the light for ID = " + lightId;
-
-                var targetIndex = nodeNames.indexOf("target");
-
-                // Retrieves the light target.
-                var targetLight = [];
-                if (targetIndex != -1) {
-                    var aux = this.parseCoordinates3D(grandChildren[targetIndex], "target light for ID " + lightId);
-                    if (!Array.isArray(aux))
-                        return aux;
-
-                    targetLight = aux;
                 }
-                else
-                    return "light target undefined for ID = " + lightId;
-
-                global.push(...[angle, exponent, targetLight])
             }
+
+            //global = [type, id, enabled,(angle, exponent,) location, (target,) ambient, diffuse, specular, attenuation]
+            //var light = new CGFlight(this.scene) 
+
 
             this.lights[lightId] = global;
             numLights++;
@@ -1082,6 +1082,34 @@ export class MySceneGraph {
 
         return color;
     }
+
+        /**
+     * Parse the attenuation components from a light node
+     * @param {block element} node
+     * @param {message to be displayed in case of error} messageError
+     */
+         parseAttenuation(node, messageError) {
+            var color = [];
+    
+            // constant
+            var constant = this.reader.getFloat(node, 'constant');
+            if (!(constant != null && !isNaN(constant) && constant >= 0 && constant <= 1))
+                return "unable to parse R component of the " + messageError;
+    
+            // linear
+            var linear = this.reader.getFloat(node, 'linear');
+            if (!(linear != null && !isNaN(linear) && linear >= 0 && linear <= 1))
+                return "unable to parse G component of the " + messageError;
+    
+            // quadratic
+            var quadratic = this.reader.getFloat(node, 'quadratic');
+            if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                return "unable to parse B component of the " + messageError;
+    
+            color.push(...[constant, linear, quadratic]);
+    
+            return color;
+        }
 
     /*
      * Callback to be executed on any read error, showing an error on the console.

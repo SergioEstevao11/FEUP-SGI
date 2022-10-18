@@ -30,13 +30,11 @@
         <texture id="planet_texture" file="https://as1.ftcdn.net/v2/jpg/01/70/43/08/500_F_170430812_MJgU75hqcuzfjwLVcRiVFmxp0DKLniZz.jpg" />
         <texture id ="light_ray" file="scenes/images/light_ray.png" />
         <texture id ="mf_front_rec" file="scenes/images/mf_front_rec.png" />
-        <texture id ="mf_middle_square" file="scenes/images/mf_middle_square.png" />
         <texture id ="mf_middle_big_square" file="scenes/images/mf_middle_big_square.png" />
         <texture id ="mf_side_front_rec" file="scenes/images/mf_side_front_rec.png" />
         <texture id ="mf_side_rec" file="scenes/images/mf_side_rec.png" />
         <texture id ="mf_side" file="scenes/images/mf_side.png" />
         <texture id ="mf_back" file="scenes/images/mf_back.png" />
-        <texture id ="mf_strip" file="scenes/images/mf_strip.png" />
         <texture id ="metal_tex" file="scenes/images/metal_tex.png" />
         <texture id ="grid" file="scenes/images/grid.png" />
         <texture id ="sp_tex" file="scenes/images/spaceship_tex.png" />
@@ -336,7 +334,6 @@
 
         <component id="propulsor_part">
             <transformation>
-                <translate x="0" y="0" z="0"/>
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -378,7 +375,6 @@
         </component>
         <component id="hexa_prism">
             <transformation>
-                <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -417,7 +413,6 @@
         </component>
         <component id="cylinder_complete">
             <transformation>
-                <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -633,7 +628,6 @@
         </component>
         <component id="cockpit">
             <transformation>
-                <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -685,7 +679,6 @@
         </component>
         <component id="first_half_propulsor">
             <transformation>
-                <rotate axis="z" angle="0" />
             </transformation>
             <materials>
                 <material id="inherit" />
