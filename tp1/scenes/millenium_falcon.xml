@@ -894,7 +894,7 @@
             <materials>
                 <material id="snow_white" />
             </materials>
-            <texture id="first_order" length_s="0.5" length_t="0.5"/>
+            <texture id="first_order" length_s="2" length_t="2"/>
             <children>
                 <primitiveref id="triangle_wing_panel" />
                 <componentref id="wing_panel_border" />
@@ -907,7 +907,7 @@
             <materials>
                 <material id="snow_white" />
             </materials>
-            <texture id="first_order" length_s="0.5" length_t="0.5"/>
+            <texture id="first_order" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="triangle_wing_panel" />
                 <componentref id="wing_panel_border" />
@@ -921,7 +921,7 @@
             <materials>
                 <material id="snow_white" />
             </materials>
-            <texture id="first_order" length_s="0.5" length_t="0.5"/>
+            <texture id="first_order" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="triangle_wing_panel" />
                 <componentref id="wing_panel_border" />
@@ -947,7 +947,7 @@
             <materials>
                 <material id="snow_white" />
             </materials>
-            <texture id="first_order" length_s="0.5" length_t="0.5"/>
+            <texture id="first_order" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="triangle_wing_panel" />
                 <componentref id="wing_panel_border" />
@@ -960,7 +960,7 @@
             <materials>
                 <material id="snow_white" />
             </materials>
-            <texture id="first_order" length_s="0.5" length_t="0.5"/>
+            <texture id="first_order" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="triangle_wing_panel" />
                 <componentref id="wing_panel_border" />
@@ -1056,7 +1056,7 @@
 
         <component id="tie_fighter">
             <transformation>
-                <translate x="15" y="0" z="0" />
+                <!-- <translate x="15" y="0" z="0" /> -->
                 <rotate axis="y" angle="-90" />
                 <scale x="0.2" y="0.2" z="0.2" />
 
@@ -1082,7 +1082,7 @@
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
-                <componentref id="millenium_falcon"/>
+                <!-- <componentref id="millenium_falcon"/> -->
                 <componentref id="tie_fighter" />
             </children>
         </component>
