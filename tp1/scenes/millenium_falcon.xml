@@ -3,9 +3,14 @@
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30" />
+            <from x="90" y="90" z="90" />
             <to x="0" y="-2" z="0" />
         </perspective>
+        <ortho id="orthoCamera" near="0.001" far="2000" left="-50" right="50" top="50" bottom="-50">
+            <from x="20" y="20" z="20"/>
+            <to x="0" y="-2" z="0"/>
+            <up x="0" y="20" z="0"/><!-- optional, default 0,1,0 -->
+        </ortho>
     </views>
 
     <ambient>
@@ -52,7 +57,7 @@
         </material>
         <material id="light_grey_metal" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </material>
@@ -758,7 +763,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="night_black" />
+                <material id="light_grey_metal" />
             </materials>
             <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
             <children>

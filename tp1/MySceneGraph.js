@@ -1,4 +1,4 @@
-import { CGFappearance, CGFcamera, CGFtexture, CGFXMLreader } from '../lib/CGF.js';
+import { CGFappearance, CGFcamera, CGFcameraOrtho, CGFtexture, CGFXMLreader } from '../lib/CGF.js';
 import { MyRectangle } from './MyRectangle.js';
 import { MyCylinder } from './MyCylinder.js';
 import { MySphere } from './MySphere.js';
@@ -32,11 +32,13 @@ export class MySceneGraph {
 
         // Establish bidirectional references between scene and graph.
         this.scene = scene;
-        scene.graph = this;
+        this.scene.graph = this;
 
         this.keysPressed=false;
 
         this.nodes = [];
+        this.views = []
+
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -75,6 +77,7 @@ export class MySceneGraph {
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
         this.scene.onGraphLoaded();
+        this.scene.graph = this;
     }
 
     /**
@@ -238,7 +241,11 @@ export class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        this.views = []
+        this.selectedView = null;
+        this.cameraIds = {}
+        this.selectedView = -1;
+
+
     
 
         var default_name = this.reader.getString(viewsNode, 'default')
@@ -264,8 +271,8 @@ export class MySceneGraph {
                 if(camera_from==null || camera_to==null){
                     this.onXMLMinorError("Camera specs not defined");
                 }
-                camera = new CGFcamera(camera_angle*Math.PI/180, camera_near, camera_far, camera_from, camera_to)
-                this.views[camera_id] = camera
+                camera = new CGFcamera(camera_angle*Math.PI/180, camera_near, camera_far, vec3.fromValues(...camera_from), vec3.fromValues(...camera_to))
+                this.views.push(camera)
 
             }
             else if (camera_node.nodeName == "ortho"){
@@ -275,7 +282,10 @@ export class MySceneGraph {
                 }
                 camera_near = this.reader.getFloat(camera_node, 'near');
                 camera_far = this.reader.getFloat(camera_node, 'far');
-                camera_angle = this.reader.getFloat(camera_node, 'angle');
+                let camera_left = this.reader.getFloat(camera_node, 'left');
+                let camera_right = this.reader.getFloat(camera_node, 'right');
+                let camera_top = this.reader.getFloat(camera_node, 'top');
+                let camera_bottom = this.reader.getFloat(camera_node, 'bottom');
                 
                 camera_from = this.parseCoordinates3D(camera_node.children[0]);
                 camera_to = this.parseCoordinates3D(camera_node.children[1]);
@@ -285,17 +295,28 @@ export class MySceneGraph {
                     this.onXMLMinorError("Camera specs not defined");
                 }
 
-                camera = new CGFcamera(camera_angle*Math.PI/180, camera_near, camera_far, camera_from, camera_to, camera_up)
-                this.views[camera_id] = camera
+                camera = new CGFcameraOrtho(camera_left, camera_right, camera_bottom, camera_top, camera_near, camera_far,
+                    vec3.fromValues(...camera_from), vec3.fromValues(...camera_to), vec3.fromValues(...camera_up))
+                this.views.push(camera)
+
+                
             }
             else{
                 this.onXMLMinorError("View not defined");
             }
 
+            this.cameraIds[camera_id] = i;
+            
+            // if (camera_id == default_name){
+            //     //this.views.default = camera;
+            //     this.selectedView = -1;
+            // }
+
         }
-        if (camera_id == default_name){
-            this.views.default = camera
-        }
+
+
+
+        
         this.log("Parsed views");
         return null;
     }
@@ -1126,6 +1147,7 @@ export class MySceneGraph {
 
     }
 
+
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
@@ -1147,7 +1169,7 @@ export class MySceneGraph {
         // <componentref id="treeTop"/>
         // <componentref id="treeBase2"/>
         this.components['demoRoot'].display(null);
-
+        //console.log("selectedview: ", this.selectedView)
        
 
         // for(const componentID in this.components){

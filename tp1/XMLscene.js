@@ -15,7 +15,7 @@ export class XMLscene extends CGFscene {
     constructor(myinterface) {
         super();
 
-        this.myGraph = null;
+        this.graph = null;
 
         this.interface = myinterface;
     }
@@ -53,6 +53,7 @@ export class XMLscene extends CGFscene {
      */
     initLights() {
         var i = 0;
+        var folder_lights = this.interface.gui.addFolder("Lights");
         // Lights index.
 
         // Reads the lights from the scene graph.
@@ -81,6 +82,7 @@ export class XMLscene extends CGFscene {
                     this.lights[i].disable();
 
                 this.lights[i].update();
+                folder_lights.add(this.lights[i], 'enabled').name(key);
 
                 i++;
             }
@@ -97,6 +99,9 @@ export class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
+
+        //this.graph = graph
+
         this.axis = new CGFaxis(this, this.graph.referenceLength);
 
         this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
@@ -105,11 +110,26 @@ export class XMLscene extends CGFscene {
 
         this.initLights();
 
+        console.log("Views: ", this.graph.views)
+
+
+        this.interface.gui.add(this.graph, 'selectedView', this.graph.cameraIds).name('Cameras').onChange(this.updateCamera.bind(this));
+
+        console.log("Views: ", this.graph.views)
+
+
         this.sceneInited = true;
     }
 
+    updateCamera(){
+        this.camera = this.graph.views[this.graph.selectedView]
+        this.updateProjectionMatrix();
+        this.loadIdentity();
+        this.interface.setActiveCamera(this.camera);
+    }
+
     update(t){
-        this.myGraph.checkKeys();
+        this.graph.checkKeys();
     }
 
     /**
