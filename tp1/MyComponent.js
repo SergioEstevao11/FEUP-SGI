@@ -4,7 +4,7 @@ import {CGFappearance, CGFtexture, CGFobject} from '../lib/CGF.js';
  *
  */
 export class MyComponent extends CGFobject{
-    constructor(scene, id) {
+    constructor(scene, id) {//usar array de ids e não de objetos
         super(scene)
         this.id = id;
         this.transformation = mat4.create();

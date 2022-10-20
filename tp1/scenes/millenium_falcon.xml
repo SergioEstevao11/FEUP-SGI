@@ -19,7 +19,16 @@
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0"/>
         </omni>
+        <spot id="demoLight2" enabled="0" angle="30" exponent="1">
+            <location x="0" y="0" z="0" w="1.0" />
+            <target x="5" y="5" z="5" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+            <attenuation constant="0.0" linear="0.2" quadratic="0.0" />
+        </spot>
     </lights>
 
     <textures>
@@ -31,6 +40,7 @@
         <texture id ="light_ray" file="scenes/images/light_ray.png" />
         <texture id ="mf_front_rec" file="scenes/images/mf_front_rec.png" />
         <texture id ="mf_middle_big_square" file="scenes/images/mf_middle_big_square.png" />
+        <texture id ="mf_middle_square" file="scenes/images/mf_middle_square.png" />
         <texture id ="mf_side_front_rec" file="scenes/images/mf_side_front_rec.png" />
         <texture id ="mf_side_rec" file="scenes/images/mf_side_rec.png" />
         <texture id ="mf_side" file="scenes/images/mf_side.png" />
@@ -183,7 +193,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_front_rec" length_s="0.6" length_t="0.3"/>
+            <texture id="sp_tex" length_s="0.6" length_t="0.3"/>
             <children>
                 <primitiveref id="triangle" />
             </children>
@@ -195,7 +205,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_front_rec" length_s="0.6" length_t="0.3"/>
+            <texture id="sp_tex" length_s="0.6" length_t="0.3"/>
             <children>
                 <primitiveref id="triangle" />
             </children>
@@ -219,7 +229,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="mf_front_rec" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="rectangle" />
             </children>
@@ -234,7 +244,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="sp_tex" length_s="1" length_t="1"/>
+            <texture id="mf_back" length_s="0.5" length_t="1"/>
             <children>
                 <primitiveref id="rectangle" />
             </children>
@@ -266,7 +276,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_back" length_s="1" length_t="1"/>
+            <texture id="mf_side_front_rec" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="propulsor_triangle"/>
             </children>
@@ -282,7 +292,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_back" length_s="1" length_t="1"/>
+            <texture id="mf_front_rec" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="propulsor_triangle"/>
             </children>
@@ -467,7 +477,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_front_rec" length_s="1" length_t="1"/>
+            <texture id="mf_side" length_s="1" length_t="1"/>
             <children>
                 <componentref id="prism"/>
             </children>
@@ -479,7 +489,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mf_front_rec"  length_s="1" length_t="1"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="spaceship_right_front_prism"/>
             </children>

@@ -359,18 +359,17 @@ export class MySceneGraph {
 
             //Check type of light
             if (children[i].nodeName == "omni") {
-                attributeNames.push(...["location", "ambient", "diffuse", "specular", "attenuation"]);
-                attributeTypes.push(...["position", "color", "color", "color", "att"]);
+                attributeNames = ["location", "ambient", "diffuse", "specular", "attenuation"];
+                attributeTypes = ["position", "color", "color", "color", "attenuation"];
             }
             else if( children[i].nodeName == "spot"){
-                attributeNames.push(...["location", "target", "ambient", "diffuse", "specular", "attenuation"]);
-                attributeTypes.push(...["position", "position", "color", "color", "color", "attenuation"]);
+                attributeNames = ["location", "target", "ambient", "diffuse", "specular", "attenuation"];
+                attributeTypes = ["position", "position", "color", "color", "color", "attenuation"];
             }
             else {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
-            global.push(children[i].nodeName);
             
 
             // Get id of the current light.
@@ -381,16 +380,13 @@ export class MySceneGraph {
             // Checks for repeated IDs.
             if (this.lights[lightId] != null)
                 return "ID must be unique for each light (conflict: ID = " + lightId + ")";
-            global.push(lightId);
             
             // get light enable/disable
-            var enableLight = true;
             var aux = this.reader.getBoolean(children[i], 'enabled');
             if (aux != true && aux != false)
                 this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
-            enableLight = aux || 1;
             //Add enabled boolean and type name to light info
-            global.push(enableLight);
+            global.push(aux);
 
             
             // Gets the additional attributes of the spot light
@@ -407,7 +403,6 @@ export class MySceneGraph {
 
 
             grandChildren = children[i].children;
-            // Specifications for the current light.
 
             nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
@@ -415,32 +410,52 @@ export class MySceneGraph {
             }
 
             for (var j = 0; j < attributeNames.length; j++) {
-                var attributeIndex = nodeNames.indexOf(attributeNames[j]);
-
-                if (attributeIndex != -1) {
-                    if (attributeTypes[j] == "position")
-                        var aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
-                    else if(attributeTypes[j] == "attenuation"){
-                        var aux = this.parseAttenuation(grandChildren[attributeIndex], "light attenuation for ID" + lightID)
+                    if (attributeTypes[j] == "position"){
+                        var aux = this.parseCoordinates4D(grandChildren[j], "light position for ID" + lightId);
                     }
-                    else
-                        var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
-
-                    if (!Array.isArray(aux))
-                        return aux;
+                    else if(attributeTypes[j] == "attenuation"){
+                        var aux = this.parseAttenuation(grandChildren[j], "light attenuation for ID" + lightId);
+                    }
+                    else if(attributeTypes[j] == "color"){
+                        var aux = this.parseColor(grandChildren[j], attributeNames[j] + " illumination for ID" + lightId);
+                    }
 
                     global.push(aux);
-                }
-                else{
-                    this.log(attributeNames[j])
-                    return "light " + attributeNames[i] + " undefined for ID = " + lightId;
-                }
             }
 
-            //global = [type, id, enabled,(angle, exponent,) location, (target,) ambient, diffuse, specular, attenuation]
-            //var light = new CGFlight(this.scene) 
+            // global = [type, id, enabled,(angle, exponent,) location, (target,) ambient, diffuse, specular, attenuation]
+            // var light = new CGFlight(this.scene);
+            // for(i=0; i<global.length ; i++){
+            //     this.log(i + " - " + global[i]);
+            // }
+            // if (global[0] == "omni"){
+            //     light.setPosition(global[3]);
+            //     light.setAmbient(global[4]);
+            //     light.setDiffuse(global[5]);
+            //     light.setSpecular(global[6]);
+            //     light.setConstantAttenuation(global[7][0]);
+            //     light.setLinearAttenuation(global[7][1]);
+            //     light.setQuadraticAttenuation(global[7][2]);
+            // }
+            // else if (global[0] == "spot"){
+            //     light.setSpotCutOff(global[3]);
+            //     light.setPosition(global[5]);
+            //     light.setSpotDirection(global[6]);
+            //     light.setAmbient(global[7]);
+            //     light.setDiffuse(global[8]);
+            //     light.setSpecular(global[9]);
+            //     light.setConstantAttenuation(global[10][0]);
+            //     light.setLinearAttenuation(global[10][1]);
+            //     light.setQuadraticAttenuation(global[10][2]);
+            // }
 
-
+            // if(global[2]){
+            //     light.enable();
+            // }
+            // else{
+            //     light.disable();
+            // }
+ 
             this.lights[lightId] = global;
             numLights++;
         }
@@ -449,6 +464,7 @@ export class MySceneGraph {
             return "at least one light must be defined";
         else if (numLights > 8)
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
+
 
         this.log("Parsed lights");
         return null;
@@ -1094,26 +1110,33 @@ export class MySceneGraph {
      * @param {message to be displayed in case of error} messageError
      */
          parseAttenuation(node, messageError) {
-            var color = [];
-    
+
             // constant
             var constant = this.reader.getFloat(node, 'constant');
             if (!(constant != null && !isNaN(constant) && constant >= 0 && constant <= 1))
-                return "unable to parse R component of the " + messageError;
+                return "unable to parse constant component of the " + messageError;
     
             // linear
             var linear = this.reader.getFloat(node, 'linear');
             if (!(linear != null && !isNaN(linear) && linear >= 0 && linear <= 1))
-                return "unable to parse G component of the " + messageError;
+                return "unable to parse linear component of the " + messageError;
     
             // quadratic
             var quadratic = this.reader.getFloat(node, 'quadratic');
-            if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
-                return "unable to parse B component of the " + messageError;
-    
-            color.push(...[constant, linear, quadratic]);
-    
-            return color;
+            if (!(quadratic != null && !isNaN(quadratic) && quadratic >= 0 && quadratic <= 1))
+                return "unable to parse quadratic component of the " + messageError;
+            
+            var components = [constant, linear, quadratic]
+            var cp = false;
+            for (var i in components){
+                if(components[i] != 0){
+                    if (cp){
+                        this.onXMLMinorError("Only one of the light attenuation compponents can be different from 0!")
+                    }
+                    cp = true;
+                }
+            }
+            return components;
         }
 
     /*
