@@ -10,7 +10,8 @@ export class MyComponent extends CGFobject{
         this.transformation = mat4.create();
         this.accumulative_transformation = mat4.create();
         this.materials = [];
-        this.materialIndex = -1;
+        this.isMaterialInherit = [];
+        this.materialIndex = 0;
         this.texture = null;
         this.children = [];
 
@@ -22,7 +23,12 @@ export class MyComponent extends CGFobject{
 
     addMaterial(newMaterial){
         this.materials.push(newMaterial);
-        this.materialIndex += 1;
+        if(newMaterial == "inherit"){
+            this.isMaterialInherit.push(true);
+        }
+        else{
+            this.isMaterialInherit.push(false);
+        }
     }
 
     setTexture(newTexture, length_s, length_t){
@@ -38,6 +44,7 @@ export class MyComponent extends CGFobject{
     incrementMaterialIndex(){
         this.materialIndex+=1;
         this.materialIndex %= this.materials.length;
+       
     }
 
     setupMatrix(father){
@@ -61,22 +68,18 @@ export class MyComponent extends CGFobject{
     display(father){
 
 
-        //console.log(matrix)
-
         let currentMaterial = new CGFappearance(this.scene)
 
         //materials
-        if (this.materials[this.materialIndex] == "inherit"){
+        if (this.isMaterialInherit[this.materialIndex]){
             this.materials[this.materialIndex] = father.materials[father.materialIndex]
         }
 
-        //currentMaterial = this.materials[this.materialIndex]
         Object.assign(currentMaterial, this.materials[this.materialIndex])
 
 
         //textures
         if(this.texture == "inherit"){
-            console.log("father texture: ", father.texture);
             this.texture = father.texture;
             this.length_s = father.length_s;
             this.length_t = father.length_t;
