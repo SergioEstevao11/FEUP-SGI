@@ -1,10 +1,10 @@
 import {CGFappearance, CGFtexture, CGFobject} from '../lib/CGF.js';
 
 /**
- *
+ * Data Class that holds information about the component
  */
 export class MyComponent extends CGFobject{
-    constructor(scene, id) {//usar array de ids e não de objetos
+    constructor(scene, id) {
         super(scene)
         this.id = id;
         this.transformation = mat4.create();
@@ -65,6 +65,10 @@ export class MyComponent extends CGFobject{
 		return;
 	}
 
+    /** Implements the components' transformations, material, and textures and displays its children
+     * 
+     * @param {*} father component's father
+     */
     display(father){
 
 

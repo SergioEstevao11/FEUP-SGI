@@ -1,9 +1,9 @@
 import { CGFappearance, CGFcamera, CGFcameraOrtho, CGFtexture, CGFXMLreader } from '../lib/CGF.js';
-import { MyRectangle } from './MyRectangle.js';
-import { MyCylinder } from './MyCylinder.js';
-import { MySphere } from './MySphere.js';
-import { MyTorus } from './MyTorus.js';
-import { MyTriangle } from './MyTriangle.js';
+import { MyRectangle } from './primitives/MyRectangle.js';
+import { MyCylinder } from './primitives/MyCylinder.js';
+import { MySphere } from './primitives/MySphere.js';
+import { MyTorus } from './primitives/MyTorus.js';
+import { MyTriangle } from './primitives/MyTriangle.js';
 import { MyComponent } from './MyComponent.js';
 
 
@@ -40,7 +40,7 @@ export class MySceneGraph {
         this.views = []
 
 
-        this.idRoot = null;                    // The id of the root element.
+        this.idRoot = null;                    
 
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
@@ -308,10 +308,6 @@ export class MySceneGraph {
 
             this.cameraIds[camera_id] = i;
             
-            // if (camera_id == default_name){
-            //     //this.views.default = camera;
-            //     this.selectedView = -1;
-            // }
 
         }
 
@@ -628,6 +624,10 @@ export class MySceneGraph {
         return null;
     }
 
+    /**
+     * Function that returns a matrix with the sum of all transformations in the transformation block
+     * @returns 
+     */
     getTransformationMatrix(grandChildren, transformationID){
         var transfMatrix = mat4.create();
 
@@ -1221,27 +1221,6 @@ export class MySceneGraph {
 
     
     displayScene() {
-        //To do: Create display loop for transversing the scene graph
-
-        //this.materials
-        //this.primitives['demoCylinder'].display();
-
-        // let testCylinder = new MyCylinder(this.scene, 2, 2, 10, 30, 30);
-        // testCylinder.display();
-
-        // this.components["treeBase"].display(null);
-        // this.components["treeBase2"].display(null);
-        // this.components["treeTop"].display(null);
-        // this.components["treeBase2"].display(null);
-        // <componentref id="treeTop"/>
-        // <componentref id="treeBase2"/>
         this.components['demoRoot'].display(null);
-        //console.log("selectedview: ", this.selectedView)
-       
-
-        // for(const componentID in this.components){
-        //     //console.log(componentID);
-        //     this.components[componentID].display();
-        // }
     }
 }
