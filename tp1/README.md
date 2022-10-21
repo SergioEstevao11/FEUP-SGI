@@ -8,6 +8,15 @@
 | Tomás Fidalgo         | 201906743 | up201906743@up.pt               |
 
 ----
+## Images
+
+| Complete View           | Chasing Tie Fighter cinematic view     |
+| ---------------- | --------- |
+| ![](https://i.imgur.com/IGHjP5O.jpg)        | ![](https://i.imgur.com/OG9kt1W.jpg) |
+
+| 3 Tie fighters with headlights ON   |  Millenium Falcon headlight shining on Tie Fighter   |
+| ---------------- | --------- |
+| ![](https://i.imgur.com/YXCeaCB.jpg)| ![](https://i.imgur.com/V8wsiam.png)|
 ## Project information
 
 - A dynamic positioning of the components paired with relevant camera position produced astounding realistic perspectives
