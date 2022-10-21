@@ -3,13 +3,32 @@
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="90" y="90" z="90" />
+            <from x="50" y="50" z="50" />
             <to x="0" y="-2" z="0" />
         </perspective>
-        <ortho id="orthoCamera" near="0.001" far="2000" left="-50" right="50" top="50" bottom="-50">
-            <from x="20" y="20" z="20"/>
+        <perspective id="Tie Fighter POV" near="0.1" far="500" angle="70">
+            <from x="-16" y="6" z="0" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+        <perspective id="Saturn" near="0.1" far="500" angle="70">
+            <from x="8" y="5" z="-7" />
+            <to x="10" y="-20" z="10" />
+        </perspective>
+        <ortho id="Side Ortho" near="0.001" far="2000" left="-50" right="50" top="50" bottom="-50">
+            <from x="0" y="0" z="20"/>
             <to x="0" y="-2" z="0"/>
             <up x="0" y="20" z="0"/><!-- optional, default 0,1,0 -->
+        </ortho>
+        <ortho id="ChaserTieFighter Ortho" near="0.001" far="2000" left="-50" right="50" top="50" bottom="-50">
+            <from x="15" y="15" z="-10"/>
+            <to x="-15" y="5" z="0"/>
+            <up x="0" y="1" z="0"/><!-- optional, default 0,1,0 -->
+        </ortho>
+        <ortho id="orthoUpView" near="0.01" far="500" left="-45" right="45" top="45" bottom="-45">
+            <from x="0.00001" y="30" z="0"/>
+            <to x="0" y="0" z="0"/>
+            <up x="0" y="1" z="0"/>
+            <!-- optional, default 0,1,0 -->
         </ortho>
     </views>
 
@@ -27,21 +46,29 @@
             <attenuation constant="0" linear="0.0" quadratic="0.0"/>
         </omni> -->
         <omni id="main light" enabled="1">
-            <location x="20" y="20" z="20" w="1.0" />
+            <location x="10" y="10" z="10" w="1.0" />
             <ambient r="1" g="1" b="1" a="1.0" />
             <diffuse r="1" g="1" b="1" a="1.0" />
             <specular r="1" g="1" b="1" a="1.0" />
             <attenuation constant="0.0" linear="0.0" quadratic="0.0"/>
         </omni>
 
-        <spot id="falcon_headlight" enabled="0" angle="30" exponent="1">
-            <location x="0" y="0" z="0" w="1.0" />
-            <target x="5" y="5" z="5" w="1.0" />
-            <ambient r="0" g="0" b="0" a="1" />
-            <diffuse r="0.2" g="0.2" b="0.2" a="1" />
-            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
-            <attenuation constant="0.0" linear="0.2" quadratic="0.0" />
-        </spot>
+        <omni id="test" enabled="0">
+            <location x="7" y="0" z="3" w="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
+            <attenuation constant="1.0" linear="0" quadratic="0"/>
+        </omni>
+
+        <!-- <spot id="falcon_headlight" enabled="0" angle="30" exponent="1">
+            <location x="0" y="7" z="0" w="0.5" />
+            <target x="0" y="5" z="0" w="0.5" />
+            <ambient r="0" g="0" b="0" a="0.5" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="0.5" />
+            <specular r="0.2" g="0.2" b="0.2" a="0.5" />
+            <attenuation constant="0.0" linear="5" quadratic="0.0" />
+        </spot> -->
     </lights>
 
     <textures>
@@ -1276,7 +1303,7 @@
             <transformation>
                 <translate x="10" y="-20" z="10"/>
                 <rotate axis="x" angle="30" />
-                <scale x="1" y="1" z="1" />
+                <scale x="2" y="2" z="2" />
             </transformation>
             <materials>
                 <material id="inherit" />
