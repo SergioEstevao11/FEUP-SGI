@@ -1,4 +1,4 @@
-import { CGFappearance, CGFcamera, CGFlight, CGFtexture, CGFXMLreader } from '../lib/CGF.js';
+import { CGFappearance, CGFcamera, CGFcameraOrtho, CGFtexture, CGFXMLreader } from '../lib/CGF.js';
 import { MyRectangle } from './MyRectangle.js';
 import { MyCylinder } from './MyCylinder.js';
 import { MySphere } from './MySphere.js';
@@ -32,11 +32,13 @@ export class MySceneGraph {
 
         // Establish bidirectional references between scene and graph.
         this.scene = scene;
-        scene.graph = this;
+        this.scene.graph = this;
 
         this.keysPressed=false;
 
         this.nodes = [];
+        this.views = []
+
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -74,6 +76,8 @@ export class MySceneGraph {
         this.loadedOk = true;
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
+        this.scene.graph = this;
+
         this.scene.onGraphLoaded();
     }
 
@@ -238,7 +242,11 @@ export class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        this.views = []
+        this.selectedView = null;
+        this.cameraIds = {}
+        this.selectedView = -1;
+
+
     
 
         var default_name = this.reader.getString(viewsNode, 'default')
@@ -264,8 +272,8 @@ export class MySceneGraph {
                 if(camera_from==null || camera_to==null){
                     this.onXMLMinorError("Camera specs not defined");
                 }
-                camera = new CGFcamera(camera_angle*Math.PI/180, camera_near, camera_far, camera_from, camera_to)
-                this.views[camera_id] = camera
+                camera = new CGFcamera(camera_angle*Math.PI/180, camera_near, camera_far, vec3.fromValues(...camera_from), vec3.fromValues(...camera_to))
+                this.views.push(camera)
 
             }
             else if (camera_node.nodeName == "ortho"){
@@ -275,7 +283,10 @@ export class MySceneGraph {
                 }
                 camera_near = this.reader.getFloat(camera_node, 'near');
                 camera_far = this.reader.getFloat(camera_node, 'far');
-                camera_angle = this.reader.getFloat(camera_node, 'angle');
+                let camera_left = this.reader.getFloat(camera_node, 'left');
+                let camera_right = this.reader.getFloat(camera_node, 'right');
+                let camera_top = this.reader.getFloat(camera_node, 'top');
+                let camera_bottom = this.reader.getFloat(camera_node, 'bottom');
                 
                 camera_from = this.parseCoordinates3D(camera_node.children[0]);
                 camera_to = this.parseCoordinates3D(camera_node.children[1]);
@@ -285,17 +296,28 @@ export class MySceneGraph {
                     this.onXMLMinorError("Camera specs not defined");
                 }
 
-                camera = new CGFcamera(camera_angle*Math.PI/180, camera_near, camera_far, camera_from, camera_to, camera_up)
-                this.views[camera_id] = camera
+                camera = new CGFcameraOrtho(camera_left, camera_right, camera_bottom, camera_top, camera_near, camera_far,
+                    vec3.fromValues(...camera_from), vec3.fromValues(...camera_to), vec3.fromValues(...camera_up))
+                this.views.push(camera)
+
+                
             }
             else{
                 this.onXMLMinorError("View not defined");
             }
 
+            this.cameraIds[camera_id] = i;
+            
+            // if (camera_id == default_name){
+            //     //this.views.default = camera;
+            //     this.selectedView = -1;
+            // }
+
         }
-        if (camera_id == default_name){
-            this.views.default = camera
-        }
+
+
+
+        
         this.log("Parsed views");
         return null;
     }
@@ -386,7 +408,15 @@ export class MySceneGraph {
             if (aux != true && aux != false)
                 this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
             //Add enabled boolean and type name to light info
+
             global.push(aux);
+
+            if (children[i].nodeName == "omni") {
+                global.push("omni");
+            }
+            else if( children[i].nodeName == "spot"){
+                global.push("spot")
+            }
 
             
             // Gets the additional attributes of the spot light
@@ -423,32 +453,6 @@ export class MySceneGraph {
                     global.push(aux);
             }
 
-            // global = [type, id, enabled,(angle, exponent,) location, (target,) ambient, diffuse, specular, attenuation]
-            // var light = new CGFlight(this.scene);
-            // for(i=0; i<global.length ; i++){
-            //     this.log(i + " - " + global[i]);
-            // }
-            // if (global[0] == "omni"){
-            //     light.setPosition(global[3]);
-            //     light.setAmbient(global[4]);
-            //     light.setDiffuse(global[5]);
-            //     light.setSpecular(global[6]);
-            //     light.setConstantAttenuation(global[7][0]);
-            //     light.setLinearAttenuation(global[7][1]);
-            //     light.setQuadraticAttenuation(global[7][2]);
-            // }
-            // else if (global[0] == "spot"){
-            //     light.setSpotCutOff(global[3]);
-            //     light.setPosition(global[5]);
-            //     light.setSpotDirection(global[6]);
-            //     light.setAmbient(global[7]);
-            //     light.setDiffuse(global[8]);
-            //     light.setSpecular(global[9]);
-            //     light.setConstantAttenuation(global[10][0]);
-            //     light.setLinearAttenuation(global[10][1]);
-            //     light.setQuadraticAttenuation(global[10][2]);
-            // }
-
             // if(global[2]){
             //     light.enable();
             // }
@@ -460,6 +464,7 @@ export class MySceneGraph {
             numLights++;
         }
 
+        console.log("all of the lights: ", this.lights);
         if (numLights == 0)
             return "at least one light must be defined";
         else if (numLights > 8)
@@ -469,7 +474,35 @@ export class MySceneGraph {
         this.log("Parsed lights");
         return null;
     }
+    parseAttenuation(node, messageError) {
 
+        // constant
+        var constant = this.reader.getFloat(node, 'constant');
+        if (!(constant != null && !isNaN(constant) && constant >= 0 && constant <= 1))
+            return "unable to parse constant component of the " + messageError;
+
+        // linear
+        var linear = this.reader.getFloat(node, 'linear');
+        if (!(linear != null && !isNaN(linear) && linear >= 0 && linear <= 1))
+            return "unable to parse linear component of the " + messageError;
+
+        // quadratic
+        var quadratic = this.reader.getFloat(node, 'quadratic');
+        if (!(quadratic != null && !isNaN(quadratic) && quadratic >= 0 && quadratic <= 1))
+            return "unable to parse quadratic component of the " + messageError;
+        
+        var components = [constant, linear, quadratic]
+        var cp = false;
+        for (var i in components){
+            if(components[i] != 0){
+                if (cp){
+                    this.onXMLMinorError("Only one of the light attenuation compponents can be different from 0!")
+                }
+                cp = true;
+            }
+        }
+        return components;
+    }
     /**
      * Parses the <textures> block. 
      * @param {textures block element} texturesNode
@@ -622,8 +655,7 @@ export class MySceneGraph {
                         return "unable to parse angle of the transformation for ID = " + transformationID;
 
                     angle = angle * Math.PI / 180 //parse to rads
-                    console.log(axis);
-                    console.log(angle);
+                    
                     switch(axis){
                         case "x":
                             mat4.rotateX(transfMatrix, transfMatrix, angle);
@@ -856,7 +888,6 @@ export class MySceneGraph {
         var grandChildren = [];
         var nodeNames = [];
 
-        console.log(children.length);
         // Any number of components.
         for (var i = 0; i < children.length; i++) {
 
@@ -877,7 +908,6 @@ export class MySceneGraph {
 
             grandChildren = children[i].children;
 
-            //console.log(grandChildren);
 
 
             nodeNames = [];
@@ -896,7 +926,6 @@ export class MySceneGraph {
 
             let transformation = grandChildren[transformationIndex] //tr block
 
-            console.log(transformation)
             
             if(transformation == null){
                 return "transformation parameters missing in component " + componentID;
@@ -932,7 +961,6 @@ export class MySceneGraph {
 
             // Materials
 
-            console.log("material index:", materialsIndex);
 
             let componentMaterials = grandChildren[materialsIndex];
 
@@ -994,12 +1022,10 @@ export class MySceneGraph {
 
             //this.ComponentChildren[componentID] = [];
 
-            //console.log(descendents);
 
             for(let i = 0; i < descendents.length; ++i){
                 let descendent = descendents[i];
 
-                console.log(descendent)
 
                 if(descendent.nodeName == "primitiveref"){
                     let primitiveRefId = this.reader.getString(descendent, 'id');
@@ -1164,10 +1190,9 @@ export class MySceneGraph {
         console.log("   " + message);
     }
 
-    async checkKeys()  {
+    checkKeys()  {
         var text="Keys pressed: ";
 
-        //console.log("---checking keys---")
 
 
         if (this.scene.interface.isKeyPressed("KeyM")) {
@@ -1184,6 +1209,7 @@ export class MySceneGraph {
         }
 
     }
+
 
     /**
      * Displays the scene, processing each node, starting in the root node.
@@ -1205,9 +1231,8 @@ export class MySceneGraph {
         // this.components["treeBase2"].display(null);
         // <componentref id="treeTop"/>
         // <componentref id="treeBase2"/>
-        this.checkKeys();
         this.components['demoRoot'].display(null);
-
+        //console.log("selectedview: ", this.selectedView)
        
 
         // for(const componentID in this.components){

@@ -3,9 +3,14 @@
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30" />
+            <from x="90" y="90" z="90" />
             <to x="0" y="-2" z="0" />
         </perspective>
+        <ortho id="orthoCamera" near="0.001" far="2000" left="-50" right="50" top="50" bottom="-50">
+            <from x="20" y="20" z="20"/>
+            <to x="0" y="-2" z="0"/>
+            <up x="0" y="20" z="0"/><!-- optional, default 0,1,0 -->
+        </ortho>
     </views>
 
     <ambient>
@@ -14,26 +19,34 @@
     </ambient>
 
     <lights>
-        <omni id="demoLight" enabled="1">
-            <location x="9.8" y="11.9" z="10" w="1.0" />
+        <!-- <omni id="demoLight" enabled="1">
+            <location x="9.8" y="11.9" z="20" w="1.0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="1.0" linear="0.0" quadratic="0.0"/>
+            <attenuation constant="0" linear="0.0" quadratic="0.0"/>
+        </omni> -->
+        <omni id="test light" enabled="0">
+            <location x="0" y="0" z="20" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="0.0" quadratic="0.0"/>
         </omni>
-        <spot id="demoLight2" enabled="0" angle="30" exponent="1">
+
+        <!-- <spot id="demoLight2" enabled="0" angle="30" exponent="1">
             <location x="0" y="0" z="0" w="1.0" />
             <target x="5" y="5" z="5" w="1.0" />
             <ambient r="0" g="0" b="0" a="1" />
             <diffuse r="0.2" g="0.2" b="0.2" a="1" />
             <specular r="0.2" g="0.2" b="0.2" a="1.0" />
             <attenuation constant="0.0" linear="0.2" quadratic="0.0" />
-        </spot>
+        </spot> -->
     </lights>
 
     <textures>
         <texture id="demoTexture" file="scenes/images/vidral.jpg" />
-        <texture id="solar_panel" file="https://us.123rf.com/450wm/cek23/cek231706/cek23170600004/79887983-detailed-view-of-the-solar-panel-texture-of-an-ecological-power-plant.jpg" />
+        <texture id="solar_panel" file="scenes/images/solar_panel.jpg" />
         <texture id="sky" file="https://cdn.pixabay.com/photo/2017/11/14/05/14/universe-2947500_1280.jpg" />
         <texture id="sun_texture" file="https://previews.123rf.com/images/voyata/voyata1906/voyata190600087/124867239-design-material-sun-texture-at-center-of-the-solar-system-universe-not-3d-render.jpg" />
         <texture id="planet_texture" file="https://as1.ftcdn.net/v2/jpg/01/70/43/08/500_F_170430812_MJgU75hqcuzfjwLVcRiVFmxp0DKLniZz.jpg" />
@@ -49,27 +62,50 @@
         <texture id ="grid" file="scenes/images/grid.png" />
         <texture id ="sp_tex" file="scenes/images/spaceship_tex.png" />
         <texture id ="cp_tex" file="scenes/images/cockpit_tex.jpg" />
+        <texture id ="first_order" file="scenes/images/first_order.png" />
     </textures>
 
     <materials>
         <material id="demoMaterial" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
         <material id="light_grey_metal" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </material>
         <material id="propulsor_blue" shininess="10">
-            <emission r="0.2" g="0.7" b="0.9" a="1.0" />
-            <ambient r="0.2" g="0.7" b="0.9" a="1.0" />
+            <emission r="0.1" g="0.2" b="0.25" a="1.0" />
+            <ambient r="0.1" g="0.3" b="0.6" a="1.0" />
             <diffuse r="0.2" g="0.7" b="0.9" a="1.0" />
             <specular r="0" g="0" b="0" a="1.0" />
         </material>
+
+        <material id="night_black" shininess="7">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.6" g="0.6" b="0.6" a="1.0" />
+        </material>
+
+        <material id="snow_white" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+
+        <material id="lightning_yellow" shininess="7">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.5" g="0.4" b="0.1" a="1.0" />
+            <specular r="1" g="0.81" b="0.14" a="1.0" />
+        </material>
+        
     </materials>
 
     <transformations>
@@ -85,6 +121,9 @@
         <primitive id="propulsor_triangle">
             <triangle x1="0.156" x2="0" x3="0.31" y1="0.99" y2="0" y3="0" z1="0" z2="0" z3="0" />
         </primitive> 
+        <primitive id="triangle_wing_panel">
+            <triangle x1="-1" y1="-1.7" z1="0" x2="1" y2="-1.7" z2="0" x3="0" y3="0" z3="0" />
+        </primitive>
         <primitive id="rectangle">
             <rectangle x1="0" x2="1" y1="0" y2="1" />
         </primitive>
@@ -105,6 +144,12 @@
         </primitive>
         <primitive id="hexa_sphere">
             <sphere radius="1" slices="6" stacks="6" />
+        </primitive>
+        <primitive id="pipe_cockpit_cylinder">
+            <cylinder base="0.6" top="0.3" height="1" slices="20" stacks="20" /> 
+        </primitive>
+        <primitive id="pipe_panel_cylinder">
+            <cylinder base="0.3" top="0.4" height="1" slices="20" stacks="20" /> 
         </primitive>
     </primitives>
 
@@ -184,6 +229,9 @@
                 <primitiveref id="rectangle"/>
             </children>
         </component>
+
+
+
 
         <component id="prism_first_triangle">
             <transformation>
@@ -442,6 +490,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="night_black" />
             </materials>
             <texture id="sp_tex" length_s="1" length_t="1"/>
             <children>
@@ -457,6 +506,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="lightning_yellow" />
             </materials>
             <texture id="mf_front_rec" length_s="1" length_t="1"/>
             <children>
@@ -498,6 +548,8 @@
             <transformation>
             </transformation>
             <materials>
+                <material id="lightning_yellow" />
+                <material id="night_black" />
                 <material id="inherit" />
             </materials>
             <texture id="inherit"/>
@@ -553,6 +605,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="night_black" />
             </materials>
             <texture id="grid" length_s="1" length_t="1"/>
             <children>
@@ -721,6 +774,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="night_black" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -731,6 +785,7 @@
 
         <component id="millenium_falcon">
             <transformation>
+                <rotate  axis="x" angle="-90" />
             </transformation>
             <materials>
                 <material id="light_grey_metal" />
@@ -747,6 +802,291 @@
             </children>
         </component>
 
+        <component id="tie_fighter_cockpit_window">
+            <transformation>
+                <translate x="0" y="0" z="1.7" />
+                <scale x="1" y="1" z="0.4" />
+
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="solar_panel" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="sphere"/>
+            </children>
+        </component> 
+
+        <component id="tie_fighter_cockpit_body">
+            <transformation>
+                <scale x="2" y="2" z="2" />
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="sphere"/>
+            </children>
+        </component> 
+
+
+        <component id="tie_fighter_cockpit">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="tie_fighter_cockpit_window"/>
+                <componentref id="tie_fighter_cockpit_body" />
+            </children>
+        </component> 
+
+
+
+
+        <component id="tie_fighter_pipe_cockpit_cylinder">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="pipe_cockpit_cylinder"/>
+            </children>
+        </component>
+
+        <component id="tie_fighter_pipe_panel_cylinder">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="pipe_panel_cylinder"/>
+            </children>
+        </component>
+        
+        <component id="tie_fighter_pipe">
+            <transformation>
+                <scale x="1" y="1" z="1.5" />
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="tie_fighter_pipe_panel_cylinder"/>
+                <componentref id="tie_fighter_pipe_cockpit_cylinder"/>
+            </children>
+        </component>
+
+        <component id="wing_panel_border">
+            <transformation>
+                <translate x="1" y="-1.65" z="0" />
+                <rotate axis="y" angle="-90" />
+                <scale x="0.1" y="0.1" z="2" />
+            </transformation>
+            <materials>
+                <material id="snow_white" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cylinder" />
+
+            </children>
+        </component>
+
+        <component id="wing_panel0">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="snow_white" />
+            </materials>
+            <texture id="first_order" length_s="2" length_t="2"/>
+            <children>
+                <primitiveref id="triangle_wing_panel" />
+                <componentref id="wing_panel_border" />
+            </children>
+        </component>
+        <component id="wing_panel1">
+            <transformation>
+                <rotate axis="z" angle="60" />
+            </transformation>
+            <materials>
+                <material id="snow_white" />
+            </materials>
+            <texture id="first_order" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="triangle_wing_panel" />
+                <componentref id="wing_panel_border" />
+
+            </children>
+        </component>
+        <component id="wing_panel2">
+            <transformation>
+                <rotate axis="z" angle="120" />
+            </transformation>
+            <materials>
+                <material id="snow_white" />
+            </materials>
+            <texture id="first_order" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="triangle_wing_panel" />
+                <componentref id="wing_panel_border" />
+            </children>
+        </component>
+        <component id="wing_panel3">
+            <transformation>
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="snow_white" />
+            </materials>
+            <texture id="first_order" length_s="0.5" length_t="0.5"/>
+            <children>
+                <primitiveref id="triangle_wing_panel" />
+                <componentref id="wing_panel_border" />
+            </children>
+        </component>
+        <component id="wing_panel4">
+            <transformation>
+                <rotate axis="z" angle="240" />
+            </transformation>
+            <materials>
+                <material id="snow_white" />
+            </materials>
+            <texture id="first_order" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="triangle_wing_panel" />
+                <componentref id="wing_panel_border" />
+            </children>
+        </component>
+        <component id="wing_panel5">
+            <transformation>
+                <rotate axis="z" angle="300" />
+            </transformation>
+            <materials>
+                <material id="snow_white" />
+            </materials>
+            <texture id="first_order" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="triangle_wing_panel" />
+                <componentref id="wing_panel_border" />
+            </children>
+        </component>
+
+        <component id="tie_fighter_wing_panel_outface">
+            <transformation>
+                <scale x="3" y="4" z="3" />
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="wing_panel0"/>
+                <componentref id="wing_panel1"/>
+                <componentref id="wing_panel2"/>
+                <componentref id="wing_panel3"/>
+                <componentref id="wing_panel4"/>
+                <componentref id="wing_panel5"/>
+            </children>
+        </component>
+
+        <component id="tie_fighter_wing_panel_inface">
+            <transformation>
+                <rotate axis="x" angle="180" />
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="tie_fighter_wing_panel_outface"/>
+            </children>
+        </component>
+
+        <component id="tie_fighter_wing_panel">
+            <transformation>
+                <translate x="0" y="0" z="3" />
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="tie_fighter_wing_panel_outface"/>
+                <componentref id="tie_fighter_wing_panel_inface"/>
+            </children>
+        </component>
+
+        <component id="tie_fighter_right_wing">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+                <translate x="0" y="0" z="2" />
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="tie_fighter_wing_panel"/>
+                <componentref id="tie_fighter_pipe"/>
+            </children>
+        </component>
+
+        <component id="tie_fighter_left_wing">
+            <transformation>
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="tie_fighter_right_wing"/>
+            </children>
+        </component>
+        
+        <component id="tie_fighter_wings">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="tie_fighter_right_wing"/>
+                <componentref id="tie_fighter_left_wing" />
+            </children>
+        </component>
+
+
+        <component id="tie_fighter">
+            <transformation>
+                <translate x="15" y="0" z="0" />
+                <rotate axis="y" angle="-90" />
+                <scale x="0.2" y="0.2" z="0.2" />
+
+            </transformation>
+            <materials>
+                <material id="light_grey_metal" />
+            </materials>
+            <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="tie_fighter_cockpit"/>
+                <componentref id="tie_fighter_wings" />
+            </children>
+        </component>
+
+        
+
 
         <component id="demoRoot">
             <transformation>
@@ -757,6 +1097,7 @@
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="millenium_falcon"/>
+                <componentref id="tie_fighter" />
             </children>
         </component>
 

@@ -92,7 +92,7 @@
                 <translate x="5" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="green" />
+                <material id="inherit" />
             </materials> 
             <texture id="none"/>
             <children>
@@ -111,7 +111,7 @@
             <materials>
                 <material id="green" />
             </materials> 
-            <texture id="solar_panel"/>
+            <texture id="none"/>
             <children>
                 <!-- <componentref id="demoRoot" /> -->
                 <primitiveref id="sphere" />
@@ -124,6 +124,7 @@
             </transformation>
             <materials>
                 <material id="blue" />
+                <material id="green" />
             </materials> 
             <texture id="none"/>
             <children>
@@ -138,9 +139,10 @@
                 <translate x="0" y="1" z="-5" />
             </transformation>
             <materials>
+                <material id="green" />
                 <material id="demoMaterial" />
             </materials> 
-            <texture id="solar_panel"/>
+            <texture id="none"/>
             <children>
                 <!-- <componentref id="demoRoot" /> -->
                 <!-- <componentref id="ball"/> -->
@@ -154,6 +156,7 @@
             </transformation>
             <materials>
                 <material id="demoMaterial" />
+                <material id="green" />
             </materials> 
             <texture id="none"/>
             <children>
@@ -174,12 +177,14 @@
             </transformation>
             <materials>
                 <material id="silver_spacestation" />
+                <material id="green" />
+                <material id="blue" />
             </materials>
             <texture id="none"/>
             <children>
                 <componentref id="xx" />
 
-                <componentref id="test" />
+                <!-- <componentref id="test" /> -->
                 <primitiveref id="sphere" />
             </children>
         </component>
