@@ -418,19 +418,6 @@ export class MySceneGraph {
                 global.push("spot")
             }
 
-            
-            // Gets the additional attributes of the spot light
-            if (children[i].nodeName == "spot") {
-                var angle = this.reader.getFloat(children[i], 'angle');
-                if (!(angle != null && !isNaN(angle)))
-                    return "unable to parse angle of the light for ID = " + lightId;
-                global.push(angle)
-                var exponent = this.reader.getFloat(children[i], 'exponent');
-                if (!(exponent != null && !isNaN(exponent)))
-                    return "unable to parse exponent of the light for ID = " + lightId;
-                global.push(exponent)
-            }
-
 
             grandChildren = children[i].children;
 
@@ -438,28 +425,45 @@ export class MySceneGraph {
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
-
+            var aux,target;
+            var push = true;
             for (var j = 0; j < attributeNames.length; j++) {
+                    push = true;
                     if (attributeTypes[j] == "position"){
-                        var aux = this.parseCoordinates4D(grandChildren[j], "light position for ID" + lightId);
+                        if(attributeNames[j] == "target"){
+                            target = this.parseCoordinates4D(grandChildren[j], "light position for ID" + lightId);
+                            push = false;
+                        }
+                        else{
+                            aux = this.parseCoordinates4D(grandChildren[j], "light position for ID" + lightId);
+                        }
                     }
                     else if(attributeTypes[j] == "attenuation"){
-                        var aux = this.parseAttenuation(grandChildren[j], "light attenuation for ID" + lightId);
+                        aux = this.parseAttenuation(grandChildren[j], "light attenuation for ID" + lightId);
                     }
                     else if(attributeTypes[j] == "color"){
-                        var aux = this.parseColor(grandChildren[j], attributeNames[j] + " illumination for ID" + lightId);
+                        aux = this.parseColor(grandChildren[j], attributeNames[j] + " illumination for ID" + lightId);
                     }
-
-                    global.push(aux);
+                    
+                    if (push){
+                        global.push(aux);
+                    }
             }
 
-            // if(global[2]){
-            //     light.enable();
-            // }
-            // else{
-            //     light.disable();
-            // }
- 
+            // Gets the additional attributes of the spot light
+            if (children[i].nodeName == "spot") {
+                var angle = this.reader.getFloat(children[i], 'angle');
+                if (!(angle != null && !isNaN(angle)))
+                    return "unable to parse angle of the light for ID = " + lightId;
+                global.push(angle);
+                var exponent = this.reader.getFloat(children[i], 'exponent');
+                if (!(exponent != null && !isNaN(exponent)))
+                    return "unable to parse exponent of the light for ID = " + lightId;
+                global.push(exponent);
+                global.push(target);
+            }
+            
+            this.log(global)
             this.lights[lightId] = global;
             numLights++;
         }
