@@ -12,11 +12,11 @@
 
 | Complete View           | Chasing Tie Fighter cinematic view     |
 | ---------------- | --------- |
-| ![](https://i.imgur.com/IGHjP5O.jpg)        | ![](https://i.imgur.com/OG9kt1W.jpg) |
+| ![](screenshots/complete_view.jpg)        | ![](screenshots/chasing.jpg) |
 
 | 3 Tie fighters with headlights ON   |  Millenium Falcon headlight shining on Tie Fighter   |
 | ---------------- | --------- |
-| ![](https://i.imgur.com/YXCeaCB.jpg)| ![](https://i.imgur.com/V8wsiam.png)|
+| ![](screenshots/3tiefighters.jpg)| ![](screenshots/milleliumHeadlights.png)|
 ## Project information
 
 - A dynamic positioning of the components paired with relevant camera position produced astounding realistic perspectives
