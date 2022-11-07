@@ -4,10 +4,9 @@ import { MyCylinder } from './primitives/MyCylinder.js';
 import { MySphere } from './primitives/MySphere.js';
 import { MyTorus } from './primitives/MyTorus.js';
 import { MyTriangle } from './primitives/MyTriangle.js';
+import { MyPatch } from './primitives/MyPatch.js';
 import { MyComponent } from './MyComponent.js';
 
-
-var DEGREE_TO_RAD = Math.PI / 180;
 
 // Order of the groups in the XML document.
 var SCENE_INDEX = 0;
@@ -869,6 +868,37 @@ export class MySceneGraph {
                 let torus = new MyTorus(this.scene, primitiveId, inner, outer, slices, loops);
 
                 this.primitives[primitiveId] = torus;
+            }
+            else if(primitiveType == 'patch'){
+                let controlVertsNodes = grandChildren[0].children;
+
+                let degree_u = this.reader.getFloat(grandChildren[0], 'degree_u');
+                if (!(degree_u != null && !isNaN(degree_u)))
+                    return "unable to parse degree_u of the primitive coordinates for ID = " + primitiveId;
+
+                let parts_u = this.reader.getFloat(grandChildren[0], 'parts_u');
+                if (!(parts_u != null && !isNaN(parts_u)))
+                    return "unable to parse parts_u of the primitive coordinates for ID = " + primitiveId;
+
+                let degree_v = this.reader.getFloat(grandChildren[0], 'degree_v');
+                if (!(degree_v != null && !isNaN(degree_v)))
+                    return "unable to parse degree_v of the primitive coordinates for ID = " + primitiveId;
+                
+                    
+                let parts_v = this.reader.getFloat(grandChildren[0], 'parts_v');
+                if (!(parts_v != null && !isNaN(parts_v)))
+                    return "unable to parse parts_v of the primitive coordinates for ID = " + primitiveId;
+
+                let controlVerts = []
+                for(let i = 0; i < controlVertsNodes.length; i++){
+                    continue;
+                }
+
+                let patch = new MyPatch(this.scene, degree_u, degree_v, parts_u, parts_v, controlVerts);
+
+                this.primitives[primitiveId] = patch;
+
+
             }
 
             else {

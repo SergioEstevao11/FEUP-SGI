@@ -4,33 +4,34 @@ import {CGFobject, CGFnurbsSurface, CGFnurbsObject} from '../../lib/CGF.js';
  * Patch
  * @constructor
  * @param scene   - Reference to MyScene object
- * @param npartsU - number of sections in U direction
- * @param npartsV - number of sections in V direction
- * @param controlPoints - control points for the patch
+ * @param npointsU - number of sections in U direction
+ * @param npointsV - number of sections in V direction
+ * @param controlVerts- control points for the patch
+ * @param divU - num of division in U direction
+ * @param divV - num of division in V direction
+ * @param controlVerts - control vertices
+ * 
  */
- class Patch extends CGFobject {
-	constructor(scene, npartsU, npartsV, npointsU, npointsV, controlPoints) {
-        super(scene);
-        this.scene   = scene;
-        this.npartsU = npartsU;
-        this.npartsV = npartsV;
-        this.degreeU = npointsU-1;
-        this.degreeV = npointsV-1;
-        this.npointsU = npointsU;
-        this.npointsV = npointsV;
-        this.controlPoints = JSON.parse(JSON.stringify(controlPoints));
-        this.initBuffers();
+ class MyPatch extends CGFobject {
+    constructor(scene, npointsU, npointsV, divU, divV, controlVerts) {
+		super(scene);
+        this.scene = scene
+        this.degU = npointsU - 1
+        this.degV = npointsV - 1
+        this.divU = divU
+        this.divV = divV
+        this.controlVerts = controlVerts;
+
+        this.initBuffers()
     }
-	initBuffers() {
-        for(let u = 0; u < this.npointsU; ++u){
-            for(let v = 0; v < this.npointsV; ++v){
-                this.controlPoints[u][v].push(1);
-            }
-        }
-        let nurbsSurface = new CGFnurbsSurface(this.degreeU, this.degreeV, this.controlPoints);
-        this.nurbsObject = new CGFnurbsObject(this.scene, this.npartsU, this.npartsV, nurbsSurface);
+
+    initBuffers() {
+        var nurbsSurface = new CGFnurbsSurface(this.degU, this.degV, this.controlVerts)
+
+        this.object = new CGFnurbsObject(this.scene, this.divU, this.divV, nurbsSurface)
     }
-    display(){
-        this.nurbsObject.display();
+
+    display() {
+        this.object.display()
     }
 }

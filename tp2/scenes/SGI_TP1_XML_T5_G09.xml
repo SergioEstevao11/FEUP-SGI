@@ -1383,12 +1383,12 @@
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="millenium_falcon"/>
-                <componentref id="tie_fighter1" />
+                <!-- <componentref id="tie_fighter1" />
                 <componentref id="tie_fighter2" />
                 <componentref id="tie_fighter3" />
                 <componentref id="cubemap"/>
                 <componentref id="moon"/>
-                <componentref id="saturn"/>
+                <componentref id="saturn"/> -->
                 <componentref id="sun"/>
             </children>
         </component>
