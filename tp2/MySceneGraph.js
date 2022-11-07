@@ -714,7 +714,7 @@ export class MySceneGraph {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus')) {
+                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'patch')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
             }
 
@@ -890,8 +890,11 @@ export class MySceneGraph {
                     return "unable to parse parts_v of the primitive coordinates for ID = " + primitiveId;
 
                 let controlVerts = []
+                console.log(controlVertsNodes)
                 for(let i = 0; i < controlVertsNodes.length; i++){
-                    continue;
+                    let controlPoint = controlVertsNodes[i]
+                    let coordinates = this.parseCoordinates3D(controlPoint, "Invalid controlpoint coordinates")
+                    controlVerts.push(coordinates)
                 }
 
                 let patch = new MyPatch(this.scene, degree_u, degree_v, parts_u, parts_v, controlVerts);
