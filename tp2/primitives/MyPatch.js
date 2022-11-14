@@ -12,8 +12,8 @@ import {CGFobject, CGFnurbsSurface, CGFnurbsObject} from '../../lib/CGF.js';
  * @param controlVerts - control vertices
  * 
  */
- class MyPatch extends CGFobject {
-    constructor(scene, npointsU, npointsV, divU, divV, controlVerts) {
+ export class MyPatch extends CGFobject {
+    constructor(scene, id, npointsU, npointsV, divU, divV, controlVerts) {
 		super(scene);
         this.scene = scene
         this.degU = npointsU - 1

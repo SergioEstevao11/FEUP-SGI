@@ -1,4 +1,7 @@
-class MyBarrel extends CGFobject {
+import { MyPatch } from './primitives/MyPatch.js';
+import {CGFobject} from '../../lib/CGF.js';
+
+export class MyBarrel extends CGFobject {
     constructor(scene, base, middle, height, slices, stacks) {
 		super(scene);
         this.scene = scene
