@@ -247,6 +247,8 @@
                 <controlpoint x="-1" y="0" z="4"/>
                 <controlpoint x="1" y="0" z="4"/>
             </patch>
+            <!-- <cylinder base="0.3" top="0.4" height="1" slices="20" stacks="20" />  -->
+
         </primitive>
     </primitives>
 
@@ -1422,7 +1424,7 @@
                 <componentref id="moon"/>
                 <componentref id="saturn"/>
                 <componentref id="sun"/> -->
-                <componentref id="patch_component"
+                <componentref id="patch_component"/>
             </children>
         </component>
 
