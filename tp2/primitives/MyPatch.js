@@ -13,15 +13,15 @@ import {CGFobject, CGFnurbsSurface, CGFnurbsObject} from '../../lib/CGF.js';
  * 
  */
  export class MyPatch extends CGFobject {
-    constructor(scene, npointsU, npointsV, divU, divV, controlVerts) {
+    constructor(scene, degreeU, degreeV, divU, divV, controlVerts) {
 		super(scene);
         this.scene = scene
-        this.degU = npointsU - 1
-        this.degV = npointsV - 1
+        this.degU = degreeU
+        this.degV = degreeV
         this.divU = divU
         this.divV = divV
         this.controlVerts = controlVerts;
-
+        this.object = null;
         this.initBuffers()
     }
 

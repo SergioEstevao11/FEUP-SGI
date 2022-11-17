@@ -898,9 +898,8 @@ export class MySceneGraph {
                 }
 
                 let patch = new MyPatch(this.scene, degree_u, degree_v, parts_u, parts_v, controlVerts);
-
+                console.log("parsed pacth")
                 this.primitives[primitiveId] = patch;
-
 
             }
 
@@ -1255,7 +1254,7 @@ export class MySceneGraph {
     
     displayScene() {
         // this.components['demoRoot'].display(null);
-        this.components['patch'] = new MyPatch(this.scene,2,2,20, 20,[
+        this.components['patch'] = new MyPatch(this.scene,6,1,20, 20,[
             [
                 -1,
                 0,
