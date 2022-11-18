@@ -29,8 +29,8 @@ export class XMLscene extends CGFscene {
 
         this.sceneInited = false;
 
-        this.shader1 = new CGFshader(this.gl, "shaders/vertexshader.vert", "shaders/fragshader.frag"),
-        this.shader2 = new CGFshader(this.gl, "shaders/water.vert", "shaders/water.frag"),
+        // this.shader1 = new CGFshader(this.gl, "shaders/vertexshader.vert", "shaders/fragshader.frag"),
+        // this.shader2 = new CGFshader(this.gl, "shaders/water.vert", "shaders/water.frag"),
 
         this.initCameras();
 
@@ -145,7 +145,7 @@ export class XMLscene extends CGFscene {
      */
     update(t){
         this.graph.checkKeys();
-        this.shader2.setUniformsValues({ timeFactor: t / 100 % 100 });
+        // this.shader2.setUniformsValues({ timeFactor: t / 100 % 100 });
     }
 
     /**
