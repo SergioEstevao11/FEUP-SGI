@@ -889,16 +889,21 @@ export class MySceneGraph {
                 if (!(parts_v != null && !isNaN(parts_v)))
                     return "unable to parse parts_v of the primitive coordinates for ID = " + primitiveId;
 
-                let controlVerts = []
-                console.log(controlVertsNodes)
-                for(let i = 0; i < controlVertsNodes.length; i++){
-                    let controlPoint = controlVertsNodes[i]
-                    let coordinates = this.parseCoordinates3D(controlPoint, "Invalid controlpoint coordinates")
-                    controlVerts.push(coordinates)
+                if((degree_u+1) * (degree_v+1) != controlVertsNodes.length){
+                    console.log(controlVertsNodes.size)
+                    return "degree_u and degree_v don«t match number of control points for ID = " + primitiveId;
                 }
-
+                let controlVerts = []
+                for(let i = 0; i <= degree_u; i++){
+                    controlVerts[i] = []
+                    for(let j = 0; j <= degree_v; j++){
+                        let controlPoint = controlVertsNodes[i * (degree_u+1) + j]
+                        let coordinates = this.parseCoordinates3D(controlPoint, "Invalid controlpoint coordinates")
+                        coordinates.push(1)
+                        controlVerts[i][j] = coordinates
+                    }
+                }
                 let patch = new MyPatch(this.scene, degree_u, degree_v, parts_u, parts_v, controlVerts);
-                console.log("parsed pacth")
                 this.primitives[primitiveId] = patch;
 
             }
@@ -1253,79 +1258,6 @@ export class MySceneGraph {
 
     
     displayScene() {
-        // this.components['demoRoot'].display(null);
-        this.components['patch'] = new MyPatch(this.scene,6,1,20, 20,[
-            [
-                -1,
-                0,
-                -10
-            ],
-            [
-                1,
-                0,
-                -10
-            ],
-            [
-                -1,
-                0,
-                -8
-            ],
-            [
-                1,
-                0,
-                -8
-            ],
-            [
-                -1,
-                8,
-                -3
-            ],
-            [
-                1,
-                8,
-                -3
-            ],
-            [
-                -1,
-                8,
-                -1
-            ],
-            [
-                1,
-                8,
-                -1
-            ],
-            [
-                -1,
-                3,
-                -1
-            ],
-            [
-                1,
-                3,
-                -1
-            ],
-            [
-                -1,
-                0,
-                0
-            ],
-            [
-                1,
-                0,
-                0
-            ],
-            [
-                -1,
-                0,
-                4
-            ],
-            [
-                1,
-                0,
-                4
-            ]
-        ]);
-        this.components['patch'].display();
+        this.components['demoRoot'].display(null);
     }
 }

@@ -231,45 +231,14 @@
             <cylinder base="0.3" top="0.4" height="1" slices="20" stacks="20" /> 
         </primitive>
         <primitive id="patch1">
-            <patch degree_u="3" degree_v="1" parts_v="20" parts_u="20">
-                <controlpoint x="-1" y="0" z="-10"/>
-                <controlpoint x="1" y="0" z="-10"/>
-                <controlpoint x="-1" y="0" z="-8"/>
-                <controlpoint x="1" y="0" z="-8"/>
-                <controlpoint x="-1" y="8" z="-3"/>
-                <controlpoint x="1" y="8" z="-3"/>
-                <controlpoint x="-1" y="8" z="-1"/>
-                <controlpoint x="1" y="8" z="-1"/>
-                <controlpoint x="-1" y="3" z="-1"/>
-                <controlpoint x="1" y="3" z="-1"/>
-                <controlpoint x="-1" y="0" z="0"/>
-                <controlpoint x="1" y="0" z="0"/>
-                <controlpoint x="-1" y="0" z="4"/>
-                <controlpoint x="1" y="0" z="4"/>
+            <patch degree_u="1" parts_u="20" degree_v="1" parts_v="20" >
+                <controlpoint x="-2" y="-2" z="0" />
+                <controlpoint x="-2" y="2" z="0" />
+                <controlpoint x="2" y="-2" z="0" />
+                <controlpoint x="2" y="2" z="0" />
             </patch>
-            <!-- <cylinder base="0.3" top="0.4" height="1" slices="20" stacks="20" />  -->
-
         </primitive>
-        <primitive id="patch">
-            <patch degree_u="7" degree_v="2" parts_v="20" parts_u="20">
-                <controlpoint x="-1" y="0" z="-10"/>
-                <controlpoint x="1" y="0" z="-10"/>
-                <controlpoint x="-1" y="0" z="-8"/>
-                <controlpoint x="1" y="0" z="-8"/>
-                <controlpoint x="-1" y="8" z="-3"/>
-                <controlpoint x="1" y="8" z="-3"/>
-                <controlpoint x="-1" y="8" z="-1"/>
-                <controlpoint x="1" y="8" z="-1"/>
-                <controlpoint x="-1" y="3" z="-1"/>
-                <controlpoint x="1" y="3" z="-1"/>
-                <controlpoint x="-1" y="0" z="0"/>
-                <controlpoint x="1" y="0" z="0"/>
-                <controlpoint x="-1" y="0" z="4"/>
-                <controlpoint x="1" y="0" z="4"/>
-            </patch>
-            <!-- <cylinder base="0.3" top="0.4" height="1" slices="20" stacks="20" />  -->
-
-        </primitive>
+ 
     </primitives>
 
     <components>
@@ -1421,7 +1390,7 @@
             </materials>
             <texture id="none"/>
             <children>
-                <primitiveref id="patch"/>
+                <primitiveref id="patch1"/>
             </children>
         </component>
         
