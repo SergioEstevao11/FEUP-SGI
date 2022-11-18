@@ -871,7 +871,7 @@ export class MySceneGraph {
             }
             else if(primitiveType == 'patch'){
                 let controlVertsNodes = grandChildren[0].children;
-
+                console.log(controlVertsNodes)                    
                 let degree_u = this.reader.getFloat(grandChildren[0], 'degree_u');
                 if (!(degree_u != null && !isNaN(degree_u)))
                     return "unable to parse degree_u of the primitive coordinates for ID = " + primitiveId;
@@ -893,16 +893,22 @@ export class MySceneGraph {
                     console.log(controlVertsNodes.size)
                     return "degree_u and degree_v don«t match number of control points for ID = " + primitiveId;
                 }
+
                 let controlVerts = []
                 for(let i = 0; i <= degree_u; i++){
-                    controlVerts[i] = []
+                    var vline = [];
                     for(let j = 0; j <= degree_v; j++){
-                        let controlPoint = controlVertsNodes[i * (degree_u+1) + j]
+                        let controlPoint = controlVertsNodes[i*(degree_v+1)+j]
                         let coordinates = this.parseCoordinates3D(controlPoint, "Invalid controlpoint coordinates")
                         coordinates.push(1)
-                        controlVerts[i][j] = coordinates
+                        console.log(i*(degree_v+1)+j)
+                        console.log(coordinates)
+                        vline.push(coordinates)
                     }
+                    controlVerts.push(vline)
                 }
+                console.log(controlVerts)
+
                 let patch = new MyPatch(this.scene, degree_u, degree_v, parts_u, parts_v, controlVerts);
                 this.primitives[primitiveId] = patch;
 

@@ -26,7 +26,6 @@ import {CGFobject, CGFnurbsSurface, CGFnurbsObject} from '../../lib/CGF.js';
     }
 
     initBuffers() {
-        console.log(this.controlVerts)
         var nurbsSurface = new CGFnurbsSurface(this.degU, this.degV, this.controlVerts)
 
         this.object = new CGFnurbsObject(this.scene, this.divU, this.divV, nurbsSurface)
