@@ -715,7 +715,7 @@ export class MySceneGraph {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus')) {
+                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'patch')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
             }
 
@@ -890,15 +890,22 @@ export class MySceneGraph {
                 if (!(parts_v != null && !isNaN(parts_v)))
                     return "unable to parse parts_v of the primitive coordinates for ID = " + primitiveId;
 
-                let controlVerts = []
-                for(let i = 0; i < controlVertsNodes.length; i++){
-                    continue;
+                if((degree_u+1) * (degree_v+1) != controlVertsNodes.length){
+                    console.log(controlVertsNodes.size)
+                    return "degree_u and degree_v don't match number of control points for ID = " + primitiveId;
                 }
-
+                let controlVerts = []
+                for(let i = 0; i <= degree_u; i++){
+                    controlVerts[i] = []
+                    for(let j = 0; j <= degree_v; j++){
+                        let controlPoint = controlVertsNodes[i * (degree_u+1) + j]
+                        let coordinates = this.parseCoordinates3D(controlPoint, "Invalid control point coordinates")
+                        coordinates.push(1)
+                        controlVerts[i][j] = coordinates
+                    }
+                }
                 let patch = new MyPatch(this.scene, degree_u, degree_v, parts_u, parts_v, controlVerts);
-
                 this.primitives[primitiveId] = patch;
-
 
             }
 

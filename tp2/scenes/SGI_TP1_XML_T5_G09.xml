@@ -230,6 +230,15 @@
         <primitive id="pipe_panel_cylinder">
             <cylinder base="0.3" top="0.4" height="1" slices="20" stacks="20" /> 
         </primitive>
+        <primitive id="patch1">
+            <patch degree_u="1" parts_u="20" degree_v="1" parts_v="20" >
+                <controlpoint x="-2" y="-2" z="0" />
+                <controlpoint x="-2" y="2" z="0" />
+                <controlpoint x="2" y="-2" z="0" />
+                <controlpoint x="2" y="2" z="0" />
+            </patch>
+        </primitive>
+ 
     </primitives>
 
     <components>
@@ -1372,6 +1381,20 @@
             </children>
         </component>
 
+        <component id="patch_component">
+            <transformation>
+                <scale x="1" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="patch1"/>
+            </children>
+        </component>
+        
+
 
 
         <component id="demoRoot">
@@ -1382,14 +1405,15 @@
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
-                <componentref id="millenium_falcon"/>
-                <!-- <componentref id="tie_fighter1" />
+                <!-- <componentref id="millenium_falcon"/>
+                <componentref id="tie_fighter1" />
                 <componentref id="tie_fighter2" />
                 <componentref id="tie_fighter3" />
                 <componentref id="cubemap"/>
                 <componentref id="moon"/>
-                <componentref id="saturn"/> -->
-                <componentref id="sun"/>
+                <componentref id="saturn"/>
+                <componentref id="sun"/> -->
+                <componentref id="patch_component"/>
             </children>
         </component>
 

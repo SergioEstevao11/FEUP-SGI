@@ -1,4 +1,3 @@
-import { MyPatch } from './primitives/MyPatch.js';
 import {CGFobject} from '../../lib/CGF.js';
 
 export class MyBarrel extends CGFobject {
