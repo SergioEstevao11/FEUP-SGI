@@ -232,6 +232,20 @@
         </primitive>
     </primitives>
 
+    <animations>
+        <keyframeanim id="move_right">
+            <keyframe instant="3">
+                <translate x="0" y="0" z="0"/>
+            </keyframe>
+            <keyframe instant="4">
+                <translate x="1" y="0" z="0"/>
+            </keyframe>
+            <keyframe instant="5">
+                <translate x="2" y="0" z="0"/>
+            </keyframe>
+        </keyframeanime>
+    </animations>
+
     <components>
         <component id="rectangle_rev">
             <transformation>

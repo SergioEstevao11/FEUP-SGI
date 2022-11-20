@@ -6,6 +6,7 @@ import { MyTorus } from './primitives/MyTorus.js';
 import { MyTriangle } from './primitives/MyTriangle.js';
 import { MyPatch } from './primitives/MyPatch.js';
 import { MyComponent } from './MyComponent.js';
+import { MyAnimation } from './MyAnimation.js';
 
 
 // Order of the groups in the XML document.
@@ -17,7 +18,8 @@ var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
 var PRIMITIVES_INDEX = 7;
-var COMPONENTS_INDEX = 8;
+var ANIMATIONS_INDEX = 8;
+var COMPONENTS_INDEX = 9;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -89,6 +91,7 @@ export class MySceneGraph {
             return "root tag <sxs> missing";
 
         var nodes = rootElement.children;
+        console.log("nodes", nodes)
 
         // Reads the names of the nodes to an auxiliary buffer.
         var nodeNames = [];
@@ -96,6 +99,8 @@ export class MySceneGraph {
         for (var i = 0; i < nodes.length; i++) {
             nodeNames.push(nodes[i].nodeName);
         }
+
+        console.log("all nodes: ", nodeNames);
 
         var error;
 
@@ -196,6 +201,19 @@ export class MySceneGraph {
             if ((error = this.parsePrimitives(nodes[index])) != null)
                 return error;
         }
+
+        if ((index = nodeNames.indexOf("animations")) == -1)
+            return "tag <animations> missing";
+        else {
+            if (index != ANIMATIONS_INDEX)
+                this.onXMLMinorError("tag <animations> out of order");
+            
+            //Parse animations block
+            if ((error = this.parseAnimations(nodes[index])) != null)
+                return error;
+        }
+
+
 
         // <components>
         if ((index = nodeNames.indexOf("components")) == -1)
@@ -909,6 +927,60 @@ export class MySceneGraph {
         this.log("Parsed primitives");
         return null;
     }
+
+
+    parseAnimations(animationsNone) {
+        var children = animationsNone.children;
+        this.animations = {}
+
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].nodeName != "keyframeanim") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current component.
+            var keyframeanimID = this.reader.getString(children[i], 'id');
+            if (keyframeanimID == null)
+                return "no ID defined for keyframeanimID";
+
+            // Checks for repeated IDs.
+            if (this.animations[keyframeanimID] != null)
+                return "ID must be unique for each component (conflict: ID = " + keyframeanimID + ")";
+            console.log(children[i])
+            let grandChildren = children[i].children; //keyframes
+
+            let keyframes = [];
+
+            for(let j = 0; j < grandChildren.length; j++){
+                if (grandChildren[j].nodeName != "keyframe") {
+                    this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
+                    continue;
+                }
+
+                let instant = this.reader.getFloat(grandChildren[j], 'instant');
+                if (!(instant != null && !isNaN(instant)))
+                    return "unable to parse instant of the primitive coordinates for ID = " + keyframeanimID;
+
+                
+                let transformationMatrix = this.getTransformationMatrix(grandChildren[j], keyframeanimID);
+
+                let keyframe = {
+                    instant : instant,
+                    transformationMatrix : transformationMatrix
+                }
+
+                keyframes.push(keyframe);
+            }
+
+            let animation = new MyAnimation(this.scene, keyframeanimID, keyframes);
+            
+            console.log(animation)
+            this.animations[keyframeanimID] = animation;
+        }
+
+    }
+
 
     /**
    * Parses the <components> block.
