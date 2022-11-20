@@ -230,16 +230,58 @@
         <primitive id="pipe_panel_cylinder">
             <cylinder base="0.3" top="0.4" height="1" slices="20" stacks="20" /> 
         </primitive>
-        <primitive id="patch1">
+        <primitive id="plane">
             <patch degree_u="1" parts_u="20" degree_v="1" parts_v="20" >
-                <controlpoint x="-2" y="-2" z="0" />
-                <controlpoint x="-2" y="2" z="0" />
-                <controlpoint x="2" y="-2" z="0" />
-                <controlpoint x="2" y="2" z="0" />
+                <controlpoint x="-1" y="-1" z="0" />
+                <controlpoint x="-1" y="1" z="0" />
+                <controlpoint x="1" y="-1" z="0" />
+                <controlpoint x="1" y="1" z="0" />  
             </patch>
         </primitive>
-        
-        <primitive id="patch2">
+        <primitive id="tent">
+            <patch degree_u="1" parts_u="20" degree_v="2" parts_v="20" >
+                <controlpoint x="-1" y="-1" z="0" />
+                <controlpoint x="-1" y="0" z="2" />
+                <controlpoint x="-1" y="1" z="0" />
+                <controlpoint x="1" y="-1" z="0" />
+                <controlpoint x="1" y="0" z="2" />
+                <controlpoint x="1" y="1" z="0" />  
+            </patch>
+        </primitive>
+        <primitive id="half_barrelz">
+            <patch degree_u="2" parts_u="20" degree_v="2" parts_v="20" >
+                <controlpoint x="-1" y="-0.5" z="0" />
+                <controlpoint x="-1" y="0" z="1" />
+                <controlpoint x="-1" y="0.5" z="0" /> 
+                <controlpoint x="0" y="-1.5" z="0" />
+                <controlpoint x="0" y="0" z="2" />
+                <controlpoint x="0" y="1.5" z="0" />
+                <controlpoint x="1" y="-0.5" z="0" />
+                <controlpoint x="1" y="0" z="1" />
+                <controlpoint x="1" y="0.5" z="0" />  
+            </patch>
+        </primitive>
+        <primitive id="half_barrel">
+            <patch degree_u="3" parts_u="20" degree_v="3" parts_v="20" >
+                <controlpoint x="-1.0" y="0" z="0" />
+                <controlpoint x="-1.6666666666666665" y="0" z="0.41157974918903667" />
+                <controlpoint x="-1.6666666666666665" y="0" z="1.5884202508109633" />
+                <controlpoint x="-1.0" y="0" z="2.0" />
+                <controlpoint x="-1.0" y="-1.3333333333333333" z="0" />
+                <controlpoint x="-1.6666666666666665" y="-2.222222222222222" z="0.41157974918903667" />
+                <controlpoint x="-1.6666666666666665" y="-2.222222222222222" z="1.5884202508109633" />
+                <controlpoint x="-1.0" y="-1.3333333333333333" z="2.0" />
+                <controlpoint x="1.0" y="-1.3333333333333333" z="0" />
+                <controlpoint x="1.6666666666666665" y="-2.222222222222222" z="0.41157974918903667" />
+                <controlpoint x="1.6666666666666665" y="-2.222222222222222" z="1.5884202508109633" />
+                <controlpoint x="1.0" y="-1.3333333333333333" z="2.0" />
+                <controlpoint x="1.0" y="0" z="0" />
+                <controlpoint x="1.6666666666666665" y="0" z="0.41157974918903667" />
+                <controlpoint x="1.6666666666666665" y="0" z="1.5884202508109633" />
+                <controlpoint x="1.0" y="0" z="2.0" />
+            </patch>
+        </primitive>
+        <primitive id="patch4">
             <patch degree_u="6" parts_u="20" degree_v="1" parts_v="20" >
                     <controlpoint x="-1" y="0" z="-10"/>
                     <controlpoint x="1" y="0" z="-10"/>
@@ -1400,21 +1442,32 @@
             </children>
         </component>
 
-        <component id="patch_component">
+        <component id="half_barrel2">
             <transformation>
-                <scale x="1" y="1" z="1" />
+                <rotate axis="z" angle="180" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="inherit"/>
             <children>
-                <primitiveref id="patch1"/>
+                <primitiveref id="half_barrel"/>
             </children>
         </component>
-        
 
-
+        <component id="barrel">
+            <transformation>
+                <scale x="1" y="1" z="2"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="half_barrel"/>
+                <componentref id="half_barrel2"/>
+            </children>
+        </component>
 
         <component id="demoRoot">
             <transformation>
@@ -1432,7 +1485,7 @@
                 <componentref id="moon"/>
                 <componentref id="saturn"/>
                 <componentref id="sun"/> -->
-                <componentref id="patch_component"/>
+                <componentref id="barrel"/>
             </children>
         </component>
 
