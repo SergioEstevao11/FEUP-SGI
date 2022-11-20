@@ -262,16 +262,23 @@
             </patch>
         </primitive>
         <primitive id="half_barrel">
-            <patch degree_u="2" parts_u="20" degree_v="2" parts_v="20" >
-                <controlpoint x="-1" y="-1" z="0" />
-                <controlpoint x="-1" y="0" z="2" />
-                <controlpoint x="-1" y="1" z="0" /> 
-                <controlpoint x="0" y="-1" z="0" />
-                <controlpoint x="0" y="0" z="2" />
-                <controlpoint x="0" y="1" z="0" />
-                <controlpoint x="1" y="-1" z="0" />
-                <controlpoint x="1" y="0" z="1" />
-                <controlpoint x="1" y="1" z="0" />  
+            <patch degree_u="3" parts_u="20" degree_v="3" parts_v="20" >
+                <controlpoint x="-1.0" y="0" z="0" />
+                <controlpoint x="-1.6666666666666665" y="0" z="0.41157974918903667" />
+                <controlpoint x="-1.6666666666666665" y="0" z="1.5884202508109633" />
+                <controlpoint x="-1.0" y="0" z="2.0" />
+                <controlpoint x="-1.0" y="-1.3333333333333333" z="0" />
+                <controlpoint x="-1.6666666666666665" y="-2.222222222222222" z="0.41157974918903667" />
+                <controlpoint x="-1.6666666666666665" y="-2.222222222222222" z="1.5884202508109633" />
+                <controlpoint x="-1.0" y="-1.3333333333333333" z="2.0" />
+                <controlpoint x="1.0" y="-1.3333333333333333" z="0" />
+                <controlpoint x="1.6666666666666665" y="-2.222222222222222" z="0.41157974918903667" />
+                <controlpoint x="1.6666666666666665" y="-2.222222222222222" z="1.5884202508109633" />
+                <controlpoint x="1.0" y="-1.3333333333333333" z="2.0" />
+                <controlpoint x="1.0" y="0" z="0" />
+                <controlpoint x="1.6666666666666665" y="0" z="0.41157974918903667" />
+                <controlpoint x="1.6666666666666665" y="0" z="1.5884202508109633" />
+                <controlpoint x="1.0" y="0" z="2.0" />
             </patch>
         </primitive>
         <primitive id="patch4">
@@ -1435,23 +1442,9 @@
             </children>
         </component>
 
-        <component id="patch_component">
-            <transformation>
-                <scale x="1" y="1" z="1" />
-            </transformation>
-            <materials>
-                <material id="sun_material" />
-            </materials>
-            <texture id="none"/>
-            <children>
-                <primitiveref id="half_barrel"/>
-            </children>
-        </component>
-        
-
         <component id="half_barrel2">
             <transformation>
-                <rotate axis="x" angle="180" />
+                <rotate axis="z" angle="180" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -1464,6 +1457,7 @@
 
         <component id="barrel">
             <transformation>
+                <scale x="1" y="1" z="2"/>
             </transformation>
             <materials>
                 <material id="demoMaterial" />
