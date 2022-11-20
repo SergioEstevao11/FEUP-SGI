@@ -645,7 +645,8 @@ export class MySceneGraph {
      */
     getTransformationMatrix(grandChildren, transformationID){
         var transfMatrix = mat4.create();
-
+        if (transformationID == "move_right")
+            console.log("animation inside matrixConverter: ", grandChildren);
         //for (var j = grandChildren.length-1; j >= 0; j--) {
         for (var j = 0; j < grandChildren.length; j++) {
             switch (grandChildren[j].nodeName) {
@@ -665,6 +666,8 @@ export class MySceneGraph {
                     break;
 
                 case 'rotate':
+                    if (transformationID == "move_right")
+                        console.log("animation rotate");
                     var axis = this.reader.getString(grandChildren[j], 'axis');
                     if (!(axis != null))
                         return "unable to parse axis of the transformation for ID = " + transformationID;
@@ -959,8 +962,8 @@ export class MySceneGraph {
                 if (!(instant != null && !isNaN(instant)))
                     return "unable to parse instant of the primitive coordinates for ID = " + keyframeanimID;
 
-                
-                let transformationMatrix = this.getTransformationMatrix(grandChildren[j], keyframeanimID);
+                console.log("animation transformations: ", grandChildren[j])
+                let transformationMatrix = this.getTransformationMatrix(grandChildren[j].children, keyframeanimID);
 
                 let keyframe = {
                     instant : instant,

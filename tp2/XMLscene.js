@@ -147,8 +147,9 @@ export class XMLscene extends CGFscene {
             this.startingTime = t;
         }
         let secondsElapsed = (t - this.startingTime)/1000;
-        // console.log("time:", timeElapsed/1000)
         this.graph.checkKeys();
+        if (this.graph.components == null)
+            return;
         for (const [key, component] of Object.entries(this.graph.components)) {
             if (component.animation != null){
                 component.animation.update(secondsElapsed);
