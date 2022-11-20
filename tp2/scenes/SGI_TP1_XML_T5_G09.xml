@@ -1416,7 +1416,7 @@
                 <rotate axis="z" angle="180" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1429,13 +1429,14 @@
                 <scale x="1" y="1" z="2"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="light_grey_metal" />
             </materials>
-            <texture id="none"/>
+            <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="half_barrel"/>
                 <componentref id="half_barrel2"/>
             </children>
+            <highlighted r="0.2" g="0.2" b="0.2" scale_hh="0.1"/>
         </component>
 
         <component id="demoRoot">
@@ -1454,6 +1455,7 @@
                 <componentref id="moon"/>
                 <componentref id="saturn"/>
                 <componentref id="sun"/> -->
+                <primitiveref id="sphere"/>
                 <componentref id="barrel"/>
             </children>
         </component>

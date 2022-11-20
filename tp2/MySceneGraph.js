@@ -5,7 +5,6 @@ import { MySphere } from './primitives/MySphere.js';
 import { MyTorus } from './primitives/MyTorus.js';
 import { MyTriangle } from './primitives/MyTriangle.js';
 import { MyPatch } from './primitives/MyPatch.js';
-import { MyBarrel } from './primitives/MyBarrel.js';
 import { MyComponent } from './MyComponent.js';
 
 
@@ -966,6 +965,7 @@ export class MySceneGraph {
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
+            var highlightedIndex = nodeNames.indexOf("highlighted");
 
             let component = new MyComponent(this.scene, componentID);
 
@@ -1085,8 +1085,34 @@ export class MySceneGraph {
 
             }
 
-            this.components[componentID] = component;
+            //Highlighted
 
+            if (highlightedIndex != -1){
+                var highlight = grandChildren[highlightedIndex];
+
+                // R
+                var r = this.reader.getFloat(highlight, 'r');
+                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                    return "unable to parse R highlighted component of component " + componentID;
+
+                // G
+                var g = this.reader.getFloat(highlight, 'g');
+                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                    return "unable to parse G highlighted component of component " + componentID;
+
+                // B
+                var b = this.reader.getFloat(highlight, 'b');
+                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                    return "unable to parse B highlighted component of component " + componentID;
+                
+                var scale = this.reader.getFloat(highlight, 'scale_hh');
+                if (!(scale != null && !isNaN(scale) && scale > 0))
+                    return "unable to parse scale highlighted component of component " + componentID;    
+
+                component.setHighLight(r,g,b,scale);
+            }
+
+            this.components[componentID] = component;
 
         }
     }
@@ -1182,35 +1208,35 @@ export class MySceneGraph {
      * @param {block element} node
      * @param {message to be displayed in case of error} messageError
      */
-         parseAttenuation(node, messageError) {
+    parseAttenuation(node, messageError) {
 
-            // constant
-            var constant = this.reader.getFloat(node, 'constant');
-            if (!(constant != null && !isNaN(constant) && constant >= 0 && constant <= 1))
-                return "unable to parse constant component of the " + messageError;
+        // constant
+        var constant = this.reader.getFloat(node, 'constant');
+        if (!(constant != null && !isNaN(constant) && constant >= 0 && constant <= 1))
+            return "unable to parse constant component of the " + messageError;
 
-            // linear
-            var linear = this.reader.getFloat(node, 'linear');
-            if (!(linear != null && !isNaN(linear) && linear >= 0 && linear <= 1))
-                return "unable to parse linear component of the " + messageError;
+        // linear
+        var linear = this.reader.getFloat(node, 'linear');
+        if (!(linear != null && !isNaN(linear) && linear >= 0 && linear <= 1))
+            return "unable to parse linear component of the " + messageError;
 
-            // quadratic
-            var quadratic = this.reader.getFloat(node, 'quadratic');
-            if (!(quadratic != null && !isNaN(quadratic) && quadratic >= 0 && quadratic <= 1))
-                return "unable to parse quadratic component of the " + messageError;
+        // quadratic
+        var quadratic = this.reader.getFloat(node, 'quadratic');
+        if (!(quadratic != null && !isNaN(quadratic) && quadratic >= 0 && quadratic <= 1))
+            return "unable to parse quadratic component of the " + messageError;
 
-            var components = [constant, linear, quadratic]
-            var cp = false;
-            for (var i in components){
-                if(components[i] != 0){
-                    if (cp){
-                        this.onXMLMinorError("Only one of the light attenuation compponents can be different from 0!")
-                    }
-                    cp = true;
+        var components = [constant, linear, quadratic]
+        var cp = false;
+        for (var i in components){
+            if(components[i] != 0){
+                if (cp){
+                    this.onXMLMinorError("Only one of the light attenuation compponents can be different from 0!")
                 }
+                cp = true;
             }
-            return components;
         }
+        return components;
+    }
 
     /*
      * Callback to be executed on any read error, showing an error on the console.

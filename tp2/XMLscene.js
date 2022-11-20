@@ -1,5 +1,5 @@
 import { CGFscene } from '../lib/CGF.js';
-import { CGFaxis,CGFcamera,CGFshader } from '../lib/CGF.js';
+import { CGFaxis,CGFcamera } from '../lib/CGF.js';
 
 
 var DEGREE_TO_RAD = Math.PI / 180;
@@ -28,9 +28,6 @@ export class XMLscene extends CGFscene {
         super.init(application);
 
         this.sceneInited = false;
-
-        // this.shader1 = new CGFshader(this.gl, "shaders/vertexshader.vert", "shaders/fragshader.frag"),
-        // this.shader2 = new CGFshader(this.gl, "shaders/water.vert", "shaders/water.frag"),
 
         this.initCameras();
 
@@ -145,7 +142,6 @@ export class XMLscene extends CGFscene {
      */
     update(t){
         this.graph.checkKeys();
-        // this.shader2.setUniformsValues({ timeFactor: t / 100 % 100 });
     }
 
     /**

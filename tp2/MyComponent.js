@@ -1,4 +1,4 @@
-import {CGFappearance, CGFtexture, CGFobject} from '../lib/CGF.js';
+import {CGFappearance, CGFtexture, CGFobject, CGFshader} from '../lib/CGF.js';
 
 /**
  * Data Class that holds information about the component
@@ -14,6 +14,8 @@ export class MyComponent extends CGFobject{
         this.materialIndex = 0;
         this.texture = null;
         this.children = [];
+        this.highlighted = false;
+        this.shader;
 
 	}
 
@@ -35,6 +37,12 @@ export class MyComponent extends CGFobject{
         this.texture = newTexture;
         this.length_s = length_s;
         this.length_t = length_t
+    }
+
+    setHighLight(r, g, b, scale){
+        //TEXTURES??
+        this.shader = new CGFshader(this.scene.gl, "shaders/highlight.vert", "shaders/highlight.frag");
+        this.shader.setUniformsValues({r: r, g: g, b: b, scale: scale})
     }
 
     addChild(child){
@@ -70,7 +78,8 @@ export class MyComponent extends CGFobject{
      * @param {*} father component's father
      */
     display(father){
-
+        if(this.highlighted)
+            this.scene.setActiveShader(this.shader)
 
         let currentMaterial = new CGFappearance(this.scene)
 
@@ -115,5 +124,8 @@ export class MyComponent extends CGFobject{
             this.scene.popMatrix();
 
         }
+
+        if(this.highlighted)
+            this.scene.setActiveShader(this.scene.defaultShader)
     }
 }
