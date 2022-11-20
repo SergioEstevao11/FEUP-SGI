@@ -248,19 +248,6 @@
                 <controlpoint x="1" y="1" z="0" />  
             </patch>
         </primitive>
-        <primitive id="half_barrelz">
-            <patch degree_u="2" parts_u="20" degree_v="2" parts_v="20" >
-                <controlpoint x="-1" y="-0.5" z="0" />
-                <controlpoint x="-1" y="0" z="1" />
-                <controlpoint x="-1" y="0.5" z="0" /> 
-                <controlpoint x="0" y="-1.5" z="0" />
-                <controlpoint x="0" y="0" z="2" />
-                <controlpoint x="0" y="1.5" z="0" />
-                <controlpoint x="1" y="-0.5" z="0" />
-                <controlpoint x="1" y="0" z="1" />
-                <controlpoint x="1" y="0.5" z="0" />  
-            </patch>
-        </primitive>
         <primitive id="half_barrel">
             <patch degree_u="3" parts_u="20" degree_v="3" parts_v="20" >
                 <controlpoint x="-1.0" y="0" z="0" />
@@ -279,24 +266,6 @@
                 <controlpoint x="1.6666666666666665" y="0" z="0.41157974918903667" />
                 <controlpoint x="1.6666666666666665" y="0" z="1.5884202508109633" />
                 <controlpoint x="1.0" y="0" z="2.0" />
-            </patch>
-        </primitive>
-        <primitive id="patch4">
-            <patch degree_u="6" parts_u="20" degree_v="1" parts_v="20" >
-                    <controlpoint x="-1" y="0" z="-10"/>
-                    <controlpoint x="1" y="0" z="-10"/>
-                    <controlpoint x="-1" y="0" z="-8"/>
-                    <controlpoint x="1" y="0" z="-8"/>
-                    <controlpoint x="-1" y="8" z="-3"/>
-                    <controlpoint x="1" y="8" z="-3"/>
-                    <controlpoint x="-1" y="8" z="-1"/>
-                    <controlpoint x="1" y="8" z="-1"/>
-                    <controlpoint x="-1" y="3" z="-1"/>
-                    <controlpoint x="1" y="3" z="-1"/>
-                    <controlpoint x="-1" y="0" z="0"/>
-                    <controlpoint x="1" y="0" z="0"/>
-                    <controlpoint x="-1" y="0" z="4"/>
-                    <controlpoint x="1" y="0" z="4"/>   
             </patch>
         </primitive>
  
@@ -1449,7 +1418,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="half_barrel"/>
             </children>
@@ -1475,7 +1444,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1"/>
+            <texture id="none"/>
             <children>
                 <!-- <componentref id="millenium_falcon"/>
                 <componentref id="tie_fighter1" />

@@ -884,15 +884,15 @@ export class MySceneGraph {
                 let degree_v = this.reader.getFloat(grandChildren[0], 'degree_v');
                 if (!(degree_v != null && !isNaN(degree_v)))
                     return "unable to parse degree_v of the primitive coordinates for ID = " + primitiveId;
-
-
+                
+                    
                 let parts_v = this.reader.getFloat(grandChildren[0], 'parts_v');
                 if (!(parts_v != null && !isNaN(parts_v)))
                     return "unable to parse parts_v of the primitive coordinates for ID = " + primitiveId;
 
                 if((degree_u+1) * (degree_v+1) != controlVertsNodes.length){
                     console.log(controlVertsNodes.size)
-                    return "degree_u and degree_v don't match number of control points for ID = " + primitiveId;
+                    return "degree_u and degree_v don«t match number of control points for ID = " + primitiveId;
                 }
 
                 let controlVerts = []
@@ -908,11 +908,9 @@ export class MySceneGraph {
                     }
                     controlVerts.push(vline)
                 }
-                console.log(controlVerts)
-
+                console.log("patch " + primitiveId)
                 let patch = new MyPatch(this.scene, degree_u, degree_v, parts_u, parts_v, controlVerts);
                 this.primitives[primitiveId] = patch;
-
 
             }
 
@@ -1266,12 +1264,6 @@ export class MySceneGraph {
 
 
     displayScene() {
-        // this.components['demoRoot'].display(null);
-        // var barrel = new MyBarrel(this.scene, 1, 2, 3, 6, 6)
-        // this.components['barrel'] = barrel
-        // this.components['barrel'].display(null);
-        var patch = new MyPatch(this.scene, 1, 2, 3, 6, 6)
-        this.components['patch'] = patch
-        this.components['patch'].display(null);
+        this.components['demoRoot'].display(null);
     }
 }
