@@ -91,7 +91,6 @@ export class MySceneGraph {
             return "root tag <sxs> missing";
 
         var nodes = rootElement.children;
-        console.log("nodes", nodes)
 
         // Reads the names of the nodes to an auxiliary buffer.
         var nodeNames = [];
@@ -100,7 +99,6 @@ export class MySceneGraph {
             nodeNames.push(nodes[i].nodeName);
         }
 
-        console.log("all nodes: ", nodeNames);
 
         var error;
 
@@ -947,7 +945,6 @@ export class MySceneGraph {
             // Checks for repeated IDs.
             if (this.animations[keyframeanimID] != null)
                 return "ID must be unique for each component (conflict: ID = " + keyframeanimID + ")";
-            console.log(children[i])
             let grandChildren = children[i].children; //keyframes
 
             let keyframes = [];
@@ -967,7 +964,7 @@ export class MySceneGraph {
 
                 let keyframe = {
                     instant : instant,
-                    transformationMatrix : transformationMatrix
+                    matrix : transformationMatrix
                 }
 
                 keyframes.push(keyframe);
@@ -975,7 +972,7 @@ export class MySceneGraph {
 
             let animation = new MyAnimation(this.scene, keyframeanimID, keyframes);
             
-            console.log(animation)
+            console.log("animation:", animation)
             this.animations[keyframeanimID] = animation;
         }
 
@@ -1024,6 +1021,7 @@ export class MySceneGraph {
             var transformationIndex = nodeNames.indexOf("transformation");
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
+            var animationIndex = nodeNames.indexOf("animation");
             var childrenIndex = nodeNames.indexOf("children");
 
             let component = new MyComponent(this.scene, componentID);
@@ -1118,6 +1116,23 @@ export class MySceneGraph {
 
                 //component.setTexture(this.textures[textureId]);
 
+            }
+
+            // Animation
+            console.log("here")
+            if(animationIndex > -1){
+                let animation = grandChildren[animationIndex];
+                let animationId = this.reader.getString(animation, 'id');
+
+                console.log("animationId", animationId)
+
+
+                if (this.animations[animationId] == null){
+                    return "Invalid animation ID in component " + componentID;
+                }
+    
+                component.setAnimation(this.animations[animationId]);
+                
             }
             
 

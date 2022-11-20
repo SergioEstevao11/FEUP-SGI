@@ -5,17 +5,17 @@ export class MyAnimation{
         this.scene = scene;
         this.id = id;
         this.keyframes = keyframes;
-        this.currentKeyframe = 0;
+        this.currentKeyframe = -1;
     }
 
     update(time){
         if(this.currentKeyframe < this.keyframes.length - 1){
-            if(time >= this.keyframes[this.currentKeyframe + 1].instant){
+            if(time >= this.keyframes[this.currentKeyframe+1].instant){
                 this.currentKeyframe += 1;
             }
         }
     }
     apply(){
-        //dummy function
+        this.scene.multMatrix(this.keyframes[this.currentKeyframe].matrix);
     }
 }

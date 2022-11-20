@@ -13,6 +13,7 @@ export class MyComponent extends CGFobject{
         this.isMaterialInherit = [];
         this.materialIndex = 0;
         this.texture = null;
+        this.animation = null
         this.children = [];
 
 	}
@@ -35,6 +36,10 @@ export class MyComponent extends CGFobject{
         this.texture = newTexture;
         this.length_s = length_s;
         this.length_t = length_t
+    }
+
+    setAnimation(animation){
+        this.animation = animation;
     }
 
     addChild(child){
@@ -107,7 +112,14 @@ export class MyComponent extends CGFobject{
             }
             currentMaterial.apply();
 
-            this.children[i].display(this);
+            if(this.animation == null){
+                this.children[i].display(this);
+            }else if(this.animation.currentKeyframe != -1){
+                console.log("Component: " + this.id + " has animation keyframe: " + this.animation.currentKeyframe);
+                this.animation.apply();
+                this.children[i].display(this);
+            }
+
 
             if (this.texture != "none"){
                 this.children[i].resetTexCoords(this.length_s, this.length_t);
