@@ -1,4 +1,6 @@
-class MyBarrel extends CGFobject {
+import {CGFobject} from '../../lib/CGF.js';
+
+export class MyBarrel extends CGFobject {
     constructor(scene, base, middle, height, slices, stacks) {
 		super(scene);
         this.scene = scene
