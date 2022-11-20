@@ -7,6 +7,7 @@ import { MyTriangle } from './primitives/MyTriangle.js';
 import { MyPatch } from './primitives/MyPatch.js';
 import { MyBarrel } from './primitives/MyBarrel.js';
 import { MyComponent } from './MyComponent.js';
+import { MyAnimation } from './MyAnimation.js';
 
 
 // Order of the groups in the XML document.
@@ -18,7 +19,8 @@ var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
 var PRIMITIVES_INDEX = 7;
-var COMPONENTS_INDEX = 8;
+var ANIMATIONS_INDEX = 8;
+var COMPONENTS_INDEX = 9;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -97,6 +99,7 @@ export class MySceneGraph {
         for (var i = 0; i < nodes.length; i++) {
             nodeNames.push(nodes[i].nodeName);
         }
+
 
         var error;
 
@@ -197,6 +200,19 @@ export class MySceneGraph {
             if ((error = this.parsePrimitives(nodes[index])) != null)
                 return error;
         }
+
+        if ((index = nodeNames.indexOf("animations")) == -1)
+            return "tag <animations> missing";
+        else {
+            if (index != ANIMATIONS_INDEX)
+                this.onXMLMinorError("tag <animations> out of order");
+            
+            //Parse animations block
+            if ((error = this.parseAnimations(nodes[index])) != null)
+                return error;
+        }
+
+
 
         // <components>
         if ((index = nodeNames.indexOf("components")) == -1)
@@ -630,7 +646,8 @@ export class MySceneGraph {
      */
     getTransformationMatrix(grandChildren, transformationID){
         var transfMatrix = mat4.create();
-
+        if (transformationID == "move_right")
+            console.log("animation inside matrixConverter: ", grandChildren);
         //for (var j = grandChildren.length-1; j >= 0; j--) {
         for (var j = 0; j < grandChildren.length; j++) {
             switch (grandChildren[j].nodeName) {
@@ -650,6 +667,8 @@ export class MySceneGraph {
                     break;
 
                 case 'rotate':
+                    if (transformationID == "move_right")
+                        console.log("animation rotate");
                     var axis = this.reader.getString(grandChildren[j], 'axis');
                     if (!(axis != null))
                         return "unable to parse axis of the transformation for ID = " + transformationID;
@@ -923,6 +942,59 @@ export class MySceneGraph {
         return null;
     }
 
+
+    parseAnimations(animationsNone) {
+        var children = animationsNone.children;
+        this.animations = {}
+
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].nodeName != "keyframeanim") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current component.
+            var keyframeanimID = this.reader.getString(children[i], 'id');
+            if (keyframeanimID == null)
+                return "no ID defined for keyframeanimID";
+
+            // Checks for repeated IDs.
+            if (this.animations[keyframeanimID] != null)
+                return "ID must be unique for each component (conflict: ID = " + keyframeanimID + ")";
+            let grandChildren = children[i].children; //keyframes
+
+            let keyframes = [];
+
+            for(let j = 0; j < grandChildren.length; j++){
+                if (grandChildren[j].nodeName != "keyframe") {
+                    this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
+                    continue;
+                }
+
+                let instant = this.reader.getFloat(grandChildren[j], 'instant');
+                if (!(instant != null && !isNaN(instant)))
+                    return "unable to parse instant of the primitive coordinates for ID = " + keyframeanimID;
+
+                console.log("animation transformations: ", grandChildren[j])
+                let transformationMatrix = this.getTransformationMatrix(grandChildren[j].children, keyframeanimID);
+
+                let keyframe = {
+                    instant : instant,
+                    matrix : transformationMatrix
+                }
+
+                keyframes.push(keyframe);
+            }
+
+            let animation = new MyAnimation(this.scene, keyframeanimID, keyframes);
+            
+            console.log("animation:", animation)
+            this.animations[keyframeanimID] = animation;
+        }
+
+    }
+
+
     /**
    * Parses the <components> block.
    * @param {components block element} componentsNode
@@ -965,6 +1037,7 @@ export class MySceneGraph {
             var transformationIndex = nodeNames.indexOf("transformation");
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
+            var animationIndex = nodeNames.indexOf("animation");
             var childrenIndex = nodeNames.indexOf("children");
 
             let component = new MyComponent(this.scene, componentID);
@@ -1060,6 +1133,23 @@ export class MySceneGraph {
                 //component.setTexture(this.textures[textureId]);
 
             }
+
+            // Animation
+            if(animationIndex > -1){
+                let animation = grandChildren[animationIndex];
+                let animationId = this.reader.getString(animation, 'id');
+
+                console.log("animationId", animationId)
+
+
+                if (this.animations[animationId] == null){
+                    return "Invalid animation ID in component " + componentID;
+                }
+    
+                component.setAnimation(this.animations[animationId]);
+                
+            }
+            
 
 
 

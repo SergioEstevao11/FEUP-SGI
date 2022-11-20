@@ -43,6 +43,8 @@ export class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+
+        this.startingTime = null;
     }
 
     /**
@@ -144,8 +146,19 @@ export class XMLscene extends CGFscene {
      * checks if key M has been pressed
      */
     update(t){
+        if(this.startingTime == null){
+            this.startingTime = t;
+        }
+        let secondsElapsed = (t - this.startingTime)/1000;
         this.graph.checkKeys();
         // this.shader2.setUniformsValues({ timeFactor: t / 100 % 100 });
+        if (this.graph.components == null)
+            return;
+        for (const [key, component] of Object.entries(this.graph.components)) {
+            if (component.animation != null){
+                component.animation.update(secondsElapsed);
+            }
+          }
     }
 
     /**

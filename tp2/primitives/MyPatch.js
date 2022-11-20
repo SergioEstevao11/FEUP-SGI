@@ -34,6 +34,14 @@ import {CGFobject, CGFnurbsSurface, CGFnurbsObject} from '../../lib/CGF.js';
         this.object = new CGFnurbsObject(this.scene, this.divU, this.divV, nurbsSurface)
     }
 
+    changeTexCoords(length_s, length_t) {
+        //dummy function
+    }
+
+    resetTexCoords() {
+        //dummy function
+    }
+
     display() {
         this.object.display()
     }

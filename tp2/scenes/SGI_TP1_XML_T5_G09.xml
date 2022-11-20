@@ -271,6 +271,26 @@
  
     </primitives>
 
+    <animations>
+        <keyframeanim id="move_right">
+            <keyframe instant="3">
+                <rotate axis="y" angle="0"/>
+            </keyframe>
+            <keyframe instant="4">
+                <rotate axis="y" angle="90"/>
+            </keyframe>
+            <keyframe instant="5">
+                <rotate axis="y" angle="180"/>
+            </keyframe>
+            <keyframe instant="7">
+                <rotate axis="y" angle="270"/>
+            </keyframe>
+            <keyframe instant="9">
+                <rotate axis="y" angle="0"/>
+            </keyframe>
+        </keyframeanim>
+    </animations>
+
     <components>
         <component id="rectangle_rev">
             <transformation>
@@ -1416,9 +1436,9 @@
                 <rotate axis="z" angle="180" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="none"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="half_barrel"/>
             </children>
@@ -1429,9 +1449,9 @@
                 <scale x="1" y="1" z="2"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="none"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="half_barrel"/>
                 <componentref id="half_barrel2"/>
@@ -1442,15 +1462,17 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="lightning_yellow" />
             </materials>
-            <texture id="none"/>
+            <!-- <texture id="none"/> -->
+            <texture id="demoTexture" length_s="1" length_t="1"/>
+            <!-- <animation id="move_right"/> -->
             <children>
                 <!-- <componentref id="millenium_falcon"/>
                 <componentref id="tie_fighter1" />
                 <componentref id="tie_fighter2" />
-                <componentref id="tie_fighter3" />
-                <componentref id="cubemap"/>
+                <componentref id="tie_fighter3" /> -->
+                <!-- <componentref id="cubemap"/>
                 <componentref id="moon"/>
                 <componentref id="saturn"/>
                 <componentref id="sun"/> -->
