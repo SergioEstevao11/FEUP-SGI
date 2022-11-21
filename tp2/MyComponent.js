@@ -15,7 +15,7 @@ export class MyComponent extends CGFobject{
         this.texture = null;
         this.animation = null
         this.children = [];
-
+        this.highlighted = false;
 	}
 
     addTransformation(matrix){
@@ -42,7 +42,12 @@ export class MyComponent extends CGFobject{
         this.animation = animation;
     }
 
+    setHighlighted(){
+        this.highlighted = true;
+    }
+
     addChild(child){
+        child.highlighted=true;
         this.children.push(child);
     }
 
@@ -75,7 +80,8 @@ export class MyComponent extends CGFobject{
      * @param {*} father component's father
      */
     display(father){
-
+        if(this.highlighted)
+            this.scene.setActiveShader(this.scene.shader);
 
         let currentMaterial = new CGFappearance(this.scene)
 
@@ -127,5 +133,8 @@ export class MyComponent extends CGFobject{
             this.scene.popMatrix();
 
         }
+
+        if(this.highlighted)
+            this.scene.setActiveShader(this.scene.defaultShader);
     }
 }

@@ -1456,6 +1456,7 @@
                 <primitiveref id="half_barrel"/>
                 <componentref id="half_barrel2"/>
             </children>
+            <highlighted r="0.8" g="0.2" b="0.8" scale_hh="0.1"/>
         </component>
 
         <component id="demoRoot">

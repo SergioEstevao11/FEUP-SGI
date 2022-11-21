@@ -45,6 +45,9 @@ export class XMLscene extends CGFscene {
         this.setUpdatePeriod(100);
 
         this.startingTime = null;
+
+        this.shader = new CGFshader(this.gl, "shaders/highlight.vert", "shaders/highlight.frag");
+        this.shader.setUniformsValues({timeFactor: 0})
     }
 
     /**
@@ -150,15 +153,15 @@ export class XMLscene extends CGFscene {
             this.startingTime = t;
         }
         let secondsElapsed = (t - this.startingTime)/1000;
+        this.shader.setUniformsValues({ timeFactor: t / 100 % 100 });
         this.graph.checkKeys();
-        // this.shader2.setUniformsValues({ timeFactor: t / 100 % 100 });
         if (this.graph.components == null)
             return;
         for (const [key, component] of Object.entries(this.graph.components)) {
             if (component.animation != null){
                 component.animation.update(secondsElapsed);
             }
-          }
+        }
     }
 
     /**
