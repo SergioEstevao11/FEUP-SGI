@@ -115,7 +115,7 @@ export class MyComponent extends CGFobject{
             if(this.animation == null){
                 this.children[i].display(this);
             }else if(this.animation.currentKeyframe != -1){
-                console.log("Component: " + this.id + " has animation keyframe: " + this.animation.currentKeyframe);
+                //console.log("Component: " + this.id + " has animation keyframe: " + this.animation.currentKeyframe);
                 this.animation.apply();
                 this.children[i].display(this);
             }

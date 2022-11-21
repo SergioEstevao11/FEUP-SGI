@@ -100,7 +100,7 @@ export class MySceneGraph {
             nodeNames.push(nodes[i].nodeName);
         }
 
-
+        console.log(nodes)
         var error;
 
         // Processes each node, verifying errors.
