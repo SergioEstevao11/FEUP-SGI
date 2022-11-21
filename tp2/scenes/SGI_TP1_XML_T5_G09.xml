@@ -137,6 +137,7 @@
         <texture id="moon" file="scenes/images/moon.jpg" />
         <texture id="ring" file="scenes/images/ring.jpg" />
         <texture id="saturn" file="scenes/images/saturn.jpg" />
+        <texture id="vent" file="scenes/images/vent.jpg" />
     </textures>
 
     <materials>
@@ -1208,6 +1209,32 @@
     </animations>
 
     <components>
+        <component id="half_barrel2">
+            <transformation>
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="half_barrel"/>
+            </children>
+        </component>
+
+        <component id="barrel">
+            <transformation>
+                <scale x="1" y="1" z="2"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="half_barrel"/>
+                <componentref id="half_barrel2"/>
+            </children>
+        </component>
         <component id="bullet_cover">
             <transformation>
                 <scale x="1" y="1" z="0.01"/>
@@ -1633,6 +1660,47 @@
             </children>
         </component>
 
+        <component id="propulsor_barrel_lid">
+            <transformation>
+                <scale x="1" y="1" z="0.01"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="vent" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+        <component id="propulsor_barrel_lid2">
+            <transformation>
+                <translate x="0" y="0" z="4"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="vent" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="propulsor_barrel_lid" />
+            </children>
+        </component>
+
+        <component id="propulsor_barrel">
+            <transformation>
+                <translate x="0.7" y="-4.3" z="0"/>
+                <scale x="0.38" y="0.38" z="0.3"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="barrel" />
+                <componentref id="propulsor_barrel_lid" />
+                <componentref id="propulsor_barrel_lid2" />
+            </children>
+        </component>
+
         <component id="propulsor_part">
             <transformation>
             </transformation>
@@ -1646,6 +1714,7 @@
                 <componentref id="propulsor_first_rectangle"/>
                 <componentref id="propulsor_second_rectangle"/>
                 <componentref id="propulsor_third_rectangle"/>
+                <componentref id="propulsor_barrel" />
             </children>
         </component>
  
@@ -2427,33 +2496,6 @@
             </children>
         </component>
 
-        <component id="half_barrel2">
-            <transformation>
-                <rotate axis="z" angle="180" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit"/>
-            <children>
-                <primitiveref id="half_barrel"/>
-            </children>
-        </component>
-
-        <component id="barrel">
-            <transformation>
-                <scale x="1" y="1" z="2"/>
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit"/>
-            <children>
-                <primitiveref id="half_barrel"/>
-                <componentref id="half_barrel2"/>
-            </children>
-        </component>
-
         <component id="demoRoot">
             <transformation>
             </transformation>
@@ -2474,6 +2516,7 @@
                 <componentref id="sun"/>
                 <componentref id ="bullets"/>
                 <!-- <componentref id="barrel"/> -->
+                <!-- <componentref id="propulsor_part"/> -->
             </children>
         </component>
 
