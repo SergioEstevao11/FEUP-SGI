@@ -5,12 +5,12 @@ def bullet_animation():
     y_distance = 0
     z_distance = 50
 
-    duration = 5
+    duration = 10
     frames_per_second = 30
     z_distance_per_frame = z_distance / (duration * frames_per_second)
 
     current_z_distance = 0
-    instant = 6
+    instant = 14
     f = open("./keyframe_gen_output.txt", "w")
     while(current_z_distance < z_distance):
         f.write('<keyframe instant="' + str(instant)  + '">\n')
@@ -91,7 +91,7 @@ def millenium_falcon_wobble():
 
     f.close()
 def main():
-        millenium_falcon_wobble()
+        bullet_animation()
 
 if __name__ == "__main__":
     main()
