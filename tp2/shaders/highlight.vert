@@ -21,7 +21,7 @@ void main() {
 
 	vTextureCoord = aTextureCoord;
 
-	offset=aVertexNormal*scale*0.1*sin(timeFactor);
+	offset=aVertexNormal*scale*sin(timeFactor/2.0);
 
 	vec4 vertex=vec4(aVertexPosition+offset, 1.0);
 

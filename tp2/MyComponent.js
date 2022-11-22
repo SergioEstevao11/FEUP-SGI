@@ -29,6 +29,7 @@ export class MyComponent extends CGFobject{
         }
         else{
             this.isMaterialInherit.push(false);
+            
         }
     }
 
@@ -47,7 +48,6 @@ export class MyComponent extends CGFobject{
     }
 
     addChild(child){
-        child.highlighted=true;
         this.children.push(child);
     }
 
@@ -80,9 +80,6 @@ export class MyComponent extends CGFobject{
      * @param {*} father component's father
      */
     display(father){
-        if(this.highlighted)
-            this.scene.setActiveShader(this.scene.shader);
-
         let currentMaterial = new CGFappearance(this.scene)
 
         //materials
@@ -92,6 +89,10 @@ export class MyComponent extends CGFobject{
 
         Object.assign(currentMaterial, this.materials[this.materialIndex])
 
+        if(this.highlighted){
+            this.scene.setActiveShader(this.scene.shader);
+            this.scene.shader.setUniformsValues({matcolor: currentMaterial.ambient});
+        }
 
         //textures
         if(this.texture == "inherit"){

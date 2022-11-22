@@ -1449,14 +1449,14 @@
                 <scale x="1" y="1" z="2"/>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="lightning_yellow" />
             </materials>
             <texture id="inherit"/>
             <children>
                 <primitiveref id="half_barrel"/>
                 <componentref id="half_barrel2"/>
             </children>
-            <highlighted r="0.8" g="0.2" b="0.8" scale_hh="0.1"/>
+            <highlighted r="0.8" g="0.0" b="0.1" scale_hh="0.6"/>
         </component>
 
         <component id="demoRoot">
@@ -1469,15 +1469,15 @@
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <!-- <animation id="move_right"/> -->
             <children>
-                <!-- <componentref id="millenium_falcon"/>
-                <componentref id="tie_fighter1" />
+                <componentref id="millenium_falcon"/>
+                <componentref id="barrel"/>
+                <!-- <componentref id="tie_fighter1" />
                 <componentref id="tie_fighter2" />
                 <componentref id="tie_fighter3" /> -->
                 <!-- <componentref id="cubemap"/>
                 <componentref id="moon"/>
                 <componentref id="saturn"/>
                 <componentref id="sun"/> -->
-                <componentref id="barrel"/>
             </children>
         </component>
 
