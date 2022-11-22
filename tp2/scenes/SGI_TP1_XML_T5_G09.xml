@@ -6328,7 +6328,7 @@
 
         <component id="tie_fighter1">
             <transformation>
-                <translate x="30" y="0" z="0" />
+                <translate x="35" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="inherit" />
