@@ -14,7 +14,7 @@ uniform float timeFactor;
 void main() {
 	vec4 colortex = texture2D(uSampler, vTextureCoord);
 
-	vec4 color = matcolor * colortex;
+	vec4 color = colortex;
 	
 	gl_FragColor.r = color.r+(r-color.r)*(sin(timeFactor/2.0)/2.0 + 0.5);
 	gl_FragColor.g = color.g+(g-color.g)*(sin(timeFactor/2.0)/2.0 + 0.5);

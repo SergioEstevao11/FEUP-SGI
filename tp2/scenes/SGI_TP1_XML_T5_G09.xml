@@ -1469,7 +1469,7 @@
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <!-- <animation id="move_right"/> -->
             <children>
-                <componentref id="millenium_falcon"/>
+                <!-- <componentref id="millenium_falcon"/> -->
                 <componentref id="barrel"/>
                 <!-- <componentref id="tie_fighter1" />
                 <componentref id="tie_fighter2" />
