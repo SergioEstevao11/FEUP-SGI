@@ -1184,11 +1184,15 @@ export class MySceneGraph {
                 if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
                     return "unable to parse B highlighted component of component " + componentID;
                 
-                var scale = this.reader.getFloat(highlight, 'scale_hh');
+                var scale = this.reader.getFloat(highlight, 'scale_h');
                 if (!(scale != null && !isNaN(scale) && scale > 0))
                     return "unable to parse scale highlighted component of component " + componentID;
                 
-                this.scene.shader.setUniformsValues({r:r, g:g, b:b, scale:scale});
+
+                let shaderValues = {r:r, g:g, b:b, scale:scale}
+
+                component.setShaderValues(shaderValues);
+
                 this.scene.displayShader = true;
 
                 this.shaderComponents.push(component);

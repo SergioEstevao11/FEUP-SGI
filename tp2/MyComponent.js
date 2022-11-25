@@ -16,6 +16,7 @@ export class MyComponent extends CGFobject{
         this.animation = null
         this.children = [];
         this.highlighted = false;
+        this.shaderValues = null;
 	}
 
     addTransformation(matrix){
@@ -45,6 +46,10 @@ export class MyComponent extends CGFobject{
 
     setHighlighted(){
         this.highlighted = true;
+    }
+
+    setShaderValues(shaderValues){
+        this.shaderValues = shaderValues;
     }
 
     addChild(child){
@@ -90,6 +95,7 @@ export class MyComponent extends CGFobject{
         Object.assign(currentMaterial, this.materials[this.materialIndex])
 
         if(this.highlighted){
+            this.scene.shader.setUniformsValues(this.shaderValues);
             this.scene.setActiveShader(this.scene.shader);
         }
 
@@ -107,13 +113,13 @@ export class MyComponent extends CGFobject{
         }
 
 
-
         for(let i = 0; i < this.children.length; i++){
 
             this.setupMatrix(father);
 
 
             if (this.texture != "none"){
+                // console.log("child: ", this.children[i])
                 this.children[i].changeTexCoords(this.length_s, this.length_t);
             }
             currentMaterial.apply();

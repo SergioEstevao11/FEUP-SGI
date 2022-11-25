@@ -115,7 +115,7 @@ void main() {
 	vec3 offset=vec3(0.0,0.0,0.0);
 	vec4 position = vec4(0.0,0.0,0.0,0.0);
 
-	offset=aVertexNormal*scale*sin(timeFactor/2.0);
+	offset=aVertexNormal*scale*abs(sin(timeFactor/2.0));
 	vec4 vertex=vec4(aVertexPosition+offset, 1.0);
 
 	vTextureCoord = aTextureCoord;
@@ -128,5 +128,5 @@ void main() {
 
 	vFinalColor = lighting(vertex, E, N);
 
-	gl_Position = uPMatrix * uMVMatrix * vertex;
+	gl_Position = uPMatrix * uMVMatrix * scale * vertex;
 }

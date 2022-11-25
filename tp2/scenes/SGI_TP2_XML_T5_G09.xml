@@ -193,6 +193,13 @@
             <diffuse r="1" g="1" b="1" a="1.0" />
             <specular r="0.2" g="0.2" b="0.2" a="1.0" />
         </material>
+
+        <material id="metal_plate" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.01" g="0.01" b="0.01" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
+          </material>
     </materials>
 
     <transformations>
@@ -274,6 +281,26 @@
                 <controlpoint x="1.6666666666666665" y="0" z="0.41157974918903667" />
                 <controlpoint x="1.6666666666666665" y="0" z="1.5884202508109633" />
                 <controlpoint x="1.0" y="0" z="2.0" />
+            </patch>
+        </primitive>
+        <primitive id="half_barrel_inverted">
+            <patch degree_u="3" parts_u="20" degree_v="3" parts_v="20" >
+               <controlpoint x="1.0" y="0" z="0" />
+               <controlpoint x="1.6666666666666665" y="0" z="-0.41157974918903667" />
+               <controlpoint x="1.6666666666666665" y="0" z="-1.5884202508109633" />
+               <controlpoint x="1.0" y="0" z="-2.0" />
+               <controlpoint x="1.0" y="1.3333333333333333" z="0" />
+               <controlpoint x="1.6666666666666665" y="2.222222222222222" z="-0.41157974918903667" />
+               <controlpoint x="1.6666666666666665" y="2.222222222222222" z="-1.5884202508109633" />
+               <controlpoint x="1.0" y="1.3333333333333333" z="-2.0" />
+               <controlpoint x="-1.0" y="1.3333333333333333" z="0" />
+               <controlpoint x="-1.6666666666666665" y="2.222222222222222" z="-0.41157974918903667" />
+               <controlpoint x="-1.6666666666666665" y="2.222222222222222" z="-1.5884202508109633" />
+               <controlpoint x="-1.0" y="1.3333333333333333" z="-2.0" />
+               <controlpoint x="-1.0" y="0" z="0" />
+               <controlpoint x="-1.6666666666666665" y="0" z="-0.41157974918903667" />
+               <controlpoint x="-1.6666666666666665" y="0" z="-1.5884202508109633" />
+               <controlpoint x="-1.0" y="0" z="-2.0" />
             </patch>
         </primitive>
  
@@ -10024,9 +10051,9 @@
                 <scale x="0.2" y="0.2" z="1.5"/>
             </transformation>
             <materials>
-                <material id="blood_red" />
+                <material id="inherit" />
             </materials>
-            <texture id="none"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="bullet_cover"/>
                 <componentref id="bullet_cover_1"/>
@@ -10099,7 +10126,7 @@
                 <componentref id="red_bullet_4"/>
                 <componentref id="red_bullet_6"/>
             </children>
-          <highlighted r="0.1" g="0.1" b="0.8" scale_hh="1.2"/>
+          <highlighted r="0.1" g="0.1" b="0.8" scale_h="1.2"/>
         </component>
 
         <component id="rectangle_rev">
@@ -10882,6 +10909,93 @@
             </children>
         </component>
 
+        <component id="parabolic_plate_inside">
+            <transformation>
+               <rotate axis="x" angle="-180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="half_barrel_inverted"/>
+            </children>
+        </component>
+
+        <component id="parabolic_plate">
+            <transformation>
+               <scale x="1" y="0.5" z="1"/>
+            </transformation>
+            <materials>
+                <material id="metal_plate" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="half_barrel"/>
+                <componentref id="parabolic_plate_inside"/>
+            </children>
+        </component>
+
+        <component id="antena">
+          <transformation>
+          </transformation>
+          <materials>
+               <material id="metal_plate" />
+          </materials>
+          <texture id="inherit"/>
+          <children>
+               <primitiveref id="cylinder"/>
+          </children>
+        </component>
+
+        
+
+
+
+        <component id="parabolic_base">
+          <transformation>
+               <rotate axis="x" angle="-90" />
+               <scale x="0.5" y="0.5" z="0.25"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+          <texture id="inherit"/>
+
+            <children>
+                <componentref id="middle_cylinder"/>
+            </children>
+        </component>
+
+
+        <component id="parabolic_support">
+           <transformation>
+            </transformation>
+            <materials>
+                <material id="metal_plate" />
+            </materials>
+          <texture id="inherit"/>
+
+            <children>
+
+                <componentref id="parabolic_base"/>
+            </children>
+        </component>
+
+        <component id="parabolic">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="grid" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="parabolic_plate"/>
+                <!-- <componentref id="antena"/> -->
+                <componentref id="parabolic_support"/>
+            </children>
+        </component>
+
         <component id="millenium_falcon">
             <transformation>
                 <translate x="0" y="0" z="0"/>
@@ -11229,7 +11343,7 @@
             <children>
                 <componentref id="tie_fighter"/>
             </children>
-            <highlighted r="0.8" g="0.1" b="0.1" scale_hh="3"/>
+            <highlighted r="0.8" g="0.1" b="0.1" scale_h="3"/>
 
         </component>
 
@@ -11259,7 +11373,7 @@
             <children>
                 <primitiveref id="torus"/>
             </children>
-            <highlighted r="0.8" g="0.1" b="0.1" scale_hh="1.5"/>
+            <highlighted r="0.8" g="0.1" b="0.1" scale_h="0.1"/>
         </component>
         <component id="saturn">
             <transformation>
@@ -11288,7 +11402,7 @@
             <children>
                 <primitiveref id="sphere"/>
             </children>  
-            <highlighted r="0.1" g="0.8" b="0.1" scale_hh="1.5"/>
+            <highlighted r="0.1" g="0.8" b="0.1" scale_h="3"/>
         </component>
 
         <component id="spaceships">
@@ -11315,16 +11429,15 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <!-- <texture id="none"/> -->
             <texture id="demoTexture" length_s="1" length_t="1"/>
-            <!-- <animation id="move_right"/> -->
             <children>
                 <componentref id="spaceships" /> 
-               <!-- <componentref id="millenium_falcon"/> -->
                 <componentref id="cubemap"/>
                 <componentref id="moon"/>
                 <componentref id="saturn"/>
                 <componentref id="sun"/>
+                <!-- <componentref id="parabolic_base" /> -->
+               
             </children>
         </component>
 
