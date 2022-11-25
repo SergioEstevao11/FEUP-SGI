@@ -10,7 +10,7 @@ def bullet_animation():
     z_distance_per_frame = z_distance / (duration * frames_per_second)
 
     current_z_distance = 0
-    instant = 14
+    instant = 15.5
     f = open("./keyframe_gen_output.txt", "w")
     while(current_z_distance < z_distance):
         f.write('<keyframe instant="' + str(instant)  + '">\n')
@@ -141,7 +141,7 @@ def tiefighter_barrel_roll():
 
     f.close()
 def main():
-        chase_movement()
+        bullet_animation()
 
 if __name__ == "__main__":
     main()
