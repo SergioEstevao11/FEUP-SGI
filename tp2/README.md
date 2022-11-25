@@ -8,13 +8,39 @@
 | Tomás Fidalgo         | 201906743 | up201906743@up.pt               |
 
 ----
-## Project information
+## Images
 
-- (items describing main strong points)
-- Scene
-  - (Brief description of the created scene)
-  - (relative link to the scene)
+| Complete View           | Chasing Tie Fighter cinematic view     |
+| ---------------- | --------- |
+| ![]()        | ![]() |
+
+| Sun with the shader activated simulating a supernova   |   Chasing Sequence   |
+| ---------------- | --------- |
+| ![]()| ![]()|
+## Project information
+### Scene
+- A dynamic positioning of the components paired with relevant camera position produced astounding realistic perspectives
+- Our project is a Star Wars inspired scene that includes the following:
+  - Spaceship chasing scene involving:
+    - a Millenium Falcon (with different colorschemes and custom headlight);
+    - 3 Tie Fighters (with different color headlights);
+  - A planet resembling Saturn;
+  - A small Star;
+  - A Moon;
+  - A space background;
+  - An animated chasing sequence with:
+    - a Millenium Falcon oscillating and firing bullets;
+    - a Tie Fighter travelling in a helix trajectory, dodging the bullets;
+    - a Tie Fighter travelling in a parabole trajectory;
+    - a Tie Fighter performing a parabole trajectory followed by a "barrel roll";
+  - Shaders aplied on:
+    - the small star, simulating a supernova;
+    - Millenium Falcon's bullets;
+    - Saturn's rings.
+
+- Relative link to the scene: [scenes/SGI_TP2_XML_T5_G09](scenes/SGI_TP2_XML_T5_G09)
 ----
 ## Issues/Problems
 
-- (items describing unimplemented features, bugs, problems, etc.)
+- The lighting sometimes can seem a bit unrealistic since some spots in the scene can seem way too dark compared to others;
+- Performance issues detected in some computers.
