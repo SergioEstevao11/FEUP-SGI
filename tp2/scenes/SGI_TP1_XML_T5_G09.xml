@@ -11198,7 +11198,7 @@
 
         <component id="tie_fighter2">
             <transformation>
-                <translate x="-45" y="5" z="0" />
+                <translate x="-45" y="9" z="0" />
                 <rotate axis="x" angle="30"/>
                 <rotate axis="z" angle="180" />
             </transformation>
