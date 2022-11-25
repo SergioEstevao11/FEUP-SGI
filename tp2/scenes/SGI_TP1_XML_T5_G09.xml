@@ -3,7 +3,7 @@
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="8" y="20" z="34" />
+            <from x="13.6" y="34" z="57.8" />
             <to x="0" y="-2" z="0" />
         </perspective>
 
@@ -13,12 +13,12 @@
         </perspective>
 
         <perspective id="Front" near="0.1" far="500" angle="45">
-            <from x="30" y="1" z="-1" />
+            <from x="30" y="1.5" z="-1.5" />
             <to x="0" y="0" z="0" />
         </perspective>
 
         <perspective id="Chaser Tie Fighter POV" near="0.1" far="500" angle="70">
-            <from x="-16" y="6" z="0" />
+            <from x="-16" y="5.5" z="-2.5" />
             <to x="0" y="-2" z="0" />
         </perspective>
         <perspective id="Saturn" near="0.1" far="500" angle="45">
@@ -30,11 +30,10 @@
             <to x="0" y="-2" z="0"/>
             <up x="0" y="20" z="0"/><!-- optional, default 0,1,0 -->
         </ortho>
-        <ortho id="Chaser TieFighter Ortho" near="0.001" far="2000" left="-50" right="50" top="50" bottom="-50">
-            <from x="15" y="8" z="-10"/>
-            <to x="-15" y="5" z="0"/>
-            <up x="0" y="1" z="0"/><!-- optional, default 0,1,0 -->
-        </ortho>
+        <perspective id="Chase Camera" near="0.1" far="500" angle="45">
+            <from x="31.25" y="6.25" z="6.25" />
+            <to x="0" y="0" z="0" />
+        </perspective>
         <ortho id="orthoUpView" near="0.01" far="500" left="-45" right="45" top="45" bottom="-45">
             <from x="0.00001" y="30" z="0"/>
             <to x="0" y="0" z="0"/>
@@ -11260,6 +11259,7 @@
             <children>
                 <primitiveref id="torus"/>
             </children>
+            <highlighted r="0.8" g="0.1" b="0.1" scale_hh="1.5"/>
         </component>
         <component id="saturn">
             <transformation>
