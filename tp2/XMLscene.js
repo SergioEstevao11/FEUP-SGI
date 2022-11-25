@@ -108,6 +108,16 @@ export class XMLscene extends CGFscene {
         }
     }
 
+    initShaderFolderCheckboxes() {
+        var folder_shaders = this.interface.gui.addFolder("Shaders");
+
+        for(let i = 0; i < this.graph.shaderComponents.length; i++) {
+            let id = this.graph.shaderComponents[i].id;
+            folder_shaders.add(this.graph.shaderComponents[i], 'highlighted').name(id);
+        }
+
+    }
+
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
@@ -130,10 +140,9 @@ export class XMLscene extends CGFscene {
 
         console.log("Views: ", this.graph.views)
 
-        console.log("displayShader:" + this.displayShader);
         this.interface.gui.add(this.graph, 'selectedView', this.graph.cameraIds).name('Cameras').onChange(this.updateCamera.bind(this));
-        if(this.displayShader != null)
-            this.interface.gui.add(this, 'displayShader').name('Shader');
+        
+        this.initShaderFolderCheckboxes();
 
         // folder_shader.add(this.shader, 'enabled').name(key);
 		// this.interface.gui.add(this.graph, 'showHighlight').name('Highlight').onChange(this.setActiveShader(this.shader));   

@@ -10100,6 +10100,7 @@
                 <componentref id="red_bullet_4"/>
                 <componentref id="red_bullet_6"/>
             </children>
+          <highlighted r="0.1" g="0.1" b="0.8" scale_hh="1.2"/>
         </component>
 
         <component id="rectangle_rev">
@@ -11229,6 +11230,8 @@
             <children>
                 <componentref id="tie_fighter"/>
             </children>
+            <highlighted r="0.8" g="0.1" b="0.1" scale_hh="3"/>
+
         </component>
 
         

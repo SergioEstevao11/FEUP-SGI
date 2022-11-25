@@ -39,6 +39,7 @@ export class MySceneGraph {
 
         this.nodes = [];
         this.views = [];
+        this.shaderComponents = [];
         this.scene.displayShader = null;
 
 
@@ -1199,10 +1200,11 @@ export class MySceneGraph {
                     return "unable to parse scale highlighted component of component " + componentID;
                 
                 this.scene.shader.setUniformsValues({r:r, g:g, b:b, scale:scale});
-                component.setHighlighted();
-                this.scene.displayShader = false;
-                console.log("ebfashijnkl");
+                this.scene.displayShader = true;
+
+                this.shaderComponents.push(component);
             }
+
 
             this.components[componentID] = component;
 

@@ -89,7 +89,7 @@ export class MyComponent extends CGFobject{
 
         Object.assign(currentMaterial, this.materials[this.materialIndex])
 
-        if(this.highlighted && this.scene.displayShader){
+        if(this.highlighted){
             this.scene.setActiveShader(this.scene.shader);
         }
 
