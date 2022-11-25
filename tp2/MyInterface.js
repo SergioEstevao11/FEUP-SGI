@@ -16,7 +16,7 @@ export class MyInterface extends CGFinterface {
      * Initializes the interface.
      * @param {CGFapplication} application
      */
-    init(application) {
+    init(application) { 
         super.init(application);
         // init GUI. For more information on the methods, check:
         //  http://workshop.chromeexperiments.com/examples/gui

@@ -34,6 +34,8 @@ export class XMLscene extends CGFscene {
 
         this.initCameras();
 
+        this.initShader();
+
         this.enableTextures(true);
 
         this.gl.clearDepth(100.0);
@@ -53,6 +55,12 @@ export class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
+
+    initShader() {
+        this.shader = new CGFshader(this.gl, "shaders/highlight.vert", "shaders/highlight.frag");
+        this.shader.setUniformsValues({timeFactor: 0});
+    }
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -122,8 +130,13 @@ export class XMLscene extends CGFscene {
 
         console.log("Views: ", this.graph.views)
 
-
+        console.log("displayShader:" + this.displayShader);
         this.interface.gui.add(this.graph, 'selectedView', this.graph.cameraIds).name('Cameras').onChange(this.updateCamera.bind(this));
+        if(this.displayShader != null)
+            this.interface.gui.add(this, 'displayShader').name('Shader');
+
+        // folder_shader.add(this.shader, 'enabled').name(key);
+		// this.interface.gui.add(this.graph, 'showHighlight').name('Highlight').onChange(this.setActiveShader(this.shader));   
 
         console.log("Views: ", this.graph.views)
 
@@ -150,15 +163,16 @@ export class XMLscene extends CGFscene {
             this.startingTime = t;
         }
         let secondsElapsed = (t - this.startingTime)/1000;
+        if(this.displayShader)
+            this.shader.setUniformsValues({ timeFactor: t / 100 % 100 });
         this.graph.checkKeys();
-        // this.shader2.setUniformsValues({ timeFactor: t / 100 % 100 });
         if (this.graph.components == null)
             return;
         for (const [key, component] of Object.entries(this.graph.components)) {
             if (component.animation != null){
                 component.animation.update(secondsElapsed);
             }
-          }
+        }
     }
 
     /**

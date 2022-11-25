@@ -5,7 +5,6 @@ import { MySphere } from './primitives/MySphere.js';
 import { MyTorus } from './primitives/MyTorus.js';
 import { MyTriangle } from './primitives/MyTriangle.js';
 import { MyPatch } from './primitives/MyPatch.js';
-import { MyBarrel } from './primitives/MyBarrel.js';
 import { MyComponent } from './MyComponent.js';
 import { MyAnimation } from './MyAnimation.js';
 
@@ -39,7 +38,8 @@ export class MySceneGraph {
         this.keysPressed=false;
 
         this.nodes = [];
-        this.views = []
+        this.views = [];
+        this.scene.displayShader = null;
 
 
         this.idRoot = null;
@@ -1039,6 +1039,7 @@ export class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var animationIndex = nodeNames.indexOf("animation");
             var childrenIndex = nodeNames.indexOf("children");
+            var highlightedIndex = nodeNames.indexOf("highlighted");
 
             let component = new MyComponent(this.scene, componentID);
 
@@ -1149,9 +1150,6 @@ export class MySceneGraph {
                 component.setAnimation(this.animations[animationId]);
                 
             }
-            
-
-
 
             // Children: primitives or other components
 
@@ -1173,6 +1171,37 @@ export class MySceneGraph {
                     component.addChild(this.components[componentRefId])
                 }
 
+            }
+
+
+            //Highlighted
+
+            if (highlightedIndex != -1){
+                var highlight = grandChildren[highlightedIndex];
+
+                // R
+                var r = this.reader.getFloat(highlight, 'r');
+                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                    return "unable to parse R highlighted component of component " + componentID;
+
+                // G
+                var g = this.reader.getFloat(highlight, 'g');
+                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                    return "unable to parse G highlighted component of component " + componentID;
+
+                // B
+                var b = this.reader.getFloat(highlight, 'b');
+                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                    return "unable to parse B highlighted component of component " + componentID;
+                
+                var scale = this.reader.getFloat(highlight, 'scale_hh');
+                if (!(scale != null && !isNaN(scale) && scale > 0))
+                    return "unable to parse scale highlighted component of component " + componentID;
+                
+                this.scene.shader.setUniformsValues({r:r, g:g, b:b, scale:scale});
+                component.setHighlighted();
+                this.scene.displayShader = false;
+                console.log("ebfashijnkl");
             }
 
             this.components[componentID] = component;
@@ -1329,8 +1358,6 @@ export class MySceneGraph {
 
     checkKeys()  {
         var text="Keys pressed: ";
-
-
 
         if (this.scene.interface.isKeyPressed("KeyM")) {
             if(!this.keysPressed){

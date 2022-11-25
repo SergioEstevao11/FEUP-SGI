@@ -15,7 +15,7 @@ export class MyComponent extends CGFobject{
         this.texture = null;
         this.animation = null
         this.children = [];
-
+        this.highlighted = false;
 	}
 
     addTransformation(matrix){
@@ -29,6 +29,7 @@ export class MyComponent extends CGFobject{
         }
         else{
             this.isMaterialInherit.push(false);
+            
         }
     }
 
@@ -40,6 +41,10 @@ export class MyComponent extends CGFobject{
 
     setAnimation(animation){
         this.animation = animation;
+    }
+
+    setHighlighted(){
+        this.highlighted = true;
     }
 
     addChild(child){
@@ -75,8 +80,6 @@ export class MyComponent extends CGFobject{
      * @param {*} father component's father
      */
     display(father){
-
-
         let currentMaterial = new CGFappearance(this.scene)
 
         //materials
@@ -86,6 +89,9 @@ export class MyComponent extends CGFobject{
 
         Object.assign(currentMaterial, this.materials[this.materialIndex])
 
+        if(this.highlighted && this.scene.displayShader){
+            this.scene.setActiveShader(this.scene.shader);
+        }
 
         //textures
         if(this.texture == "inherit"){
@@ -108,6 +114,7 @@ export class MyComponent extends CGFobject{
 
 
             if (this.texture != "none"){
+                console.log(this.children)  
                 this.children[i].changeTexCoords(this.length_s, this.length_t);
             }
             currentMaterial.apply();
@@ -126,5 +133,8 @@ export class MyComponent extends CGFobject{
             this.scene.popMatrix();
 
         }
+
+        if(this.highlighted)
+            this.scene.setActiveShader(this.scene.defaultShader);
     }
 }

@@ -9991,7 +9991,6 @@
                 <componentref id="half_barrel2"/>
             </children>
         </component>
-
         <component id="bullet_cover">
             <transformation>
                 <scale x="1" y="1" z="0.01"/>
@@ -10889,7 +10888,7 @@
                 <material id="light_grey_metal" />
             </materials>
             <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
-            <animation id="millenium_falcon_wobble"/>
+            <!-- <animation id="millenium_falcon_wobble"/> -->
             <children>
                 <componentref id="propulsor"/>
                 <componentref id="cockpit"/>
@@ -11282,7 +11281,7 @@
             <texture id="sun_texture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="sphere"/>
-            </children>
+            </children>  
         </component>
 
         <component id="spaceships">
@@ -11313,12 +11312,12 @@
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <!-- <animation id="move_right"/> -->
             <children>
-                <!-- <componentref id="spaceships" />
+                <componentref id="spaceships" /> 
+               <!-- <componentref id="millenium_falcon"/> -->
                 <componentref id="cubemap"/>
                 <componentref id="moon"/>
                 <componentref id="saturn"/>
-                <componentref id="sun"/> -->
-                <componentref id="barrel"/>
+                <componentref id="sun"/>
             </children>
         </component>
 
