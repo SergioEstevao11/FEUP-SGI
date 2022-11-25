@@ -10948,6 +10948,7 @@
                 <primitiveref id="tent"/>
                 <componentref id="parabolic_plate_inside"/>
             </children>
+            <highlighted r="0" g="0.5" b="0.5" scale_h="2"/>
         </component>
 
 
@@ -10976,6 +10977,8 @@
           <children>
                <primitiveref id="sphere"/>
           </children>
+          <highlighted r="0.5" g="0" b="0.5" scale_h="2"/>
+
         </component>
 
         <component id="antena">
@@ -11452,7 +11455,6 @@
             <children>
                 <componentref id="tie_fighter"/>
             </children>
-            <highlighted r="0.8" g="0.1" b="0.1" scale_h="3"/>
 
         </component>
 

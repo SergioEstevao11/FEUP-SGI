@@ -11,7 +11,7 @@ struct lightProperties {
     vec4 ambient;                   // Default: (0, 0, 0, 1)
     vec4 diffuse;                   // Default: (0, 0, 0, 1)
     vec4 specular;                  // Default: (0, 0, 0, 1)
-    vec4 half_vector;
+    //vec4 half_vector;               // Default: (0, 0, 0, 1)
     vec3 spot_direction;            // Default: (0, 0, -1)
     float spot_exponent;            // Default: 0 (possible values [0, 128]
     float spot_cutoff;              // Default: 180 (possible values [0, 90] or 180)
