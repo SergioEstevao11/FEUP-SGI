@@ -83,15 +83,15 @@
             <attenuation constant="0.0" linear="0.1" quadratic="0.0" />
         </spot>
         <spot id="tf 1" enabled="0" angle="180" exponent="1">
-            <location x="14.5" y="0" z="0" w="1.0" />
+            <location x="13.5" y="-2" z="0.75" w="1.0" />
             <target x="0" y="0" z="0" w="1.0" />
             <ambient r="1" g="1" b="1" a="1.0" />
             <diffuse r="1" g="0" b="0" a="1.0" />
             <specular r="0" g="0" b="0" a="1.0" />
-            <attenuation constant="0.8" linear="0" quadratic="0.0" />
+            <attenuation constant="0.0" linear="0.1" quadratic="0.0" />
         </spot>
         <spot id="tf 2" enabled="0" angle="180" exponent="2">
-            <location x="-14.5" y="5" z="0" w="1.0" />
+            <location x="-14" y="5" z="-2" w="1.0" />
             <target x="0" y="0" z="0" w="1.0" />
             <ambient r="1" g="1" b="1" a="1.0" />
             <diffuse r="0" g="1" b="0" a="1.0" />
@@ -99,7 +99,7 @@
             <attenuation constant="0.0" linear="0.2" quadratic="0.0" />
         </spot>
         <spot id="tf 3" enabled="0" angle="180" exponent="2">
-            <location x="-14.5" y="-5" z="2" w="1.0" />
+            <location x="-14" y="4" z="9" w="1.0" />
             <target x="0" y="0" z="0" w="1.0" />
             <ambient r="1" g="1" b="1" a="1.0" />
             <diffuse r="0" g="0" b="1" a="1.0" />
