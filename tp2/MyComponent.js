@@ -94,10 +94,6 @@ export class MyComponent extends CGFobject{
 
         Object.assign(currentMaterial, this.materials[this.materialIndex])
 
-        if(this.highlighted){
-            this.scene.shader.setUniformsValues(this.shaderValues);
-            this.scene.setActiveShader(this.scene.shader);
-        }
 
         //textures
         if(this.texture == "inherit"){
@@ -114,6 +110,11 @@ export class MyComponent extends CGFobject{
 
 
         for(let i = 0; i < this.children.length; i++){
+
+            if(this.highlighted && this.children[i].children == null){
+                this.scene.shader.setUniformsValues(this.shaderValues);
+                this.scene.setActiveShader(this.scene.shader);
+            }
 
             this.setupMatrix(father);
 
@@ -137,9 +138,12 @@ export class MyComponent extends CGFobject{
             }
             this.scene.popMatrix();
 
+            if(this.highlighted){
+                this.scene.setActiveShader(this.scene.defaultShader);
+            }
+
         }
 
-        if(this.highlighted)
-            this.scene.setActiveShader(this.scene.defaultShader);
+       
     }
 }
