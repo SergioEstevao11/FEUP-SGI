@@ -218,9 +218,9 @@
         <primitive id="triangle_wing_panel">
             <triangle x1="-1" y1="-1.7" z1="0" x2="1" y2="-1.7" z2="0" x3="0" y3="0" z3="0" />
         </primitive>
-        <primitive id="rectangle">
+        <!-- <primitive id="rectangle">
             <rectangle x1="0" x2="1" y1="0" y2="1" />
-        </primitive>
+        </primitive> -->
         <primitive id="sphere">
             <sphere radius="1" slices="20" stacks="20" />
         </primitive>
@@ -245,11 +245,11 @@
         <primitive id="pipe_panel_cylinder">
             <cylinder base="0.3" top="0.4" height="1" slices="20" stacks="20" /> 
         </primitive>
-        <primitive id="plane">
+        <primitive id="rectangle">
             <patch degree_u="1" parts_u="20" degree_v="1" parts_v="20" >
-                <controlpoint x="-1" y="-1" z="0" />
-                <controlpoint x="-1" y="1" z="0" />
-                <controlpoint x="1" y="-1" z="0" />
+                <controlpoint x="0" y="0" z="0" />
+                <controlpoint x="0" y="1" z="0" />
+                <controlpoint x="1" y="0" z="0" />
                 <controlpoint x="1" y="1" z="0" />  
             </patch>
         </primitive>
@@ -10710,7 +10710,7 @@
         <component id="side_hexagon">
             <transformation>
                 <rotate axis="x" angle="90" />
-                <scale x="1.1" y="1.1" z="9" />
+                <scale x="1.2" y="1.2" z="9" />
                 <translate x="0" y="0" z="-0.5" />
             </transformation>
             <materials>
@@ -11112,7 +11112,7 @@
                 <material id="light_grey_metal" />
             </materials>
             <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
-            <!-- <animation id="millenium_falcon_wobble"/> -->
+            <animation id="millenium_falcon_wobble"/>
             <children>
                 
                 <componentref id="propulsor"/>
@@ -11540,13 +11540,13 @@
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
-                <!-- <componentref id="spaceships" /> 
+                <componentref id="spaceships" /> 
                 <componentref id="cubemap"/>
                 <componentref id="moon"/>
                 <componentref id="saturn"/>
-                <componentref id="sun"/> -->
+                <componentref id="sun"/>
                 <!-- <componentref id="parabolic_base" /> -->
-                <componentref id="millenium_falcon"/>
+                
 
                
             </children>
