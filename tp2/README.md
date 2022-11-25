@@ -22,18 +22,19 @@
 - A dynamic positioning of the components paired with relevant camera position produced astounding realistic perspectives
 - Our project is a Star Wars inspired scene that includes the following:
   - Spaceship chasing scene involving:
-    - a Millenium Falcon (with different colorschemes and custom headlight);
+    - a Millenium Falcon (with different color schemes, custom headlight);
     - 3 Tie Fighters (with different color headlights);
   - A planet resembling Saturn;
   - A small Star;
   - A Moon;
   - A space background;
+  - Nurb surfaces on the Millenium Falcon's parabolic and propulsor air ducts;
   - An animated chasing sequence with:
     - a Millenium Falcon oscillating and firing bullets;
-    - a Tie Fighter travelling in a helix trajectory, dodging the bullets;
-    - a Tie Fighter travelling in a parabole trajectory;
+    - a Tie Fighter traveling in a helix trajectory, dodging the bullets;
+    - a Tie Fighter traveling in a parabole trajectory;
     - a Tie Fighter performing a parabole trajectory followed by a "barrel roll";
-  - Shaders aplied on:
+  - Shaders applied on:
     - the small star, simulating a supernova;
     - Millenium Falcon's bullets;
     - Saturn's rings.

@@ -114,7 +114,6 @@ export class MyComponent extends CGFobject{
 
 
             if (this.texture != "none"){
-                console.log(this.children)  
                 this.children[i].changeTexCoords(this.length_s, this.length_t);
             }
             currentMaterial.apply();

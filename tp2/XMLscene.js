@@ -68,7 +68,6 @@ export class XMLscene extends CGFscene {
         var i = 0;
         var folder_lights = this.interface.gui.addFolder("Lights");
         // Lights index.
-        //console.log("XMLScene lighs")
         // Reads the lights from the scene graph.
         for (var key in this.graph.lights) {
             if (i >= 8)
@@ -77,7 +76,6 @@ export class XMLscene extends CGFscene {
             if (this.graph.lights.hasOwnProperty(key)) {
                 var light = this.graph.lights[key];
 
-                console.log("light", light);
 
                 this.lights[i].setPosition(light[2][0], light[2][1], light[2][2], light[2][3]);
                 this.lights[i].setAmbient(light[3][0], light[3][1], light[3][2], light[3][3]);
@@ -138,7 +136,6 @@ export class XMLscene extends CGFscene {
 
         this.initLights();
 
-        console.log("Views: ", this.graph.views)
 
         this.interface.gui.add(this.graph, 'selectedView', this.graph.cameraIds).name('Cameras').onChange(this.updateCamera.bind(this));
         
@@ -147,7 +144,6 @@ export class XMLscene extends CGFscene {
         // folder_shader.add(this.shader, 'enabled').name(key);
 		// this.interface.gui.add(this.graph, 'showHighlight').name('Highlight').onChange(this.setActiveShader(this.shader));   
 
-        console.log("Views: ", this.graph.views)
 
 
         this.sceneInited = true;
