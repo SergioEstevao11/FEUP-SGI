@@ -647,7 +647,6 @@ export class MySceneGraph {
      */
     getTransformationMatrix(grandChildren, transformationID){
         var transfMatrix = mat4.create();
-        if (transformationID == "move_right")
         for (var j = 0; j < grandChildren.length; j++) {
             switch (grandChildren[j].nodeName) {
                 case 'translate':
