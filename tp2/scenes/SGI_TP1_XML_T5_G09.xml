@@ -10888,7 +10888,7 @@
                 <material id="light_grey_metal" />
             </materials>
             <texture id="mf_middle_big_square" length_s="1" length_t="1"/>
-            <!-- <animation id="millenium_falcon_wobble"/> -->
+            <animation id="millenium_falcon_wobble"/>
             <children>
                 <componentref id="propulsor"/>
                 <componentref id="cockpit"/>
@@ -11282,6 +11282,7 @@
             <children>
                 <primitiveref id="sphere"/>
             </children>  
+            <highlighted r="0.1" g="0.8" b="0.1" scale_hh="1.5"/>
         </component>
 
         <component id="spaceships">
