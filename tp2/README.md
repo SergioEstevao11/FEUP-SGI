@@ -36,7 +36,7 @@
   - Shaders applied on:
     - the small star, simulating a supernova;
     - Millenium Falcon's bullets;
-    - Saturn's rings;
+    - Millenium Falcon's cockpit segment;
     - Millenium Falcon's parabolica plate;
     - Milleniun Falcon's parabolica antena point.
 
