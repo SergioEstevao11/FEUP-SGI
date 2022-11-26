@@ -1199,6 +1199,7 @@ export class MySceneGraph {
                     return "unable to parse scale highlighted component of component " + componentID;
                 
                 this.scene.shader.setUniformsValues({r:r, g:g, b:b, scale:scale});
+                
                 component.setHighlighted();
                 this.scene.displayShader = false;
                 console.log("ebfashijnkl");
