@@ -14,20 +14,18 @@ uniform float timeFactor;
 
 void main() {
 
-	float tvar = sin(timeFactor/2.0)/2.0 + 0.5;
-	vec4 color = vFinalColor;
+	float tvar = sin(timeFactor/2.0)*sin(timeFactor/2.0);
+	vec4 initialColor;
 
 	if (uUseTexture)
 	{
 		vec4 colortex = texture2D(uSampler, vTextureCoord);
-
-		gl_FragColor.r = color.r+(r-color.r)*colortex.r*tvar;
-		gl_FragColor.g = color.g+(g-color.g)*colortex.g*tvar;
-		gl_FragColor.b = color.b+(b-color.b)*colortex.b*tvar;
-		gl_FragColor.a = color.a+(1.0-color.a)*colortex.a*tvar;
+		initialColor = colortex  * vFinalColor;
 	}
 	else
-		gl_FragColor = color;
+		initialColor = vFinalColor;
+
+	gl_FragColor = mix(initialColor, vec4(r,g,b,1.0), tvar);
 
 	
 }

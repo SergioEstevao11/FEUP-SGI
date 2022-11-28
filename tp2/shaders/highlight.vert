@@ -11,7 +11,7 @@ struct lightProperties {
     vec4 ambient;                   // Default: (0, 0, 0, 1)
     vec4 diffuse;                   // Default: (0, 0, 0, 1)
     vec4 specular;                  // Default: (0, 0, 0, 1)
-    vec4 half_vector;
+    //vec4 half_vector;               // Default: (0, 0, 0, 1)
     vec3 spot_direction;            // Default: (0, 0, -1)
     float spot_exponent;            // Default: 0 (possible values [0, 128]
     float spot_cutoff;              // Default: 180 (possible values [0, 90] or 180)
@@ -115,7 +115,7 @@ void main() {
 	vec3 offset=vec3(0.0,0.0,0.0);
 	vec4 position = vec4(0.0,0.0,0.0,0.0);
 
-	offset=aVertexNormal*scale*sin(timeFactor/2.0);
+	offset=aVertexNormal*scale*abs(sin(timeFactor/2.0));
 	vec4 vertex=vec4(aVertexPosition+offset, 1.0);
 
 	vTextureCoord = aTextureCoord;
@@ -128,5 +128,5 @@ void main() {
 
 	vFinalColor = lighting(vertex, E, N);
 
-	gl_Position = uPMatrix * uMVMatrix * vertex;
+	gl_Position = uPMatrix * uMVMatrix * scale * vertex;
 }

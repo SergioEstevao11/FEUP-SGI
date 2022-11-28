@@ -39,6 +39,7 @@ export class MySceneGraph {
 
         this.nodes = [];
         this.views = [];
+        this.shaderComponents = [];
         this.scene.displayShader = null;
 
 
@@ -646,9 +647,6 @@ export class MySceneGraph {
      */
     getTransformationMatrix(grandChildren, transformationID){
         var transfMatrix = mat4.create();
-        if (transformationID == "move_right")
-            console.log("animation inside matrixConverter: ", grandChildren);
-        //for (var j = grandChildren.length-1; j >= 0; j--) {
         for (var j = 0; j < grandChildren.length; j++) {
             switch (grandChildren[j].nodeName) {
                 case 'translate':
@@ -891,7 +889,6 @@ export class MySceneGraph {
             }
             else if(primitiveType == 'patch'){
                 let controlVertsNodes = grandChildren[0].children;
-                console.log(controlVertsNodes)                    
                 let degree_u = this.reader.getFloat(grandChildren[0], 'degree_u');
                 if (!(degree_u != null && !isNaN(degree_u)))
                     return "unable to parse degree_u of the primitive coordinates for ID = " + primitiveId;
@@ -910,7 +907,6 @@ export class MySceneGraph {
                     return "unable to parse parts_v of the primitive coordinates for ID = " + primitiveId;
 
                 if((degree_u+1) * (degree_v+1) != controlVertsNodes.length){
-                    console.log(controlVertsNodes.size)
                     return "degree_u and degree_v don«t match number of control points for ID = " + primitiveId;
                 }
 
@@ -921,13 +917,10 @@ export class MySceneGraph {
                         let controlPoint = controlVertsNodes[i*(degree_v+1)+j]
                         let coordinates = this.parseCoordinates3D(controlPoint, "Invalid controlpoint coordinates")
                         coordinates.push(1)
-                        console.log(i*(degree_v+1)+j)
-                        console.log(coordinates)
                         vline.push(coordinates)
                     }
                     controlVerts.push(vline)
                 }
-                console.log("patch " + primitiveId)
                 let patch = new MyPatch(this.scene, degree_u, degree_v, parts_u, parts_v, controlVerts);
                 this.primitives[primitiveId] = patch;
 
@@ -975,7 +968,6 @@ export class MySceneGraph {
                 if (!(instant != null && !isNaN(instant)))
                     return "unable to parse instant of the primitive coordinates for ID = " + keyframeanimID;
 
-                console.log("animation transformations: ", grandChildren[j])
                 let transformationMatrix = this.getTransformationMatrix(grandChildren[j].children, keyframeanimID);
 
                 let keyframe = {
@@ -988,7 +980,6 @@ export class MySceneGraph {
 
             let animation = new MyAnimation(this.scene, keyframeanimID, keyframes);
             
-            console.log("animation:", animation)
             this.animations[keyframeanimID] = animation;
         }
 
@@ -1140,7 +1131,6 @@ export class MySceneGraph {
                 let animation = grandChildren[animationIndex];
                 let animationId = this.reader.getString(animation, 'id');
 
-                console.log("animationId", animationId)
 
 
                 if (this.animations[animationId] == null){
@@ -1194,16 +1184,20 @@ export class MySceneGraph {
                 if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
                     return "unable to parse B highlighted component of component " + componentID;
                 
-                var scale = this.reader.getFloat(highlight, 'scale_hh');
+                var scale = this.reader.getFloat(highlight, 'scale_h');
                 if (!(scale != null && !isNaN(scale) && scale > 0))
                     return "unable to parse scale highlighted component of component " + componentID;
                 
-                this.scene.shader.setUniformsValues({r:r, g:g, b:b, scale:scale});
-                
-                component.setHighlighted();
-                this.scene.displayShader = false;
-                console.log("ebfashijnkl");
+
+                let shaderValues = {r:r, g:g, b:b, scale:scale}
+
+                component.setShaderValues(shaderValues);
+
+                this.scene.displayShader = true;
+
+                this.shaderComponents.push(component);
             }
+
 
             this.components[componentID] = component;
 
