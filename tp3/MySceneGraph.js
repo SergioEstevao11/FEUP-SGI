@@ -6,7 +6,8 @@ import { MyTorus } from './primitives/MyTorus.js';
 import { MyTriangle } from './primitives/MyTriangle.js';
 import { MyPatch } from './primitives/MyPatch.js';
 import { MyComponent } from './MyComponent.js';
-import { MyAnimation } from './MyAnimation.js';
+import { MyKeyframeAnimation } from './MyAnimation.js';
+import { MyKeyframe } from './MyKeyframe.js';
 
 
 // Order of the groups in the XML document.
@@ -935,9 +936,59 @@ export class MySceneGraph {
         return null;
     }
 
+    parseKeyframeAnimations(grandChildren, keyframeAnimationID) {
+        let translateCoordinates = [0,0,0]
+        let scaleCoordinates = [1,1,1]
+        let rotateCoordinates = [0,0,0]
+        for (var j = 0; j < grandChildren.length; j++) {
+            switch (grandChildren[j].nodeName) {
+                case 'translate':
+                    translateCoordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + keyframeAnimationID);
+                    if (!Array.isArray(translateCoordinates))
+                        return translateCoordinates;
 
-    parseAnimations(animationsNone) {
-        var children = animationsNone.children;
+                    break;
+                case 'scale':
+                    scaleCoordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + keyframeAnimationID);
+                    if (!Array.isArray(scaleCoordinates))
+                        return scaleCoordinates;
+
+                    break;
+
+                case 'rotate':
+                    var axis = this.reader.getString(grandChildren[j], 'axis');
+                    if (!(axis != null))
+                        return "unable to parse axis of the transformation for ID = " + keyframeAnimationID;
+
+                    var angle = this.reader.getFloat(grandChildren[j], 'angle');
+                    if (!(angle != null))
+                        return "unable to parse angle of the transformation for ID = " + keyframeAnimationID;
+
+                    angle = angle * Math.PI / 180 //parse to rads
+
+                    switch(axis){
+                        case "x":
+                            rotateCoordinates[0] = angle
+                            break;
+
+                        case "y":
+                            rotateCoordinates[1] = angle
+                            break;
+
+                        case "z":
+                            rotateCoordinates[2] = angle
+                            break;
+                    }
+
+            }
+        }
+        let keyframe = new MyKeyframe(translateCoordinates[0], translateCoordinates[1], translateCoordinates[2], rotateCoordinates[0], rotateCoordinates[1], rotateCoordinates[2], scaleCoordinates[0], scaleCoordinates[1], scaleCoordinates[2], 0)
+        return keyframe
+    }
+
+
+    parseAnimations(animationsNode) {
+        var children = animationsNode.children;
         this.animations = {}
 
         for (var i = 0; i < children.length; i++) {
@@ -969,16 +1020,15 @@ export class MySceneGraph {
                     return "unable to parse instant of the primitive coordinates for ID = " + keyframeanimID;
 
                 let transformationMatrix = this.getTransformationMatrix(grandChildren[j].children, keyframeanimID);
-
-                let keyframe = {
-                    instant : instant,
-                    matrix : transformationMatrix
-                }
+                let keyframe = this.parseKeyframeAnimations(grandChildren[j].children, keyframeanimID)
+                keyframe.instant = instant
+                keyframe.matrix = transformationMatrix
+                
 
                 keyframes.push(keyframe);
             }
 
-            let animation = new MyAnimation(this.scene, keyframeanimID, keyframes);
+            let animation = new MyKeyframeAnimation(this.scene, keyframeanimID, keyframes);
             
             this.animations[keyframeanimID] = animation;
         }
