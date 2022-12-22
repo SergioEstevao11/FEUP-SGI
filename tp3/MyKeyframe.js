@@ -13,7 +13,7 @@ export class MyKeyframe{
     }
 
     static interpolate(frame1, frame2, r){
-		return new Keyframe(
+		return new MyKeyframe(
 			frame1.tx + r * (frame2.tx - frame1.tx),
 			frame1.ty + r * (frame2.ty - frame1.ty),
 			frame1.tz + r * (frame2.tz - frame1.tz),
