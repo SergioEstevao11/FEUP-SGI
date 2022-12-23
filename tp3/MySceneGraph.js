@@ -29,7 +29,7 @@ export class MySceneGraph {
     /**
      * @constructor
      */
-    constructor(filename, scene) {
+    constructor(scene, filename) {
         this.loadedOk = null;
 
         // Establish bidirectional references between scene and graph.
