@@ -30,10 +30,12 @@ function main() {
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
     var filename=getUrlVars()['file'] || "SGI_TP2_XML_T5_G09.xml";
+    var board=getUrlVars()['file'] || "gameboard.xml";
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
 	var myGraph = new MySceneGraph(filename, myScene);
+    // var myBoard = new MySceneGraph(board, myScene);
 
     //myScene.myGraph = myGraph;
 	

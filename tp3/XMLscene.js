@@ -2,7 +2,6 @@ import { CGFscene } from '../lib/CGF.js';
 import { CGFaxis,CGFcamera,CGFshader } from '../lib/CGF.js';
 
 
-var DEGREE_TO_RAD = Math.PI / 180;
 
 /**
  * XMLscene class, representing the scene that is to be rendered.
