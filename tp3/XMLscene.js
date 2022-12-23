@@ -173,10 +173,9 @@ export class XMLscene extends CGFscene {
         this.graph.checkKeys();
         if (this.graph.components == null)
             return;
-        for (const [key, component] of Object.entries(this.graph.components)) {
-            if (component.animation != null){
-                component.animation.update(secondsElapsed);
-            }
+        for (const [key, animation] of Object.entries(this.graph.animations)) {
+            if (animation.finished != true)
+                animation.update(secondsElapsed);
         }
     }
 
