@@ -460,6 +460,8 @@
             <children>
                 <componentref id="checker_piece_cover"/>
             </children>
+            <highlighted r="0.6" g="0.1" b="0.1" scale_h="1.2"/>
+
         </component>
         <component id="checker_piece">
             <transformation>

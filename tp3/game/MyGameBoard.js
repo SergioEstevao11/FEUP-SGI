@@ -1,6 +1,6 @@
-import { MyPatch } from "./MyPatch";
+import {CGFobject} from '../lib/CGF.js';
 
-export class MyBoard extends CGFobject {
+export class MyGameBoard extends CGFobject {
     constructor(scene, id, controlPoints) {
         super(scene);
         this.id = id;
