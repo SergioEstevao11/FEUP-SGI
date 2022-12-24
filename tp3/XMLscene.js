@@ -15,7 +15,7 @@ export class XMLscene extends CGFscene {
         super();
 
         this.graph = null;
-
+		this.orch = null
         this.interface = myinterface;
     }
 
@@ -208,7 +208,7 @@ export class XMLscene extends CGFscene {
             this.setDefaultAppearance();
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            this.orch.display();
         }
 
         this.popMatrix();

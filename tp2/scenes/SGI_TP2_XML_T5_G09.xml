@@ -47,8 +47,7 @@
         <background r="0.0" g="0.0" b="0.0" a="1.0" />
     </ambient>
 
-    <lights>
-        
+    <lights>   
         <omni id="main light" enabled="0">
             <location x="20" y="20" z="20" w="1.0" />
             <ambient r="1" g="1" b="1" a="1.0" />

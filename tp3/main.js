@@ -1,7 +1,9 @@
 import { CGFapplication } from '../lib/CGF.js';
 import { XMLscene } from './XMLscene.js';
 import { MyInterface } from './MyInterface.js';
-import { MySceneGraph } from './MySceneGraph.js';
+import { MyGameOrchestrator } from './MyGameOrchestrator.js';
+
+
 
 function getUrlVars() {
     var vars = {};
@@ -35,10 +37,7 @@ function main() {
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
 	// var myGraph = new MySceneGraph(filename, myScene);
-    var myBoard = new MySceneGraph(board, myScene);
-
-
-    //myScene.myGraph = myGraph;
+    var orch = new MyGameOrchestrator(myScene, filename);
 	
 	// start
     app.run();

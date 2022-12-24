@@ -29,7 +29,7 @@ export class MySceneGraph {
     /**
      * @constructor
      */
-    constructor(filename, scene) {
+    constructor(scene, filename) {
         this.loadedOk = null;
 
         // Establish bidirectional references between scene and graph.
@@ -924,6 +924,8 @@ export class MySceneGraph {
                 }
                 let patch = new MyPatch(this.scene, degree_u, degree_v, parts_u, parts_v, controlVerts);
                 this.primitives[primitiveId] = patch;
+
+                console.log(patch)
 
             }
 
