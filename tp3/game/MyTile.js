@@ -75,6 +75,7 @@ export class MyTile extends CGFobject{
 
         this.scene.translate(this.coordinates[0], this.coordinates[1], 0);
         this.patch.display();
+        
 
         // Display piece
         if (this.piece != null)
