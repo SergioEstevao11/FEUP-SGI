@@ -1,4 +1,4 @@
-import {CGFappearance, CGFtexture, CGFobject} from '../lib/CGF.js';
+import {CGFappearance, CGFtexture, CGFobject} from '../../lib/CGF.js';
 
 /**
  * Data Class that holds information about the component

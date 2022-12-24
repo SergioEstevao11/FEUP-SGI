@@ -1,0 +1,497 @@
+<sxs>
+    <scene root="demoRoot" axis_length="40"/>
+
+    <views default="defaultCamera">
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="13.6" y="34" z="57.8" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+
+        <perspective id="Millenium Falcon POV" near="0.1" far="500" angle="45">
+            <from x="3.5" y="1.5" z="5" />
+            <to x="15" y="0" z="0" />
+        </perspective>
+
+        <perspective id="Front" near="0.1" far="500" angle="45">
+            <from x="30" y="1.5" z="-1.5" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+
+        <perspective id="Chaser Tie Fighter POV" near="0.1" far="500" angle="70">
+            <from x="-16" y="5.5" z="-2.5" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+        <perspective id="Saturn" near="0.1" far="500" angle="45">
+            <from x="-25" y="5" z="-15" />
+            <to x="15" y="15" z="15" />
+        </perspective>
+        <ortho id="Side Ortho" near="0.001" far="2000" left="-50" right="50" top="50" bottom="-50">
+            <from x="0" y="0" z="20"/>
+            <to x="0" y="-2" z="0"/>
+            <up x="0" y="20" z="0"/><!-- optional, default 0,1,0 -->
+        </ortho>
+        <perspective id="Chase Camera" near="0.1" far="500" angle="45">
+            <from x="31.25" y="6.25" z="6.25" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <ortho id="orthoUpView" near="0.01" far="500" left="-45" right="45" top="45" bottom="-45">
+            <from x="0.00001" y="30" z="0"/>
+            <to x="0" y="0" z="0"/>
+            <up x="0" y="1" z="0"/>
+            <!-- optional, default 0,1,0 -->
+        </ortho>
+    </views>
+
+    <ambient>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </ambient>
+
+    <lights>
+        
+        <omni id="main light" enabled="0">
+            <location x="20" y="20" z="20" w="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+            <attenuation constant="0.2" linear="0.0" quadratic="0.0"/>
+        </omni>
+
+        <spot id="falcon quadratic" enabled="0" angle="180" exponent="2">
+            <location x="6" y="0" z="0" w="1.0" />
+            <target x="10" y="0" z="0" w="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+            <attenuation constant="0.0" linear="0.0" quadratic="0.01" />
+        </spot>
+        <spot id="falcon constant" enabled="0" angle="180" exponent="2">
+            <location x="6 " y="0" z="0" w="1.0" />
+            <target x="10" y="0" z="0" w="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+            <attenuation constant="0.1" linear="0.0" quadratic="0.0" />
+        </spot>
+        <spot id="falcon linear" enabled="0" angle="180" exponent="2">
+            <location x="6" y="0" z="0" w="1.0" />
+            <target x="10" y="0" z="0" w="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+            <attenuation constant="0.0" linear="0.1" quadratic="0.0" />
+        </spot>
+        <spot id="tf 1" enabled="0" angle="180" exponent="1">
+            <location x="13.5" y="-2" z="0.75" w="1.0" />
+            <target x="0" y="0" z="0" w="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1" g="0" b="0" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
+            <attenuation constant="0.0" linear="0.1" quadratic="0.0" />
+        </spot>
+        <spot id="tf 2" enabled="0" angle="180" exponent="2">
+            <location x="-14" y="5" z="-2" w="1.0" />
+            <target x="0" y="0" z="0" w="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="0" g="1" b="0" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
+            <attenuation constant="0.0" linear="0.2" quadratic="0.0" />
+        </spot>
+        <spot id="tf 3" enabled="0" angle="180" exponent="2">
+            <location x="-14" y="4" z="9" w="1.0" />
+            <target x="0" y="0" z="0" w="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="0" g="0" b="1" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
+            <attenuation constant="0.0" linear="0.0" quadratic="0.1" />
+        </spot>
+        <omni id="sun light" enabled="1">
+            <location x="-20" y="10" z="10" w="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+            <attenuation constant="0.0" linear="0.01" quadratic="0.0"/>
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="solar_panel" file="scenes/images/solar_panel.jpg" />
+        <texture id="sky" file="scenes/images/space/universe.jpg" />
+        <texture id="sun_texture" file="scenes/images/space/sun.jpg" />
+        <texture id ="light_ray" file="scenes/images/light_ray.png" />
+        <texture id ="mf_front_rec" file="scenes/images/mf_front_rec.png" />
+        <texture id ="mf_middle_big_square" file="scenes/images/mf_middle_big_square.png" />
+        <texture id ="mf_middle_square" file="scenes/images/mf_middle_square.png" />
+        <texture id ="mf_side_front_rec" file="scenes/images/mf_side_front_rec.png" />
+        <texture id ="mf_side_rec" file="scenes/images/mf_side_rec.png" />
+        <texture id ="mf_side" file="scenes/images/mf_side.png" />
+        <texture id ="mf_back" file="scenes/images/mf_back.png" />
+        <texture id ="metal_tex" file="scenes/images/metal_tex.png" />
+        <texture id ="grid" file="scenes/images/grid.png" />
+        <texture id ="sp_tex" file="scenes/images/spaceship_tex.png" />
+        <texture id ="cp_tex" file="scenes/images/cockpit_tex.jpg" />
+        <texture id ="first_order" file="scenes/images/first_order.png" />
+        <texture id="moon" file="scenes/images/moon.jpg" />
+        <texture id="ring" file="scenes/images/ring.jpg" />
+        <texture id="saturn" file="scenes/images/saturn.jpg" />
+        <texture id="vent" file="scenes/images/vent.jpg" />
+        <texture id="chess_board" file="scenes/images/chess_board.png" />
+    </textures>
+
+    <materials>
+        <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="0" g="0" b="0" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
+        </material>
+        <material id="light_grey_metal" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.01" g="0.01" b="0.01" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </material>
+        <material id="propulsor_blue" shininess="10">
+            <emission r="0.1" g="0.2" b="0.25" a="1.0" />
+            <ambient r="0.1" g="0.3" b="0.6" a="1.0" />
+            <diffuse r="0.2" g="0.7" b="0.9" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
+        </material>
+
+        <material id="night_black" shininess="7">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.01" g="0.01" b="0.01" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.6" g="0.6" b="0.6" a="1.0" />
+        </material>
+
+        <material id="snow_white" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.001" g="0.001" b="0.001" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+
+        <material id="blood_red" shininess="10">
+            <emission r="0.4" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.6" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.9" g="0.0" b="0.0" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
+        </material>
+
+
+        <material id="lightning_yellow" shininess="7">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.01" g="0.01" b="0.01" a="1.0" />
+            <diffuse r="0.5" g="0.4" b="0.1" a="1.0" />
+            <specular r="1" g="0.81" b="0.14" a="1.0" />
+        </material>
+        <material id="sun_material" shininess="10">
+            <emission r="1" g="1" b="1" a="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+
+        <material id="metal_plate" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.01" g="0.01" b="0.01" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
+          </material>
+
+        <material id="checkers_black" shininess="7">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.01" g="0.01" b="0.01" a="1.0" />
+            <diffuse r="0.05" g="0.05" b="0.05" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+
+        <material id="checkers_white" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.001" g="0.001" b="0.001" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="origin_transform">
+                <!-- <translate x="0" y="0" z="-0.5"/> -->
+        </transformation>
+    </transformations>
+
+    <primitives>
+        <primitive id="triangle">
+            <triangle x1="0" x2="0" x3="1" y1="1" y2="0" y3="0" z1="0" z2="0" z3="0" />
+        </primitive> 
+        <primitive id="propulsor_triangle">
+            <triangle x1="0.156" x2="0" x3="0.31" y1="0.99" y2="0" y3="0" z1="0" z2="0" z3="0" />
+        </primitive> 
+        <primitive id="triangle_wing_panel">
+            <triangle x1="-1" y1="-1.7" z1="0" x2="1" y2="-1.7" z2="0" x3="0" y3="0" z3="0" />
+        </primitive>
+        <!-- <primitive id="rectangle">
+            <rectangle x1="0" x2="1" y1="0" y2="1" />
+        </primitive> -->
+        <primitive id="sphere">
+            <sphere radius="1" slices="20" stacks="20" />
+        </primitive>
+        <primitive id="torus">
+            <torus inner="0.3" outer="1" slices="40" loops="40" />
+        </primitive>
+        <primitive id="cylinder">      
+            <cylinder base="1" top="1" height="1" slices="20" stacks="20" /> 
+        </primitive>
+        <primitive id="cockpit_front">      
+            <cylinder base="1" top="0.6" height="1" slices="20" stacks="20" /> 
+        </primitive>
+        <primitive id="hexa_cylinder">      
+            <cylinder base="1" top="1" height="1" slices="6" stacks="20" /> 
+        </primitive>
+        <primitive id="hexa_sphere">
+            <sphere radius="1" slices="6" stacks="6" />
+        </primitive>
+        <primitive id="pipe_cockpit_cylinder">
+            <cylinder base="0.6" top="0.3" height="1" slices="20" stacks="20" /> 
+        </primitive>
+        <primitive id="pipe_panel_cylinder">
+            <cylinder base="0.3" top="0.4" height="1" slices="20" stacks="20" /> 
+        </primitive>
+        <primitive id="rectangle">
+            <patch degree_u="1" parts_u="20" degree_v="1" parts_v="20" >
+                <controlpoint x="0" y="0" z="0" />
+                <controlpoint x="0" y="1" z="0" />
+                <controlpoint x="1" y="0" z="0" />
+                <controlpoint x="1" y="1" z="0" />  
+            </patch>
+        </primitive>
+        <primitive id="tent">
+            <patch degree_u="1" parts_u="20" degree_v="2" parts_v="20" >
+                <controlpoint x="-1" y="-3" z="0" />
+                <controlpoint x="-1" y="0" z="2" />
+                <controlpoint x="-1" y="3" z="0" />
+                <controlpoint x="1" y="-3" z="0" />
+                <controlpoint x="1" y="0" z="2" />
+                <controlpoint x="1" y="3" z="0" />  
+            </patch>
+        </primitive>
+        <primitive id="tent_inverted">
+               <patch degree_u="1" parts_u="20" degree_v="2" parts_v="20" >
+                <controlpoint x="1" y="3" z="0" />
+                <controlpoint x="1" y="0" z="-2" />
+                <controlpoint x="1" y="-3" z="0" />
+                <controlpoint x="-1" y="3" z="0" />
+                <controlpoint x="-1" y="0" z="-2" />
+                <controlpoint x="-1" y="-3" z="0" />  
+            </patch>
+        </primitive>
+        <primitive id="half_barrel">
+            <patch degree_u="3" parts_u="20" degree_v="3" parts_v="20" >
+                <controlpoint x="-1.0" y="0" z="0" />
+                <controlpoint x="-1.6666666666666665" y="0" z="0.41157974918903667" />
+                <controlpoint x="-1.6666666666666665" y="0" z="1.5884202508109633" />
+                <controlpoint x="-1.0" y="0" z="2.0" />
+                <controlpoint x="-1.0" y="-1.3333333333333333" z="0" />
+                <controlpoint x="-1.6666666666666665" y="-2.222222222222222" z="0.41157974918903667" />
+                <controlpoint x="-1.6666666666666665" y="-2.222222222222222" z="1.5884202508109633" />
+                <controlpoint x="-1.0" y="-1.3333333333333333" z="2.0" />
+                <controlpoint x="1.0" y="-1.3333333333333333" z="0" />
+                <controlpoint x="1.6666666666666665" y="-2.222222222222222" z="0.41157974918903667" />
+                <controlpoint x="1.6666666666666665" y="-2.222222222222222" z="1.5884202508109633" />
+                <controlpoint x="1.0" y="-1.3333333333333333" z="2.0" />
+                <controlpoint x="1.0" y="0" z="0" />
+                <controlpoint x="1.6666666666666665" y="0" z="0.41157974918903667" />
+                <controlpoint x="1.6666666666666665" y="0" z="1.5884202508109633" />
+                <controlpoint x="1.0" y="0" z="2.0" />
+            </patch>
+        </primitive>
+        <primitive id="half_barrel_inverted">
+            <patch degree_u="3" parts_u="20" degree_v="3" parts_v="20" >
+               <controlpoint x="1.0" y="0" z="0" />
+               <controlpoint x="1.6666666666666665" y="0" z="-0.41157974918903667" />
+               <controlpoint x="1.6666666666666665" y="0" z="-1.5884202508109633" />
+               <controlpoint x="1.0" y="0" z="-2.0" />
+               <controlpoint x="1.0" y="1.3333333333333333" z="0" />
+               <controlpoint x="1.6666666666666665" y="2.222222222222222" z="-0.41157974918903667" />
+               <controlpoint x="1.6666666666666665" y="2.222222222222222" z="-1.5884202508109633" />
+               <controlpoint x="1.0" y="1.3333333333333333" z="-2.0" />
+               <controlpoint x="-1.0" y="1.3333333333333333" z="0" />
+               <controlpoint x="-1.6666666666666665" y="2.222222222222222" z="-0.41157974918903667" />
+               <controlpoint x="-1.6666666666666665" y="2.222222222222222" z="-1.5884202508109633" />
+               <controlpoint x="-1.0" y="1.3333333333333333" z="-2.0" />
+               <controlpoint x="-1.0" y="0" z="0" />
+               <controlpoint x="-1.6666666666666665" y="0" z="-0.41157974918903667" />
+               <controlpoint x="-1.6666666666666665" y="0" z="-1.5884202508109633" />
+               <controlpoint x="-1.0" y="0" z="-2.0" />
+            </patch>
+        </primitive>
+ 
+    </primitives>
+
+     <animations>
+     </animations>
+
+    <components>
+
+        <component id="lateralZPos">
+            <transformation>
+                <translate x="0" y="0" z="-0.5"/>
+                <rotate axis="x" angle="90" />
+                <scale x="1" y="0.5" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="metal_tex" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="rectangle" /> 
+            </children>
+        </component>
+
+        <component id="lateralZNeg">
+            <transformation>
+                <rotate axis="x" angle="180" />
+                <translate x="0" y="-1" z="0.5"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="lateralZPos" /> 
+            </children>
+        </component>
+
+        <component id="lateralsZ">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="lateralZPos" /> 
+                <componentref id="lateralZNeg" /> 
+            </children>
+        </component>
+
+        <component id="lateralsX">
+            <transformation>
+                <translate x="1" y="0" z="0"/>
+                <rotate axis="z" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="lateralsZ" /> 
+            </children>
+        </component>
+
+        <component id="top">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="chess_board" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="rectangle" /> 
+            </children>
+        </component>
+
+
+
+        <component id="base">
+            <transformation>
+                <rotate axis="x" angle="180" />
+
+                <translate x="0" y="-1" z="0.5"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="metal_tex" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="rectangle" /> 
+            </children>
+        </component>
+
+        <component id="board">
+            <transformation>
+                <rotate axis="x" angle="-90" />
+                <scale x="8" y="8" z="1.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="lateralsX" /> 
+                <componentref id="lateralsZ" /> 
+                <componentref id="base" />
+                <componentref id="top" />
+            </children>
+        </component>
+
+        <component id="checker_piece_cover">
+            <transformation>
+                <scale x="1" y="1" z="0.01"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="sphere"/>
+            </children>
+        </component>
+        <component id="checker_piece_cover1">
+            <transformation>
+                <translate x="0" y="0" z="1"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="checker_piece_cover"/>
+            </children>
+            <highlighted r="0.6" g="0.1" b="0.1" scale_h="1.2"/>
+
+        </component>
+        <component id="checker_piece">
+            <transformation>
+                <translate x="0.5" y="0.15" z="-0.5"/>
+                <rotate axis="x" angle="90"/>
+                <scale x="0.3" y="0.3" z="0.15"/>
+            </transformation>
+            <materials>
+                <material id="checkers_black" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="checker_piece_cover"/>
+                <componentref id="checker_piece_cover1"/>
+                <primitiveref id="cylinder"/>
+            </children>
+        </component>
+
+        <component id="demoRoot">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="board" />
+                <componentref id="checker_piece" /> 
+            </children>
+        </component>
+
+    </components>
+</sxs>

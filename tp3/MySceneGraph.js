@@ -925,6 +925,8 @@ export class MySceneGraph {
                 let patch = new MyPatch(this.scene, degree_u, degree_v, parts_u, parts_v, controlVerts);
                 this.primitives[primitiveId] = patch;
 
+                console.log(patch)
+
             }
 
             else {
