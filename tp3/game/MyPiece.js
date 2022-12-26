@@ -15,13 +15,13 @@ export class MyPiece extends CGFobject{
         this.black_material = new CGFappearance(this.scene);
         this.black_material.setAmbient(0.01,0.01,0.01,1.0);
         this.black_material.setDiffuse(0.05,0.05,0.05,1.0);
-        this.black_material.setSpecular(0.2,0.2,0.2,1.0);
+        this.black_material.setSpecular(0.1,0.1,0.1,1.0);
         this.black_material.setShininess(100.0);
 
         this.white_material = new CGFappearance(this.scene);
         this.white_material.setAmbient(0.01,0.01,0.01,1.0);
         this.white_material.setDiffuse(0.7,0.7,0.7,1.0);
-        this.white_material.setSpecular(0.2,0.2,0.2,1.0);
+        this.white_material.setSpecular(0.1,0.1,0.1,1.0);
         this.white_material.setShininess(100.0);
 
         this.cylinder = new MyCylinder(this.scene, 0.4, 0.4, 0.25, 20, 20);

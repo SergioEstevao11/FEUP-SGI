@@ -312,7 +312,13 @@
                <controlpoint x="-1.0" y="0" z="-2.0" />
             </patch>
         </primitive>
- 
+          <!-- <primitive id="mainboard">
+               <mainboard x1="0" y1="0" x2="8" y2="8" />
+          </primitive>
+          <primitive id="auxilary_board">
+               <auxilaryboard x1="0" y1="0" x2="8" y2="8" />
+          </primitive> -->
+
     </primitives>
 
     <animations>
