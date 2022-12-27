@@ -1,4 +1,4 @@
-import {CGFobject, CGFnurbsSurface, CGFnurbsObject} from '../../lib/CGF.js';
+import {CGFobject} from '../../lib/CGF.js';
 import { MyPatch } from '../primitives/MyPatch.js';
 /**
  * Patch
@@ -20,20 +20,17 @@ import { MyPatch } from '../primitives/MyPatch.js';
     }
 
     initBuffers() {
-        this.faces = []
-        for (var i = 0; i < 6; i++) {
-            this.faces.push(new MyPatch(this.scene, 1, 1, 20, 20, 
+        this.patch = new MyPatch(this.scene, 1, 1, 20, 20, 
+            [
                 [
-                    [
-                        [0,0,0,1],
-                        [0,1,0,1]
-                    ],
-                    [
-                        [1,0,0,1],
-                        [1,1,0,1]
-                    ]
-                ]))
-        }
+                    [0,0,0,1],
+                    [0,1,0,1]
+                ],
+                [
+                    [1,0,0,1],
+                    [1,1,0,1]
+                ]
+            ])
     }
 
     changeTexCoords(length_s, length_t) {
@@ -51,7 +48,7 @@ import { MyPatch } from '../primitives/MyPatch.js';
             mat4.rotate(matrix, matrix, Math.PI*i/2, [0, 1, 0])
             mat4.translate(matrix, matrix, [-0.5, 0, 0.5])
             this.scene.multMatrix(matrix)
-            this.faces[i].display();
+            this.patch.display();
             this.scene.popMatrix();
         }
 
@@ -60,14 +57,14 @@ import { MyPatch } from '../primitives/MyPatch.js';
         mat4.rotate(matrix, matrix, -Math.PI/2, [1,0, 0])
         mat4.translate(matrix, matrix, [-0.5, -0.5, 1])
         this.scene.multMatrix(matrix)
-        this.faces[4].display();
+        this.patch.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
         mat4.rotate(matrix, matrix, Math.PI, [1,0, 0])
         mat4.translate(matrix, matrix, [0, -1, 1])
         this.scene.multMatrix(matrix)
-        this.faces[5].display();
+        this.patch.display();
         this.scene.popMatrix();
     }
 }

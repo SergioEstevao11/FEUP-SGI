@@ -5,7 +5,7 @@ import { MySphere } from './primitives/MySphere.js';
 import { MyTorus } from './primitives/MyTorus.js';
 import { MyTriangle } from './primitives/MyTriangle.js';
 import { MyPatch } from './primitives/MyPatch.js';
-import { MyCube } from './primitives/MyCube.js';
+import { MyMainBoard } from './primitives/MyMainBoard.js';
 import { MyComponent } from './MyComponent.js';
 import { MyKeyframeAnimation } from './MyKeyframeAnimation.js';
 import { MyKeyframe } from './MyKeyframe.js';
@@ -1430,7 +1430,7 @@ export class MySceneGraph {
 
     displayScene() {
         // this.components['demoRoot'].display(null);
-        let cube = new MyCube(this.scene);
-        cube.display();
+        let gameboard = new MyMainBoard(this.scene);
+        gameboard.display();
     }
 }
