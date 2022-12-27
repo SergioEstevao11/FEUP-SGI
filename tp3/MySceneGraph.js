@@ -6,6 +6,7 @@ import { MyTorus } from './primitives/MyTorus.js';
 import { MyTriangle } from './primitives/MyTriangle.js';
 import { MyPatch } from './primitives/MyPatch.js';
 import { MyMainBoard } from './primitives/MyMainBoard.js';
+import { MySupportBoard } from './primitives/MySupportBoard.js';
 import { MyComponent } from './MyComponent.js';
 import { MyKeyframeAnimation } from './MyKeyframeAnimation.js';
 import { MyKeyframe } from './MyKeyframe.js';
@@ -734,7 +735,8 @@ export class MySceneGraph {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'patch')) {
+                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'patch' &&
+                    grandChildren[0].nodeName != 'mainboard' && grandChildren[0].nodeName != 'supportboard')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus or patch)"
             }
 
@@ -928,6 +930,14 @@ export class MySceneGraph {
 
                 console.log(patch)
 
+            }
+            else if(primitiveType == 'mainboard'){
+                let mainboard = new MyMainBoard(this.scene);
+                this.primitives[primitiveId] = mainboard;
+            }
+            else if(primitiveType == 'supportboard'){
+                let supportboard = new MySupportBoard(this.scene);
+                this.primitives[primitiveId] = supportboard;
             }
 
             else {
@@ -1429,8 +1439,8 @@ export class MySceneGraph {
 
 
     displayScene() {
-        // this.components['demoRoot'].display(null);
-        let gameboard = new MyMainBoard(this.scene);
-        gameboard.display();
+        this.components['demoRoot'].display(null);
+        // let gameboard = new MySupportBoard(this.scene);
+        // gameboard.display();
     }
 }

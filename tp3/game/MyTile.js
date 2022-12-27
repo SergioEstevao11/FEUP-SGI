@@ -68,13 +68,16 @@ export class MyTile extends CGFobject{
         this.scene.pushMatrix();
 
         // Display tile itself
-        if (this.type)
-            this.white_material.apply();
-        else
-            this.black_material.apply();
-
         this.scene.translate(this.coordinates[0], this.coordinates[1], 0);
-        this.patch.display();
+        if (this.type == 1){
+            this.white_material.apply();
+            this.patch.display();
+        }
+        else if(this.type == 0){
+            this.black_material.apply();
+            this.patch.display();
+        }
+
         
 
         // Display piece

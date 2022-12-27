@@ -1,6 +1,7 @@
 import {CGFappearance, CGFtexture, CGFobject} from '../../lib/CGF.js';
 import { MyTile } from './MyTile.js';
 import { MyPiece } from './MyPiece.js';
+import { MyAuxilaryBoard } from './MyAuxilaryBoard.js';
 
 /**
  * Data Class that holds information about the component
@@ -35,6 +36,8 @@ export class MyGameboard extends CGFobject{
         }
 
         //mount secondary gameboards
+        this.p1auxboard = new MyAuxilaryBoard(this.scene, this);
+        this.p2auxboard = new MyAuxilaryBoard(this.scene, this);
         
 	}
 
@@ -72,6 +75,14 @@ export class MyGameboard extends CGFobject{
                 this.gameboard[i][j].display();
             }
         }
+        this.scene.translate(0,-3, 0);
+        this.p1auxboard.display();
+
+        this.scene.rotate(Math.PI, 0, 0, 1);
+        this.scene.translate(-8, -14, 0);
+
+        this.p2auxboard.display();
+
         this.scene.popMatrix();
     }
 }

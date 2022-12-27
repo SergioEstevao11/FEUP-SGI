@@ -136,6 +136,7 @@
         <texture id="ring" file="scenes/images/ring.jpg" />
         <texture id="saturn" file="scenes/images/saturn.jpg" />
         <texture id="vent" file="scenes/images/vent.jpg" />
+
     </textures>
 
     <materials>
@@ -312,12 +313,12 @@
                <controlpoint x="-1.0" y="0" z="-2.0" />
             </patch>
         </primitive>
-          <!-- <primitive id="mainboard">
+          <primitive id="mainboard">
                <mainboard x1="0" y1="0" x2="8" y2="8" />
           </primitive>
-          <primitive id="auxilary_board">
-               <auxilaryboard x1="0" y1="0" x2="8" y2="8" />
-          </primitive> -->
+          <primitive id="supportboard">
+               <supportboard x1="0" y1="0" x2="8" y2="8" />
+          </primitive>
 
     </primitives>
 
@@ -11538,6 +11539,48 @@
                 <componentref id ="bullets"/>
             </children>
         </component>
+          <component id="supportboard1">
+               <transformation>
+                    <translate x="0" y="0" z="-6.5" />
+               </transformation>
+               <materials>
+                    <material id="inherit" />
+               </materials>
+               <texture id="inherit"/>
+               <children>
+                    <primitiveref id="supportboard" />
+               </children>
+          </component>
+        <component id="supportboard2">
+               <transformation>
+                    <translate x="0" y="0" z="6.5" />
+               </transformation>
+               <materials>
+                    <material id="inherit" />
+               </materials>
+               <texture id="inherit"/>
+               <children>
+                    <primitiveref id="supportboard" />
+               </children>
+          </component>
+
+
+        <component id="board">
+               <transformation>
+                    <translate x="0" y="0" z="0" />
+                    <scale x="1" y="1" z="1" />
+               </transformation>
+               <materials>
+                    <material id="inherit" />
+               </materials>
+               <texture id="sp_tex" length_s="1" length_t="1"/>
+               <children>
+                    <primitiveref id="mainboard"/>
+                    <componentref id="supportboard1" />
+                    <componentref id="supportboard2" />
+
+               </children>
+            </component>
 
         <component id="demoRoot">
             <transformation>
@@ -11552,8 +11595,7 @@
                 <componentref id="moon"/>
                 <componentref id="saturn"/>
                 <componentref id="sun"/>
-                <!-- <componentref id="parabolic_base" /> -->
-                
+                <componentref id="board"/>                
 
                
             </children>
