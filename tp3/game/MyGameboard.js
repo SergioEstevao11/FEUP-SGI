@@ -16,7 +16,7 @@ export class MyGameboard extends CGFobject{
         //mount tiles
         for (let y = 0; y < 8; y++){
             for (let x = 0; x < 8; x++){
-                line.push(new MyTile(this.scene, this, type, x, y));
+                line.push(new MyTile(this.scene, this, type, x, y, 0));
                 type = !type;
             }
             this.gameboard.push(line);

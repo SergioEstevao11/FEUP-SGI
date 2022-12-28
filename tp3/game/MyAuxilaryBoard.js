@@ -15,10 +15,14 @@ export class MyAuxilaryBoard extends CGFobject{
         //mount tiles
         
         for (let x = 0; x < 8; x++){
-            this.board.push(new MyTile(this.scene, this.gameboard, -1, x, 0));
+            this.board.push(new MyTile(this.scene, this.gameboard, -1, x, 0, 0));
         }
         for (let x = 0; x < 4; x++){
-            this.board.push(new MyTile(this.scene, this.gameboard, -1, x+0.6, 0));
+            this.board.push(new MyTile(this.scene, this.gameboard, -1, x+0.5, 0, 0.25));
+        }
+
+        for (let x = 0; x < 12; x++){
+            this.board[x].setPiece(new MyPiece(this.scene, "cylinder", this.board[x], 1));
         }
 
         
@@ -56,7 +60,6 @@ export class MyAuxilaryBoard extends CGFobject{
             this.board[i].display()
         }
         
-        this.scene.translate(0, 0, 0.25);
 
         for (let i = 8; i < 12; i++){
             

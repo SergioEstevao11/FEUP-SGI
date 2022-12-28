@@ -8,8 +8,8 @@ import { MyPatch } from './primitives/MyPatch.js';
 import { MyMainBoard } from './primitives/MyMainBoard.js';
 import { MySupportBoard } from './primitives/MySupportBoard.js';
 import { MyComponent } from './MyComponent.js';
-import { MyKeyframeAnimation } from './MyKeyframeAnimation.js';
-import { MyKeyframe } from './MyKeyframe.js';
+import { MyKeyframeAnimation } from './animations/MyKeyframeAnimation.js';
+import { MyKeyframe } from './animations/MyKeyframe.js';
 
 
 // Order of the groups in the XML document.
@@ -1032,12 +1032,8 @@ export class MySceneGraph {
                 if (!(instant != null && !isNaN(instant)))
                     return "unable to parse instant of the primitive coordinates for ID = " + keyframeanimID;
 
-                let transformationMatrix = this.getTransformationMatrix(grandChildren[j].children, keyframeanimID);
                 let keyframe = this.parseKeyframeAnimations(grandChildren[j].children, keyframeanimID)
                 keyframe.instant = instant
-                keyframe.matrix = transformationMatrix
-                
-
                 keyframes.push(keyframe);
             }
 
