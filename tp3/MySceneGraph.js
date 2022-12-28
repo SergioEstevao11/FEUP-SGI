@@ -1429,10 +1429,14 @@ export class MySceneGraph {
     }
 
     update(t){
+        if(this.startingTime == null){
+            this.startingTime = t;
+        }
+        let secondsElapsed = (t - this.startingTime)/1000;
+
         this.checkKeys();
         if(this.scene.displayShader)
-            this.shader.setUniformsValues({ timeFactor: t / 100 % 100 });
-        this.graph.checkKeys();
+            this.scene.shader.setUniformsValues({ timeFactor: t / 100 % 100 });
         if (this.components == null)
             return;
         for (const [key, animation] of Object.entries(this.animations)) {

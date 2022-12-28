@@ -1,5 +1,6 @@
 import { CGFscene } from '../lib/CGF.js';
 import { CGFaxis,CGFcamera,CGFshader } from '../lib/CGF.js';
+import { MyGameOrchestrator } from './MyGameOrchestrator.js';
 
 
 
@@ -164,19 +165,8 @@ export class XMLscene extends CGFscene {
      * updates animations
      */
     update(t){
-        if(this.startingTime == null){
-            this.startingTime = t;
-        }
-        let secondsElapsed = (t - this.startingTime)/1000;
-        if(this.displayShader)
-            this.shader.setUniformsValues({ timeFactor: t / 100 % 100 });
-        this.graph.checkKeys();
-        if (this.graph.components == null)
-            return;
-        for (const [key, animation] of Object.entries(this.graph.animations)) {
-            if (animation.finished != true)
-                animation.update(secondsElapsed);
-        }
+        
+        this.orch.update(t);
     }
 
     /**
