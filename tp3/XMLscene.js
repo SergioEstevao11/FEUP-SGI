@@ -153,14 +153,15 @@ export class XMLscene extends CGFscene {
      */
     updateCamera(){
         this.camera = this.graph.views[this.graph.selectedView]
-        this.updateProjectionMatrix();
-        this.loadIdentity();
+        // this.updateProjectionMatrix();
+        // this.loadIdentity();
         this.interface.setActiveCamera(this.camera);
     }
     
     /**
      * 
      * checks if key M has been pressed
+     * updates animations
      */
     update(t){
         if(this.startingTime == null){

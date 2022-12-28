@@ -20,12 +20,16 @@ class MyPieceAnimation {
         this.startPosition = startPosition
         this.finalPosition = finalPosition
         this.current_instant = current_instant
+        this.finished = false
 
         this.keyframeAnimation = null
     }
 
     update(elapsedTime) {
         this.keyframeAnimation.update(elapsedTime)
+        if (elapsedTime >= this.current_instant + 1) {
+            this.finished = true
+        }
     }
 
     /**

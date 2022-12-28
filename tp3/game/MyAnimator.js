@@ -3,6 +3,8 @@ export class MyAnimator{
         this.scene = scene;
         this.orchestrator = orchestrator;
         this.gameSequence = gamesequence;
+
+        
     }
 
     reset(){    

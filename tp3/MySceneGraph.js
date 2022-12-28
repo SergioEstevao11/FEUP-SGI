@@ -1428,6 +1428,19 @@ export class MySceneGraph {
 
     }
 
+    update(t){
+        this.checkKeys();
+        if(this.scene.displayShader)
+            this.shader.setUniformsValues({ timeFactor: t / 100 % 100 });
+        this.graph.checkKeys();
+        if (this.components == null)
+            return;
+        for (const [key, animation] of Object.entries(this.animations)) {
+            if (animation.finished != true)
+                animation.update(secondsElapsed);
+        }
+    }
+
 
     /**
      * Displays the scene, processing each node, starting in the root node.
