@@ -5,13 +5,13 @@ import { MyPatch } from '../primitives/MyPatch.js';
  * Data Class that holds information about the component
  */
 export class MyTile extends CGFobject{
-    constructor(orchestrator, id, board, type, x, y) {
+    constructor(orchestrator, id, board, type, x, y, z) {
         super(orchestrator.getScene())
         this.id = id;
         this.gameboard = board;
         this.type = type;
         this.piece = null;
-        this.coordinates = [x, y];
+        this.coordinates = [x, y, z];
         this.selectable = true;
         this.orchestrator = orchestrator;
 
@@ -73,12 +73,24 @@ export class MyTile extends CGFobject{
         this.scene.pushMatrix();
 
         // Display tile itself
+<<<<<<< HEAD
         if (this.type == "white")
+=======
+        this.scene.translate(this.coordinates[0], this.coordinates[1], this.coordinates[2]);
+        if (this.type == 1){
+>>>>>>> feat/board
             this.white_material.apply();
-        else
+            this.patch.display();
+        }
+        else if(this.type == 0){
             this.black_material.apply();
+            this.patch.display();
+        }
 
+<<<<<<< HEAD
         this.scene.translate(this.coordinates[0], this.coordinates[1], 0);
+=======
+>>>>>>> feat/board
         
         if (this.selectable){
             this.orchestrator.getScene().registerForPick(this.id, this);

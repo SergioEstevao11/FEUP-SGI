@@ -5,9 +5,11 @@ import { MySphere } from './primitives/MySphere.js';
 import { MyTorus } from './primitives/MyTorus.js';
 import { MyTriangle } from './primitives/MyTriangle.js';
 import { MyPatch } from './primitives/MyPatch.js';
+import { MyMainBoard } from './primitives/MyMainBoard.js';
+import { MySupportBoard } from './primitives/MySupportBoard.js';
 import { MyComponent } from './MyComponent.js';
-import { MyKeyframeAnimation } from './MyKeyframeAnimation.js';
-import { MyKeyframe } from './MyKeyframe.js';
+import { MyKeyframeAnimation } from './animations/MyKeyframeAnimation.js';
+import { MyKeyframe } from './animations/MyKeyframe.js';
 
 
 // Order of the groups in the XML document.
@@ -733,7 +735,8 @@ export class MySceneGraph {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'patch')) {
+                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'patch' &&
+                    grandChildren[0].nodeName != 'mainboard' && grandChildren[0].nodeName != 'supportboard')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus or patch)"
             }
 
@@ -928,6 +931,14 @@ export class MySceneGraph {
                 console.log(patch)
 
             }
+            else if(primitiveType == 'mainboard'){
+                let mainboard = new MyMainBoard(this.scene);
+                this.primitives[primitiveId] = mainboard;
+            }
+            else if(primitiveType == 'supportboard'){
+                let supportboard = new MySupportBoard(this.scene);
+                this.primitives[primitiveId] = supportboard;
+            }
 
             else {
                 console.warn("To do: Parse other primitives.");
@@ -1021,12 +1032,8 @@ export class MySceneGraph {
                 if (!(instant != null && !isNaN(instant)))
                     return "unable to parse instant of the primitive coordinates for ID = " + keyframeanimID;
 
-                let transformationMatrix = this.getTransformationMatrix(grandChildren[j].children, keyframeanimID);
                 let keyframe = this.parseKeyframeAnimations(grandChildren[j].children, keyframeanimID)
                 keyframe.instant = instant
-                keyframe.matrix = transformationMatrix
-                
-
                 keyframes.push(keyframe);
             }
 
@@ -1421,6 +1428,23 @@ export class MySceneGraph {
 
     }
 
+    update(t){
+        if(this.startingTime == null){
+            this.startingTime = t;
+        }
+        let secondsElapsed = (t - this.startingTime)/1000;
+
+        this.checkKeys();
+        if(this.scene.displayShader)
+            this.scene.shader.setUniformsValues({ timeFactor: t / 100 % 100 });
+        if (this.components == null)
+            return;
+        for (const [key, animation] of Object.entries(this.animations)) {
+            if (animation.finished != true)
+                animation.update(secondsElapsed);
+        }
+    }
+
 
     /**
      * Displays the scene, processing each node, starting in the root node.
@@ -1429,5 +1453,7 @@ export class MySceneGraph {
 
     displayScene() {
         this.components['demoRoot'].display(null);
+        // let gameboard = new MySupportBoard(this.scene);
+        // gameboard.display();
     }
 }

@@ -5,6 +5,7 @@ import { MyGameboard } from './game/MyGameboard.js';
 import { MyPiece } from './game/MyPiece.js';
 import { MyTile } from './game/MyTile.js';
 import { MySceneGraph } from './MySceneGraph.js';
+import { MyAnimator } from "./game/MyAnimator.js";
 
 
 const GameState = {
@@ -26,8 +27,9 @@ export class MyGameOrchestrator{
     constructor(scene, filename) {
 		this.scene = scene;
 		this.scene.gameOrchestrator = this;
-		// this.gameSequence = new MyGameSequence();
         this.gameboard = new MyGameboard(this);
+		this.gameSequence = new MyGameSequence(this.scene);
+        this.animator = new MyAnimator(this.scene, this, this.gameSequence);
         this.graph = new MySceneGraph(this.scene, filename);
         
         this.play = true;
@@ -253,6 +255,7 @@ export class MyGameOrchestrator{
 
     update(time){
         this.graph.update(time);
+        this.animator.update(time);
     }
 
     display(){
