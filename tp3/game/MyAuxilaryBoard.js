@@ -31,11 +31,13 @@ export class MyAuxilaryBoard extends CGFobject{
 	}
 
     addPiece(piece){
-
+        this.board[num_pieces].setPiece(piece);
+        num_pieces++;
     }
 
     removePiece(){
-
+        this.board[num_pieces].setPiece(null);
+        num_pieces--;
     }
 
     getPiece(coords){
@@ -47,10 +49,6 @@ export class MyAuxilaryBoard extends CGFobject{
     }
 
     getTile(coords){
-        
-    }
-
-    movePiece(piece_id, start, end){
         
     }
 
