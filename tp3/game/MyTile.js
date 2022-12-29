@@ -73,24 +73,16 @@ export class MyTile extends CGFobject{
         this.scene.pushMatrix();
 
         // Display tile itself
-<<<<<<< HEAD
-        if (this.type == "white")
-=======
         this.scene.translate(this.coordinates[0], this.coordinates[1], this.coordinates[2]);
-        if (this.type == 1){
->>>>>>> feat/board
+        if (this.type == "white"){
             this.white_material.apply();
             this.patch.display();
         }
-        else if(this.type == 0){
+        else if(this.type == "black"){
             this.black_material.apply();
             this.patch.display();
         }
 
-<<<<<<< HEAD
-        this.scene.translate(this.coordinates[0], this.coordinates[1], 0);
-=======
->>>>>>> feat/board
         
         if (this.selectable){
             this.orchestrator.getScene().registerForPick(this.id, this);

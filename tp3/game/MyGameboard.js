@@ -38,22 +38,13 @@ export class MyGameboard extends CGFobject{
             this.gameboard[6][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[6][i*2], "black"));
             this.gameboard[7][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[7][i*2+1], "black"));
         }
-<<<<<<< HEAD
-=======
 
         //mount secondary gameboards
-        this.p1auxboard = new MyAuxilaryBoard(this.scene, this);
-        this.p2auxboard = new MyAuxilaryBoard(this.scene, this);
+        this.p1auxboard = new MyAuxilaryBoard(this.orchestrator, this);
+        this.p2auxboard = new MyAuxilaryBoard(this.orchestrator, this);
         
 	}
 
-    addPiece(piece){
->>>>>>> feat/board
-
-        this.gameboard[3][1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[3][1], "black"))
-        this.gameboard[3][3].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[3][3], "black"))
-        this.removePieceFromTile(52);
-    }
 
     checkinbounds(x,y){
         if ((x<0) || (x>7) || (y<0) || (y>7)){
