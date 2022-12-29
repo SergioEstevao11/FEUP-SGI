@@ -5,12 +5,15 @@ import { MyPatch } from '../primitives/MyPatch.js';
  * Data Class that holds information about the component
  */
 export class MyTile extends CGFobject{
-    constructor(scene, board, type, x, y) {
-        super(scene)
+    constructor(orchestrator, id, board, type, x, y) {
+        super(orchestrator.getScene())
+        this.id = id;
         this.gameboard = board;
         this.type = type;
         this.piece = null;
         this.coordinates = [x, y];
+        this.selectable = true;
+        this.orchestrator = orchestrator;
 
         this.patch = new MyPatch(this.scene, 1, 1, 20, 20, 
             [
@@ -46,9 +49,11 @@ export class MyTile extends CGFobject{
 
     setPiece(piece){
         this.piece = piece;
+        this.piece.tile = this;
     }
 
     unsetPiece(){
+        this.piece.tile = null;
         this.piece = null;
     }
 
@@ -68,19 +73,25 @@ export class MyTile extends CGFobject{
         this.scene.pushMatrix();
 
         // Display tile itself
-        if (this.type)
+        if (this.type == "white")
             this.white_material.apply();
         else
             this.black_material.apply();
 
         this.scene.translate(this.coordinates[0], this.coordinates[1], 0);
-        this.patch.display();
         
+        if (this.selectable){
+            this.orchestrator.getScene().registerForPick(this.id, this);
+            this.patch.display();
+            // Display piece
+            if (this.piece != null)
+                this.piece.display()
 
-        // Display piece
-        if (this.piece != null)
-            this.piece.display()
-        this.scene.popMatrix();
+            this.scene.popMatrix();
 
+        }
+
+        if (this.selectable)
+            this.orchestrator.getScene().clearPickRegistration();
     }
 }

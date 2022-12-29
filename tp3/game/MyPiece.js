@@ -6,8 +6,11 @@ import { MySphere } from '../primitives/MySphere.js';
  * Data Class that holds information about the component
  */
 export class MyPiece extends CGFobject{
-    constructor(scene, geometry, tile, type) {
-        super(scene)
+    constructor(orchestrator, id, geometry, tile, type) {
+        super(orchestrator.scene)
+        this.id = id;
+        this.selectable = true;
+        this.orchestrator = orchestrator;
         this.type = type;
         this.geometry = geometry;
         this.tile = tile;
@@ -29,12 +32,20 @@ export class MyPiece extends CGFobject{
         this.cover2 = new MySphere(this.scene, 0.4, 20, 20);
 	}
 
+    getTile(){
+        return this.tile;
+    }
+
     getType(){
         return this.type;
     }
 
     setType(type){
         this.type = type;
+    }
+
+    getCoords(){
+        return this.tile.coordinates;
     }
 
     display(){
@@ -45,20 +56,26 @@ export class MyPiece extends CGFobject{
         else
             this.black_material.apply();
 
-        this.scene.translate(0.5, 0.5, 0);
-        this.cylinder.display();
+        if (this.selectable){
+            this.orchestrator.getScene().registerForPick(this.id, this);
 
-        this.scene.pushMatrix();
-        this.scene.translate(0, 0, 0.25);
-        this.scene.scale(1, 1, 0.01);
-        this.cover1.display();
-        
-        this.scene.pushMatrix()
-        this.scene.translate(0, 0, -0.5);
-        this.cover2.display();
-        this.scene.popMatrix();
-        this.scene.popMatrix();
+            this.scene.translate(0.5, 0.5, 0);
+            this.cylinder.display();
 
+            this.scene.pushMatrix();
+            this.scene.translate(0, 0, 0.25);
+            this.scene.scale(1, 1, 0.01);
+            this.cover1.display();
+            
+            this.scene.pushMatrix()
+            this.scene.translate(0, 0, -0.5);
+            this.cover2.display();
+            this.scene.popMatrix();
+            this.scene.popMatrix();
+        }
+
+        if (this.selectable)
+            this.orchestrator.getScene().clearPickRegistration();  
         
     }
 }

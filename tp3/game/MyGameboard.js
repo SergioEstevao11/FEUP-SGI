@@ -6,57 +6,148 @@ import { MyPiece } from './MyPiece.js';
  * Data Class that holds information about the component
  */
 export class MyGameboard extends CGFobject{
-    constructor(scene) {
-        super(scene)
+    constructor(orchestrator) {
+        super(orchestrator.getScene());
+        this.orchestrator = orchestrator;
         this.gameboard = [];
         let line = [];
-        let type = false; // true = white, false = black
+        let type = "black"; // true = white, false = black
 
         //mount tiles
+        let id = 0;
         for (let y = 0; y < 8; y++){
             for (let x = 0; x < 8; x++){
-                line.push(new MyTile(this.scene, this, type, x, y));
-                type = !type;
+                line.push(new MyTile(this.orchestrator, id++, this, type, x, y));
+                type = this.changeColor(type);
             }
             this.gameboard.push(line);
             line = [];
-            type = !type;
+            type = this.changeColor(type);
         }
 
         //mount pieces
         for (let i = 0; i < 4; i++){
-            this.gameboard[0][i*2].setPiece(new MyPiece(this.scene, "cylinder", this.gameboard[0][i*2], "white"));
-            this.gameboard[1][i*2+1].setPiece(new MyPiece(this.scene, "cylinder", this.gameboard[1][i*2+1], "white"));
-            this.gameboard[2][i*2].setPiece(new MyPiece(this.scene, "cylinder", this.gameboard[2][i*2], "white"));
+            this.gameboard[0][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[0][i*2], "white"));
+            this.gameboard[1][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[1][i*2+1], "white"));
+            this.gameboard[2][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[2][i*2], "white"));
 
-            this.gameboard[5][i*2+1].setPiece(new MyPiece(this.scene, "cylinder", this.gameboard[5][i*2+1], "black"));
-            this.gameboard[6][i*2].setPiece(new MyPiece(this.scene, "cylinder", this.gameboard[6][i*2], "black"));
-            this.gameboard[7][i*2+1].setPiece(new MyPiece(this.scene, "cylinder", this.gameboard[7][i*2+1], "black"));
+            this.gameboard[5][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[5][i*2+1], "black"));
+            this.gameboard[6][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[6][i*2], "black"));
+            this.gameboard[7][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[7][i*2+1], "black"));
         }
-	}
 
-    addPiece(piece){
-
+        this.gameboard[3][1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[3][1], "black"))
+        this.gameboard[3][3].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[3][3], "black"))
+        this.removePieceFromTile(52);
     }
 
-    removePiece(){
-
+    checkinbounds(x,y){
+        if ((x<0) || (x>7) || (y<0) || (y>7)){
+            return false;
+        }
+        return true;
     }
 
-    getPiece(coords){
-
+    changeColor(type){
+        if (type == "white"){
+            return "black";
+        }
+        else if (type == "black"){
+            return "white";
+        }
     }
 
-    getTilePiece(piece_id){
+    // addPiece(piece){
 
+    // }
+
+    removePieceFromTile(id){
+        var tile = this.getTile(id);
+        if (tile.piece != null){
+            tile.piece = null;
+        }
     }
 
-    getTile(coords){
+    getTileC(x,y){
+        if (!this.checkinbounds(x,y)){
+            return null;
+        }
+        return this.gameboard[y][x];
+    }
+
+    getPieceC(x,y){
+        if (!this.checkinbounds(x,y)){
+            return null;
+        }
+        if (this.hasPiece(x,y)){
+            return (this.gameboard[y][x]).piece;
+        }
+        return null;
+    }
+
+    getTypePiece(x,y){
+        if (this.hasPiece(x,y)){
+            return (this.gameboard[y][x]).piece;
+        }
+        return null;
+    }
+
+    // getTilePiece(piece_id){
+
+    // }
+
+    // getTile(coords){
         
+    // }
+
+    hasPiece(x,y){
+        if (this.checkinbounds(x,y)){
+            return (this.gameboard[y][x]).piece != null;
+        }
+        return false;
     }
 
-    movePiece(piece_id, start, end){
-        
+    getTile(id){
+        for (let i = 0; i < 8; i++){
+            for (let j = 0; j < 8; j++){
+                if (this.gameboard[i][j].id == id){
+                    return this.gameboard[i][j];
+                }
+            }
+        }
+    }
+
+    getPiece(id){
+        for (let i = 0; i < 8; i++){
+            for (let j = 0; j < 8; j++){
+                if (this.gameboard[i][j].piece != null){
+                    if (this.gameboard[i][j].piece.id == id)
+                    return this.gameboard[i][j].piece;
+                }
+            }
+        }
+    }
+
+    movePiece(tile, path){
+        var newtile;
+        var score = 0;
+        var piece = tile.piece;
+
+        tile.unsetPiece();
+        for (let i=0; i < path.length; i++){
+            newtile = this.getTile(path[i]);
+            if (newtile.piece != null){
+                newtile.unsetPiece();
+                score++;
+            }
+
+            if(i == path.length-1){
+                newtile.setPiece(piece);
+            }
+        }
+        console.log("piece");
+        console.log(piece);
+        return score;
     }
 
     display(){

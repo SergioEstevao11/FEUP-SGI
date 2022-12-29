@@ -15,7 +15,7 @@ export class XMLscene extends CGFscene {
         super();
 
         this.graph = null;
-		this.orch = null
+		this.gameOrchestrator = null
         this.interface = myinterface;
     }
 
@@ -43,9 +43,11 @@ export class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
-        this.setUpdatePeriod(10);
 
-        this.startingTime = null;
+		this.startingTime = null;
+		
+        this.setUpdatePeriod(10);
+		this.setPickEnabled(true);
     }
 
     /**
@@ -182,6 +184,8 @@ export class XMLscene extends CGFscene {
      * Displays the scene.
      */
     display() {
+		this.gameOrchestrator.managePick(this.pickMode, this.pickResults);
+		this.clearPickRegistration();
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -208,7 +212,7 @@ export class XMLscene extends CGFscene {
             this.setDefaultAppearance();
 
             // Displays the scene (MySceneGraph function).
-            this.orch.display();
+            this.gameOrchestrator.display();
         }
 
         this.popMatrix();
