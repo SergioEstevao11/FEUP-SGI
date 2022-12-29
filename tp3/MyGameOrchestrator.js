@@ -120,7 +120,9 @@ export class MyGameOrchestrator{
                     else{
                         console.log("p1: " + this.scorep1);
                         console.log("p2: " + this.scorep2);
+
                         this.play = !this.play;
+                        this.setSelectablePieces();
                         this.gamestate = GameState.piece;
                         if(this.play){
                             console.log("Player one, choose piece");
@@ -237,6 +239,68 @@ export class MyGameOrchestrator{
             }
         }
         return plays;
+    }
+
+    filterAvlPlays(){
+        var plays = {};
+        var hascapture = false;
+        for (var key in this.avlplays){
+            var play = this.avlplays[key];
+            for (let i=0; i<play.length; i++){
+                if (this.gameboard.hasPieceId(i)){
+                    plays[key] = play;
+                    hascapture = true;
+                }
+            }
+        }
+        if (!hascapture){
+            plays = this.avlplays
+        }
+        return plays;
+    }
+
+    setSelectablePieces(){
+        var pieces;
+        var color;
+        var arrcapture = false;
+
+        if (this.play){
+            pieces  = this.gameboard.getPieces(1);
+            color = "white";
+        }
+        else{
+            pieces = this.gameboard.getPieces(2);
+            color = "black";
+        }
+
+        for (let i=0; i<pieces.length; i++){
+            var piece = pieces[i];
+            
+            var avlplays = this.getAvlPlays(piece.getCoords()[0], piece.getCoords()[1],color,[],false);
+
+            var hascapture = false;
+            for (var key in avlplays){
+                var play = avlplays[key];
+                for (let j=0; j<play.length; j++){
+                    var tile = this.gameboard.getTile(play[j]);
+                    if ((tile.piece != null) && (tile.piece.type != color)){
+                        hascapture = true;
+                        arrcapture = true;
+                    }
+                }
+            }
+            if (!hascapture){
+                piece.selectable = false;
+            }
+        }
+
+        if (!arrcapture){
+            for (let i=0; i<pieces.length; i++){
+                var piece = pieces[i];
+                piece.selectable = true;
+            }
+        }
+
     }
 
     gameOver(){
