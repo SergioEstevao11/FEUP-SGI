@@ -14,6 +14,7 @@ export class MyPiece extends CGFobject{
         this.type = type;
         this.geometry = geometry;
         this.tile = tile;
+        this.captured = false;
 
         this.black_material = new CGFappearance(this.scene);
         this.black_material.setAmbient(0.01,0.01,0.01,1.0);
@@ -42,6 +43,15 @@ export class MyPiece extends CGFobject{
 
     setType(type){
         this.type = type;
+    }
+
+    moveToAuxBoard(){
+        this.captured = true
+        if (this.type == "white"){
+            this.orchestrator.gameboard.p1auxboard.addPiece(this)
+        }else{
+            this.orchestrator.gameboard.p2auxboard.addPiece(this)
+        }
     }
 
     getCoords(){

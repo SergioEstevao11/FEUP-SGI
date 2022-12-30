@@ -12,8 +12,14 @@ export class MyTile extends CGFobject{
         this.type = type;
         this.piece = null;
         this.coordinates = [x, y, z];
-        this.selectable = true;
         this.orchestrator = orchestrator;
+
+        if(type == "aux"){
+            this.selectable = false;
+        }
+        else{
+            this.selectable = true;
+        }
 
         this.patch = new MyPatch(this.scene, 1, 1, 20, 20, 
             [
@@ -53,8 +59,12 @@ export class MyTile extends CGFobject{
     }
 
     unsetPiece(){
+
         this.piece.tile = null;
+        let piece = this.piece;
         this.piece = null;
+        console.log("unset piece", piece)
+        return piece;
     }
 
     getPiece(){
@@ -76,24 +86,23 @@ export class MyTile extends CGFobject{
         this.scene.translate(this.coordinates[0], this.coordinates[1], this.coordinates[2]);
         if (this.type == "white"){
             this.white_material.apply();
-            this.patch.display();
         }
         else if(this.type == "black"){
             this.black_material.apply();
-            this.patch.display();
         }
+
 
         
         if (this.selectable){
             this.orchestrator.getScene().registerForPick(this.id, this);
             this.patch.display();
             // Display piece
-            if (this.piece != null)
+        }
+        
+        if (this.piece != null)
                 this.piece.display()
 
-            this.scene.popMatrix();
-
-        }
+        this.scene.popMatrix();
 
         if (this.selectable)
             this.orchestrator.getScene().clearPickRegistration();

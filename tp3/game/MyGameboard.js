@@ -137,19 +137,22 @@ export class MyGameboard extends CGFobject{
         var newtile;
         var score = 0;
         var piece = tile.piece;
+        let captured_piece = null;
 
-        tile.unsetPiece();
         for (let i=0; i < path.length; i++){
             newtile = this.getTile(path[i]);
             if (newtile.piece != null){
-                newtile.unsetPiece();
+                captured_piece = newtile.unsetPiece();
+                captured_piece.moveToAuxBoard();
                 score++;
             }
 
             if(i == path.length-1){
+                tile.unsetPiece();
                 newtile.setPiece(piece);
             }
         }
+
         console.log("piece");
         console.log(piece);
         return score;

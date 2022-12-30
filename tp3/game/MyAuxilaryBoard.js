@@ -11,34 +11,33 @@ export class MyAuxilaryBoard extends CGFobject{
         this.orchestrator = orchestrator;
         this.gameboard = gameboard;
         this.board = [];
-        let num_pieces = 0;
+        this.num_pieces = 0;
 
         //mount tiles
         
         for (let x = 0; x < 8; x++){
-            this.board.push(new MyTile(this.orchestrator, this.gameboard, -1, x, 0, 0));
+            this.board.push(new MyTile(this.orchestrator, 200+x,this.gameboard, "aux", x, 0, 0));
         }
         for (let x = 0; x < 4; x++){
-            this.board.push(new MyTile(this.orchestrator, this.gameboard, -1, x+0.5, 0, 0.25));
+            this.board.push(new MyTile(this.orchestrator, 208+x, this.gameboard, "aux", x+0.5, 0, 0.25));
         }
-
-        for (let x = 0; x < 12; x++){
-            this.board[x].setPiece(new MyPiece(this.orchestrator, "cylinder", this.board[x], 1));
-        }
-
         
         
         
 	}
 
+    getNextTile(){
+        return this.board[this.num_pieces]
+    }
+
     addPiece(piece){
-        this.board[num_pieces].setPiece(piece);
-        num_pieces++;
+        this.board[this.num_pieces].setPiece(piece);
+        this.num_pieces++;
     }
 
     removePiece(){
-        this.board[num_pieces].setPiece(null);
-        num_pieces--;
+        this.board[this.num_pieces].setPiece(null);
+        this.num_pieces--;
     }
 
     getPiece(coords){
@@ -55,12 +54,7 @@ export class MyAuxilaryBoard extends CGFobject{
 
     display(){
         this.scene.pushMatrix();
-        for (let i = 0; i < 8; i++){
-            this.board[i].display()
-        }
-        
-
-        for (let i = 8; i < 12; i++){
+        for (let i = 0; i < 12; i++){
             
             this.board[i].display()
         }

@@ -60,6 +60,9 @@ export class MyGameOrchestrator{
 
     onObjectSelected(obj, id) {
         if(obj instanceof MyPiece){
+            if (obj.captured){
+                return;
+            }
             obj = this.gameboard.getPiece(id);
             console.log("coordinates:");
             console.log(obj.tile.coordinates);
@@ -96,8 +99,24 @@ export class MyGameOrchestrator{
 
             if (this.gamestate == GameState.dest){
                 if (this.checkIn(id,Object.keys(this.avlplays))) {
-                    console.log("board")
-                    console.log(this.gameboard.gameboard)
+                    
+
+                    // let score = 0
+                    // let starting_tile = this.selectedpiece.tile
+                    // console.log("length: ", this.avlplays[id].length)
+                    // for (let i=0; i<this.avlplays[id].length; i++){
+                    //     if (this.avlplays[id][i].piece != null){
+                    //         //->animação de peça a ir para o auxboard
+                    //     }
+                        
+                    //     //->animação de peça a ir para o tile
+
+                    //     //remover offset das animações
+                    //     console.log("args: ", starting_tile, this.avlplays[id][i])
+                    //     score += this.gameboard.movePiece(starting_tile, this.avlplays[id][i]);
+                    //     starting_tile = this.gameboard.getTile(this.avlplays[id][i])
+                        
+                    // }
                     var score = this.gameboard.movePiece(this.selectedpiece.tile, this.avlplays[id]);
 
                     this.gamestate = GameState.eval;
