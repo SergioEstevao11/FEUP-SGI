@@ -8,14 +8,14 @@ import { MyPieceAnimation } from "./MyPieceAnimation.js"
  * @param {MyGameboard} gameboard - Reference to the gameboard
  * @param {Piece Object} pieceToPlay - Reference to the piece to be played
  * @param {Piece Object} pieceStack - Reference to the piece of the stack to be shown in the scene, on the auxiliary board
- * @param {Array} startPosition - initial position of the piece, in the format [x, y, z]
+ * @param {Array} positions - initial position of the piece, in the format [x, y, z]
  * @param {Array} finalPosition - final position of the piece, in the format [x, y, z]
  */
-class MyPieceMoveAnim extends MyPieceAnimation{
-    constructor(scene, gameboard, pieceToPlay, startPosition, finalPosition, current_instant) {
-        super(scene, gameboard, pieceToPlay, startPosition, finalPosition, current_instant)
+export class MyPieceMoveAnim extends MyPieceAnimation{
+    constructor(orchestrator, pieceToPlay, positions, finishing_function) {
+        super(orchestrator.scene, orchestrator.gameboard, pieceToPlay, positions, orchestrator.animator.seconds, finishing_function)
 
-        this.setupKeyFrames(startPosition, finalPosition)
+        this.setupKeyFrames(positions)
 
         
     }
@@ -25,16 +25,20 @@ class MyPieceMoveAnim extends MyPieceAnimation{
      * @param {Array} startPosition - Start position of the animation
      * @param {Array} finalPosition - final position of the animation
      */
-    setupKeyFrames(startPosition, finalPosition) {
-        let keyframe1 = new MyKeyframe(startPosition[0], startPosition[1], startPosition[2], 
-                                        0, 0, 0, 
-                                        1,1,1,
-                                        this.current_instant)
-        let keyframe2 = new MyKeyframe(finalPosition[0], finalPosition[1], finalPosition[2],
-                                        0, 0, 0,
-                                        1,1,1,
-                                        this.current_instant+1)
-        this.keyframeAnimation = new MyKeyframeAnimation(this.scene, 1, [keyframe1, keyframe2])
+    setupKeyFrames(positions) {
+
+        let keyframes = []
+        for(let i = 1; i < positions.length; i++){
+            let x = positions[i][0] - positions[i-1][0]
+            let y = positions[i][1] - positions[i-1][1]
+            let z = positions[i][2] - positions[i-1][2]
+            keyframes.push(new MyKeyframe(x, y, z,
+                                            0, 0, 0,
+                                            1,1,1,
+                                            this.current_instant + i))
+        }
+
+        this.keyframeAnimation = new MyKeyframeAnimation(this.scene, 1, keyframes)
         
     }
 }

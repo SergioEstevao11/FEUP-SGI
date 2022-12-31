@@ -15,6 +15,7 @@ export class MyPiece extends CGFobject{
         this.geometry = geometry;
         this.tile = tile;
         this.captured = false;
+        this.animation = null;
 
         this.black_material = new CGFappearance(this.scene);
         this.black_material.setAmbient(0.01,0.01,0.01,1.0);
@@ -68,6 +69,12 @@ export class MyPiece extends CGFobject{
 
         if (this.selectable){
             this.orchestrator.getScene().registerForPick(this.id, this);
+
+            if (this.animation != null){
+                if(!this.animation.finished){
+                    this.animation.apply();
+                }
+            }
 
             this.scene.translate(0.5, 0.5, 0);
             this.cylinder.display();

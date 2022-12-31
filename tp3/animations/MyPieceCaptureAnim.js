@@ -12,10 +12,10 @@ import { MyPieceAnimation } from "./MyPieceAnimation.js"
  * @param {Array} finalPosition - final position of the piece, in the format [x, y, z]
  */
 class MyPieceMoveAnim extends MyPieceAnimation{
-    constructor(scene, gameboard, pieceToPlay, startPosition, finalPosition, current_instant) {
-        super(scene, gameboard, pieceToPlay, startPosition, finalPosition, current_instant)
+    constructor(scene, gameboard, pieceToPlay, positions, current_instant, finishing_function) {
+        super(scene, gameboard, pieceToPlay, positions, current_instant, finishing_function)
 
-        this.setupKeyFrames(startPosition, finalPosition)
+        this.setupKeyFrames(positions)
 
         
     }
@@ -25,7 +25,10 @@ class MyPieceMoveAnim extends MyPieceAnimation{
      * @param {Array} startPosition - Start position of the animation
      * @param {Array} finalPosition - final position of the animation
      */
-    setupKeyFrames(startPosition, finalPosition) {
+    setupKeyFrames(positions) {
+        let startPosition = positions[0]
+        let finalPosition = positions[1]
+        
         let keyframes = []
         keyframes.push(new MyKeyframe(startPosition[0], startPosition[1], startPosition[2], 
                                         0, 0, 0, 
@@ -49,10 +52,10 @@ class MyPieceMoveAnim extends MyPieceAnimation{
             
         }
         
-        keyframes.push(new MyKeyframe(finalPosition[0], finalPosition[1], finalPosition[2], 
-            0, 0, 0, 
-            1,1,1,
-            this.current_instant))
+        // keyframes.push(new MyKeyframe(finalPosition[0], finalPosition[1], finalPosition[2], 
+        //     0, 0, 0, 
+        //     1,1,1,
+        //     this.current_instant))
 
         this.keyframeAnimation = new MyKeyframeAnimation(this.scene, 1, keyframes)
         

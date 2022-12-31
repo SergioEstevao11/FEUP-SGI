@@ -2,6 +2,7 @@ import {CGFappearance, CGFtexture, CGFobject} from '../../lib/CGF.js';
 import { MyTile } from './MyTile.js';
 import { MyPiece } from './MyPiece.js';
 import { MyAuxilaryBoard } from './MyAuxilaryBoard.js';
+import { MyPieceMoveAnim } from '../animations/MyPieceMoveAnim.js';
 
 /**
  * Data Class that holds information about the component
@@ -134,27 +135,40 @@ export class MyGameboard extends CGFobject{
     }
 
     movePiece(tile, path){
-        var newtile;
-        var score = 0;
-        var piece = tile.piece;
+        let newtile;
+        let score = 0;
+        let piece = tile.piece;
         let captured_piece = null;
+
+        let positions = []
 
         for (let i=0; i < path.length; i++){
             newtile = this.getTile(path[i]);
+           
+            positions.push(newtile.coordinates);
+
             if (newtile.piece != null){
                 captured_piece = newtile.unsetPiece();
+                //captured_piece animations
                 captured_piece.moveToAuxBoard();
                 score++;
             }
 
-            if(i == path.length-1){
-                tile.unsetPiece();
-                newtile.setPiece(piece);
+
+            if (i == path.length - 1){
+                let piece_move_animation = new MyPieceMoveAnim(this.orchestrator, piece, positions, 
+                    function(){  tile.unsetPiece();newtile.setPiece(piece); })
+                
+                this.orchestrator.animator.addAnimation(piece_move_animation);
+                // tile.unsetPiece();
+                // newtile.setPiece(piece);
             }
+            
+
+            
         }
 
-        console.log("piece");
-        console.log(piece);
+
         return score;
     }
 

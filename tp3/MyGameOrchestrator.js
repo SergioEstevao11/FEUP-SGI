@@ -44,6 +44,8 @@ export class MyGameOrchestrator{
     managePick(mode, results) {
         if (mode == false /* && some other game conditions */){
             if (results != null && results.length > 0) { // any results?
+                console.log("results", results)
+
                 for (var i=0; i< results.length; i++) {
                     var obj = results[i][0]; // get object from result
                     if (obj) { // exists?
@@ -91,71 +93,73 @@ export class MyGameOrchestrator{
                  }
             }
         }
-        else
-        if(obj instanceof MyTile){
-            obj = this.gameboard.getTile(id);
-            // do something with id knowing it is a tile
-            console.log(obj.coordinates);
+        else{
+            if(obj instanceof MyTile){
+                obj = this.gameboard.getTile(id);
+                // do something with id knowing it is a tile
+                console.log(obj.coordinates);
 
-            if (this.gamestate == GameState.dest){
-                if (this.checkIn(id,Object.keys(this.avlplays))) {
-                    
-
-                    // let score = 0
-                    // let starting_tile = this.selectedpiece.tile
-                    // console.log("length: ", this.avlplays[id].length)
-                    // for (let i=0; i<this.avlplays[id].length; i++){
-                    //     if (this.avlplays[id][i].piece != null){
-                    //         //->animação de peça a ir para o auxboard
-                    //     }
+                if (this.gamestate == GameState.dest){
+                    if (this.checkIn(id,Object.keys(this.avlplays))) {
                         
-                    //     //->animação de peça a ir para o tile
 
-                    //     //remover offset das animações
-                    //     console.log("args: ", starting_tile, this.avlplays[id][i])
-                    //     score += this.gameboard.movePiece(starting_tile, this.avlplays[id][i]);
-                    //     starting_tile = this.gameboard.getTile(this.avlplays[id][i])
-                        
-                    // }
-                    var score = this.gameboard.movePiece(this.selectedpiece.tile, this.avlplays[id]);
+                        // let score = 0
+                        // let starting_tile = this.selectedpiece.tile
+                        // console.log("length: ", this.avlplays[id].length)
+                        // for (let i=0; i<this.avlplays[id].length; i++){
+                        //     if (this.avlplays[id][i].piece != null){
+                        //         //->animação de peça a ir para o auxboard
+                        //     }
+                            
+                        //     //->animação de peça a ir para o tile
 
-                    this.gamestate = GameState.eval;
-                    if (this.play){
-                        this.scorep1+=score;
-                    }
-                    else {
-                        this.scorep2+=score;
-                    }
+                        //     //remover offset das animações
+                        //     console.log("args: ", starting_tile, this.avlplays[id][i])
+                        //     score += this.gameboard.movePiece(starting_tile, this.avlplays[id][i]);
+                        //     starting_tile = this.gameboard.getTile(this.avlplays[id][i])
+                            
+                        // }
+                        console.log("here")
+                        var score = this.gameboard.movePiece(this.selectedpiece.tile, this.avlplays[id]);
 
-                    var gameover = this.gameOver();
-                    if (gameover == 1){
-                        console.log("Player 1 won!");
-                        this.gamestate = GameState.end;
-                    }
-                    else if (gameover == 2){
-                        console.log("Player 2 won!");
-                        this.gamestate = GameState.end;
-                    }
-                    else{
-                        console.log("p1: " + this.scorep1);
-                        console.log("p2: " + this.scorep2);
-                        this.play = !this.play;
-                        this.gamestate = GameState.piece;
-                        if(this.play){
-                            console.log("Player one, choose piece");
+                        this.gamestate = GameState.eval;
+                        if (this.play){
+                            this.scorep1+=score;
+                        }
+                        else {
+                            this.scorep2+=score;
+                        }
+
+                        var gameover = this.gameOver();
+                        if (gameover == 1){
+                            console.log("Player 1 won!");
+                            this.gamestate = GameState.end;
+                        }
+                        else if (gameover == 2){
+                            console.log("Player 2 won!");
+                            this.gamestate = GameState.end;
                         }
                         else{
-                            console.log("Player two, choose piece");
+                            console.log("p1: " + this.scorep1);
+                            console.log("p2: " + this.scorep2);
+                            this.play = !this.play;
+                            this.gamestate = GameState.piece;
+                            if(this.play){
+                                console.log("Player one, choose piece");
+                            }
+                            else{
+                                console.log("Player two, choose piece");
+                            }
                         }
                     }
-                }
-                else {
-                   console.log("Wrong play/move")
+                    else {
+                    console.log("Wrong play/move")
+                    }
                 }
             }
-        }
-        else {
-            console.log("Wrong play/move")
+            else {
+                console.log("Wrong play/move")
+            }
         }
     }
 
