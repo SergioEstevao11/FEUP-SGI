@@ -27,6 +27,7 @@ export class MyPieceAnimation {
     }
 
     update(elapsedTime) {
+        console.log("here")
         this.keyframeAnimation.update(elapsedTime)
         if (elapsedTime >= this.current_instant + this.positions.length) {
             this.finished = true

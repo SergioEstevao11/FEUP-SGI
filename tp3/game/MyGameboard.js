@@ -141,6 +141,7 @@ export class MyGameboard extends CGFobject{
         let captured_piece = null;
 
         let positions = []
+        positions.push(tile.coordinates);
 
         for (let i=0; i < path.length; i++){
             newtile = this.getTile(path[i]);

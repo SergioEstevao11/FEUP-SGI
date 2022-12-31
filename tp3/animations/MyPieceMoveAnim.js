@@ -28,17 +28,23 @@ export class MyPieceMoveAnim extends MyPieceAnimation{
     setupKeyFrames(positions) {
 
         let keyframes = []
+        keyframes.push(new MyKeyframe(0, 0, 0,
+            0, 0, 0,
+            1,1,1,
+            this.current_instant))
         for(let i = 1; i < positions.length; i++){
-            let x = positions[i][0] - positions[i-1][0]
-            let y = positions[i][1] - positions[i-1][1]
-            let z = positions[i][2] - positions[i-1][2]
+            let x = positions[i][0] - positions[0][0]
+            let y = positions[i][1] - positions[0][1]
+            let z = positions[i][2] - positions[0][2]
             keyframes.push(new MyKeyframe(x, y, z,
                                             0, 0, 0,
                                             1,1,1,
                                             this.current_instant + i))
         }
 
-        this.keyframeAnimation = new MyKeyframeAnimation(this.scene, 1, keyframes)
+        console.log("keyframes: " + positions)
+
+        this.keyframeAnimation = new MyKeyframeAnimation(this.scene, -1, keyframes)
         
     }
 }
