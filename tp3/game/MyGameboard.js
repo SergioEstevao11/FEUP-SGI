@@ -3,6 +3,7 @@ import { MyTile } from './MyTile.js';
 import { MyPiece } from './MyPiece.js';
 import { MyAuxilaryBoard } from './MyAuxilaryBoard.js';
 import { MyPieceMoveAnim } from '../animations/MyPieceMoveAnim.js';
+import { MyPieceCaptureAnim } from '../animations/MyPieceCaptureAnim.js';
 
 /**
  * Data Class that holds information about the component
@@ -149,9 +150,13 @@ export class MyGameboard extends CGFobject{
             positions.push(newtile.coordinates);
 
             if (newtile.piece != null){
+
+                // let piece_capture_animation = new MyPieceCaptureAnim(this.orchestrator, piece, [newtile.coordinates],
+                //     function(){  captured_piece = newtile.unsetPiece(); captured_piece.moveToAuxBoard(); })
+                // this.orchestrator.animator.addAnimation(piece_capture_animation);
                 captured_piece = newtile.unsetPiece();
-                //captured_piece animations
                 captured_piece.moveToAuxBoard();
+
                 score++;
             }
 
@@ -161,8 +166,6 @@ export class MyGameboard extends CGFobject{
                     function(){  tile.unsetPiece();newtile.setPiece(piece); })
                 
                 this.orchestrator.animator.addAnimation(piece_move_animation);
-                // tile.unsetPiece();
-                // newtile.setPiece(piece);
             }
             
 

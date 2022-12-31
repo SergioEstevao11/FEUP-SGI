@@ -11,9 +11,16 @@ import { MyPieceAnimation } from "./MyPieceAnimation.js"
  * @param {Array} startPosition - initial position of the piece, in the format [x, y, z]
  * @param {Array} finalPosition - final position of the piece, in the format [x, y, z]
  */
-class MyPieceMoveAnim extends MyPieceAnimation{
-    constructor(scene, gameboard, pieceToPlay, positions, current_instant, finishing_function) {
-        super(scene, gameboard, pieceToPlay, positions, current_instant, finishing_function)
+export class MyPieceCaptureAnim extends MyPieceAnimation{
+    constructor(orchestrator, pieceToPlay, positions, finishing_function) {
+
+        if (pieceToPlay.type == "white"){
+            positions.push( orchestrator.gameboard.p1auxboard.getNextTile().coordinates)
+        }else{
+            positions.push( orchestrator.gameboard.p2auxboard.getNextTile().coordinates)
+        }
+
+        super(orchestrator.scene, orchestrator.gameboard, pieceToPlay, positions, orchestrator.animator.seconds, finishing_function)
 
         this.setupKeyFrames(positions)
 
@@ -30,25 +37,29 @@ class MyPieceMoveAnim extends MyPieceAnimation{
         let finalPosition = positions[1]
         
         let keyframes = []
-        keyframes.push(new MyKeyframe(startPosition[0], startPosition[1], startPosition[2], 
+        keyframes.push(new MyKeyframe(0, 0, 0, 
                                         0, 0, 0, 
                                         1,1,1,
                                         this.current_instant))
         
         let z_positions = []
         for (let x = 0; x < 14; x++) {
-            let new_z = sin(Math.PI * x / 14) + startPosition[2]
-            if (new_z < finalPosition[2] && x > 6)
+            let new_z = Math.sin(Math.PI * x / 14)
+            if (new_z + startPosition[2] < finalPosition[2] && x > 6)
                 break
             z_positions.push(new_z)
 
         }
 
-        for (let x = 0; x < z_positions.length; x++) {
-            keyframes.push(new MyKeyframe(finalPosition[0]*x/z_positions.length, finalPosition[1]*x/z_positions.length, z_positions[x], 
+        let x = finalPosition[0] - startPosition[0]
+        let y = finalPosition[1] - startPosition[1]
+        let z = finalPosition[2] - startPosition[2]
+
+        for (let i = 0; i < z_positions.length; i++) {
+            keyframes.push(new MyKeyframe(x*i/z_positions.length, y*i/z_positions.length, z, 
                                             0, 0, 0, 
                                             1,1,1,
-                                            this.current_instant + x/z_positions.length));
+                                            this.current_instant + i/z_positions.length));
             
         }
         
