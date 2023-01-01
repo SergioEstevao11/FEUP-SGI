@@ -6,7 +6,7 @@ import { MyPiece } from './MyPiece.js';
  * Data Class that holds information about the component
  */
 export class MyAuxilaryBoard extends CGFobject{
-    constructor(orchestrator, gameboard) {
+    constructor(orchestrator, gameboard, type) {
         super(orchestrator.getScene())
         this.orchestrator = orchestrator;
         this.gameboard = gameboard;
@@ -14,12 +14,21 @@ export class MyAuxilaryBoard extends CGFobject{
         this.num_pieces = 0;
 
         //mount tiles
-        
-        for (let x = 0; x < 8; x++){
-            this.board.push(new MyTile(this.orchestrator, 200+x,this.gameboard, "aux", x, 0, 0));
+        if (type=="white"){
+            for (let x = 0; x < 8; x++){
+                this.board.push(new MyTile(this.orchestrator, 200+x,this.gameboard, "black", x, -3, 0));
+            }
+            for (let x = 0; x < 4; x++){
+                this.board.push(new MyTile(this.orchestrator, 208+x, this.gameboard, "black", x+0.5, -3, 0.25));
+            }
         }
-        for (let x = 0; x < 4; x++){
-            this.board.push(new MyTile(this.orchestrator, 208+x, this.gameboard, "aux", x+0.5, 0, 0.25));
+        else{
+            for (let x = 0; x < 8; x++){
+                this.board.push(new MyTile(this.orchestrator, 200+x,this.gameboard, "black", x, 3+7, 0));
+            }
+            for (let x = 0; x < 4; x++){
+                this.board.push(new MyTile(this.orchestrator, 208+x, this.gameboard, "black", x+0.5, 3+7, 0.25));
+            }
         }
         
         

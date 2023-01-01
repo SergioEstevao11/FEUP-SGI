@@ -42,8 +42,8 @@ export class MyGameboard extends CGFobject{
         }
 
         //mount secondary gameboards
-        this.p1auxboard = new MyAuxilaryBoard(this.orchestrator, this);
-        this.p2auxboard = new MyAuxilaryBoard(this.orchestrator, this);
+        this.p1auxboard = new MyAuxilaryBoard(this.orchestrator, this, "white");
+        this.p2auxboard = new MyAuxilaryBoard(this.orchestrator, this, "black");
         
 	}
 
@@ -147,21 +147,23 @@ export class MyGameboard extends CGFobject{
         for (let i=0; i < path.length; i++){
             newtile = this.getTile(path[i]);
            
-            positions.push(newtile.coordinates);
 
             if (newtile.piece != null){
-
-                // let piece_capture_animation = new MyPieceCaptureAnim(this.orchestrator, piece, [newtile.coordinates],
-                //     function(){  captured_piece = newtile.unsetPiece(); captured_piece.moveToAuxBoard(); })
-                // this.orchestrator.animator.addAnimation(piece_capture_animation);
-                captured_piece = newtile.unsetPiece();
-                captured_piece.moveToAuxBoard();
+                let tile_to_unset = [newtile];
+                let piece_capture_animation = new MyPieceCaptureAnim(this.orchestrator, tile_to_unset[0].piece, [newtile.coordinates], i/2,
+                    function(){let captured_piece = tile_to_unset[0].unsetPiece(); captured_piece.moveToAuxBoard(); })
+                this.orchestrator.animator.addAnimation(piece_capture_animation);
+               
 
                 score++;
+            }
+            else{
+                positions.push(newtile.coordinates);
             }
 
 
             if (i == path.length - 1){
+                console.log("positions:", positions)
                 let piece_move_animation = new MyPieceMoveAnim(this.orchestrator, piece, positions, 
                     function(){  tile.unsetPiece();newtile.setPiece(piece); })
                 
@@ -186,12 +188,7 @@ export class MyGameboard extends CGFobject{
                 this.gameboard[i][j].display();
             }
         }
-        this.scene.translate(0,-3, 0);
         this.p1auxboard.display();
-
-        this.scene.rotate(Math.PI, 0, 0, 1);
-        this.scene.translate(-8, -14, 0);
-
         this.p2auxboard.display();
 
         this.scene.popMatrix();

@@ -15,14 +15,14 @@ export class MyKeyframeAnimation extends MyAnimation{
 
         
         if(this.currentKeyframe < this.keyframes.length - 1 ){
-            if(this.id==-1)
-                console.log("hey")
+            // if(this.id==-1)
+            //     console.log("hey")
             if(time >= this.keyframes[this.currentKeyframe+1].instant){
                 this.currentKeyframe += 1; 
 
             }
-            if(this.id==-1)
-                console.log("curr frame", this.currentKeyframe)
+            // if(this.id==-1)
+            //     console.log("curr frame", this.currentKeyframe)
 
             if (this.currentKeyframe >= 0 && this.currentKeyframe < this.keyframes.length - 1){
                 let t1 = this.keyframes[this.currentKeyframe].instant;
@@ -32,8 +32,8 @@ export class MyKeyframeAnimation extends MyAnimation{
                     this.keyframes[this.currentKeyframe+1],
                     (time-t1)/(t2-t1)).getMatrix();
                 
-                if(this.id==-1)
-                    console.log(this.currentTransformation)
+                // if(this.id==-1)
+                //     console.log(this.currentTransformation)
             }
 
             if(this.currentKeyframe == this.keyframes.length - 1){

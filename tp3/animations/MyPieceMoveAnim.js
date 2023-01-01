@@ -13,7 +13,7 @@ import { MyPieceAnimation } from "./MyPieceAnimation.js"
  */
 export class MyPieceMoveAnim extends MyPieceAnimation{
     constructor(orchestrator, pieceToPlay, positions, finishing_function) {
-        super(orchestrator.scene, orchestrator.gameboard, pieceToPlay, positions, orchestrator.animator.seconds, finishing_function)
+        super(orchestrator.scene, orchestrator.gameboard, pieceToPlay, positions, orchestrator.animator.seconds, 0, finishing_function)
 
         this.setupKeyFrames(positions)
 

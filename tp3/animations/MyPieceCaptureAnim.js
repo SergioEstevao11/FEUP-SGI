@@ -12,7 +12,7 @@ import { MyPieceAnimation } from "./MyPieceAnimation.js"
  * @param {Array} finalPosition - final position of the piece, in the format [x, y, z]
  */
 export class MyPieceCaptureAnim extends MyPieceAnimation{
-    constructor(orchestrator, pieceToPlay, positions, finishing_function) {
+    constructor(orchestrator, pieceToPlay, positions, time_offset, finishing_function) {
 
         if (pieceToPlay.type == "white"){
             positions.push( orchestrator.gameboard.p1auxboard.getNextTile().coordinates)
@@ -20,7 +20,7 @@ export class MyPieceCaptureAnim extends MyPieceAnimation{
             positions.push( orchestrator.gameboard.p2auxboard.getNextTile().coordinates)
         }
 
-        super(orchestrator.scene, orchestrator.gameboard, pieceToPlay, positions, orchestrator.animator.seconds, finishing_function)
+        super(orchestrator.scene, orchestrator.gameboard, pieceToPlay, positions, orchestrator.animator.seconds, time_offset, finishing_function)
 
         this.setupKeyFrames(positions)
 
@@ -40,11 +40,11 @@ export class MyPieceCaptureAnim extends MyPieceAnimation{
         keyframes.push(new MyKeyframe(0, 0, 0, 
                                         0, 0, 0, 
                                         1,1,1,
-                                        this.current_instant))
+                                        this.current_instant + this.time_offset))
         
         let z_positions = []
         for (let x = 0; x < 14; x++) {
-            let new_z = Math.sin(Math.PI * x / 14)
+            let new_z = 1.5*Math.sin(Math.PI * x / 14)
             if (new_z + startPosition[2] < finalPosition[2] && x > 6)
                 break
             z_positions.push(new_z)
@@ -56,10 +56,10 @@ export class MyPieceCaptureAnim extends MyPieceAnimation{
         let z = finalPosition[2] - startPosition[2]
 
         for (let i = 0; i < z_positions.length; i++) {
-            keyframes.push(new MyKeyframe(x*i/z_positions.length, y*i/z_positions.length, z, 
+            keyframes.push(new MyKeyframe(x*i/z_positions.length, y*i/z_positions.length, z_positions[i], 
                                             0, 0, 0, 
                                             1,1,1,
-                                            this.current_instant + i/z_positions.length));
+                                            this.current_instant + this.time_offset + 2*i/z_positions.length));
             
         }
         
@@ -68,7 +68,7 @@ export class MyPieceCaptureAnim extends MyPieceAnimation{
         //     1,1,1,
         //     this.current_instant))
 
-        this.keyframeAnimation = new MyKeyframeAnimation(this.scene, 1, keyframes)
+        this.keyframeAnimation = new MyKeyframeAnimation(this.scene, -1, keyframes)
         
     }
 }
