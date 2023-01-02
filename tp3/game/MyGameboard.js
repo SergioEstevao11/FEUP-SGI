@@ -132,8 +132,8 @@ export class MyGameboard extends CGFobject{
         return false;
     }
 
-    hasPieceId(id){
-        var tile = this.getTile(id)
+    hasPieceInTile(tileId){
+        var tile = this.getTile(tileId)
         if (tile.piece == null){
             return false;
         }

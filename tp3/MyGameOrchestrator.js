@@ -173,6 +173,24 @@ export class MyGameOrchestrator{
         return selectable;
     }
 
+    filterAvlPlays(){
+        var plays = {};
+        var hascapture = false;
+        for (var key in this.avlplays){
+            var play = this.avlplays[key];
+            for (let i=0; i<play.length; i++){
+                if (this.gameboard.hasPieceId(i)){
+                    plays[key] = play;
+                    hascapture = true;
+                }
+            }
+        }
+        if (!hascapture){
+            plays = this.avlplays
+        }
+        return plays;
+    }
+
     checkinbounds(x,y){
         if ((x<0) || (x>7) || (y<0) || (y>7)){
             return false;
@@ -269,25 +287,26 @@ export class MyGameOrchestrator{
                 plays[this.gameboard.getTileC(x-1,y-1).id] = path;
             }
         }
-        return plays;
+        return this.filterAvlPlays(plays);
     }
 
-    filterAvlPlays(){
-        var plays = {};
+    filterAvlPlays(plays){
+        var filtered_plays = {};
         var hascapture = false;
-        for (var key in this.avlplays){
-            var play = this.avlplays[key];
+        for (var key in plays){
+            var play = plays[key];
             for (let i=0; i<play.length; i++){
-                if (this.gameboard.hasPieceId(i)){
-                    plays[key] = play;
+                if (this.gameboard.hasPieceInTile(play[i])){
+                    
+                    filtered_plays[key] = play;
                     hascapture = true;
                 }
             }
         }
         if (!hascapture){
-            plays = this.avlplays
+            filtered_plays = plays
         }
-        return plays;
+        return filtered_plays;
     }
 
     setSelectablePieces(){
