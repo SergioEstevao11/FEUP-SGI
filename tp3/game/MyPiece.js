@@ -14,6 +14,8 @@ export class MyPiece extends CGFobject{
         this.type = type;
         this.geometry = geometry;
         this.tile = tile;
+        this.dame = false;
+        this.avlpsize = 0;
 
         this.black_material = new CGFappearance(this.scene);
         this.black_material.setAmbient(0.01,0.01,0.01,1.0);
@@ -32,6 +34,13 @@ export class MyPiece extends CGFobject{
         this.cover2 = new MySphere(this.scene, 0.4, 20, 20);
 	}
 
+    setDame(b){
+        this.dame = b;
+    }
+    isDame(){
+        return this.dame;
+    }
+
     getTile(){
         return this.tile;
     }
@@ -49,7 +58,6 @@ export class MyPiece extends CGFobject{
     }
 
     display(){
-
         // Display tile itself
         if (this.type == "white")
             this.white_material.apply();
@@ -65,10 +73,16 @@ export class MyPiece extends CGFobject{
 
         this.scene.pushMatrix();
         this.scene.translate(0, 0, 0.25);
+
+        if (this.dame){
+            this.cylinder.display();
+            this.scene.translate(0, 0, 0.25);
+        }
+
         this.scene.scale(1, 1, 0.01);
         this.cover1.display();
         
-        this.scene.pushMatrix()
+        this.scene.pushMatrix();
         this.scene.translate(0, 0, -0.5);
         this.cover2.display();
         this.scene.popMatrix();

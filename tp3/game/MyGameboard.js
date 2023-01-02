@@ -29,15 +29,28 @@ export class MyGameboard extends CGFobject{
         }
 
         //mount pieces
-        for (let i = 0; i < 4; i++){
-            this.gameboard[0][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[0][i*2], "white"));
-            this.gameboard[1][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[1][i*2+1], "white"));
-            this.gameboard[2][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[2][i*2], "white"));
+        // for (let i = 0; i < 4; i++){
+        //     this.gameboard[0][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[0][i*2], "white"));
+        //     this.gameboard[1][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[1][i*2+1], "white"));
+        //     this.gameboard[2][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[2][i*2], "white"));
 
-            this.gameboard[5][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[5][i*2+1], "black"));
-            this.gameboard[6][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[6][i*2], "black"));
-            this.gameboard[7][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[7][i*2+1], "black"));
-        }
+        //     this.gameboard[5][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[5][i*2+1], "black"));
+        //     this.gameboard[6][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[6][i*2], "black"));
+        //     this.gameboard[7][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[7][i*2+1], "black"));
+        // }
+
+        let piece = new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[0][0], "white");
+        let piece2 = new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[6][6], "black");
+        let piece3 = new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[4][4], "black");
+        let piece4 = new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[1][1], "black");
+        let piece5 = new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[1][3], "black");
+
+        piece.dame = true;
+        this.gameboard[0][0].setPiece(piece);
+        this.gameboard[6][6].setPiece(piece2);
+        this.gameboard[4][4].setPiece(piece3);
+        this.gameboard[1][1].setPiece(piece4);
+        this.gameboard[3][1].setPiece(piece5);
 
         //mount secondary gameboards
         this.p1auxboard = new MyAuxilaryBoard(this.orchestrator, this);
@@ -80,10 +93,6 @@ export class MyGameboard extends CGFobject{
         }
     }
 
-    // addPiece(piece){
-
-    // }
-
     removePieceFromTile(id){
         var tile = this.getTile(id);
         if (tile.piece != null){
@@ -114,14 +123,6 @@ export class MyGameboard extends CGFobject{
         }
         return null;
     }
-
-    // getTilePiece(piece_id){
-
-    // }
-
-    // getTile(coords){
-        
-    // }
 
     hasPiece(x,y){
         if (this.checkinbounds(x,y)){
@@ -176,8 +177,6 @@ export class MyGameboard extends CGFobject{
                 newtile.setPiece(piece);
             }
         }
-        console.log("piece");
-        console.log(piece);
         return score;
     }
 
