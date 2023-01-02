@@ -9,7 +9,7 @@ import { MyAnimator } from "./game/MyAnimator.js";
 import { MySpriteSheet } from "./primitives/spritesheets/MySpriteSheet.js";
 
 
-const GameState = {
+export const GameState = {
     menu: "MENU",
     load:  "LOAD",
     piece: "PIECE",
@@ -105,26 +105,10 @@ export class MyGameOrchestrator{
                     if (this.checkIn(id,Object.keys(this.avlplays))) {
                         
 
-                        // let score = 0
-                        // let starting_tile = this.selectedpiece.tile
-                        // console.log("length: ", this.avlplays[id].length)
-                        // for (let i=0; i<this.avlplays[id].length; i++){
-                        //     if (this.avlplays[id][i].piece != null){
-                        //         //->animação de peça a ir para o auxboard
-                        //     }
-                            
-                        //     //->animação de peça a ir para o tile
 
-                        //     //remover offset das animações
-                        //     console.log("args: ", starting_tile, this.avlplays[id][i])
-                        //     score += this.gameboard.movePiece(starting_tile, this.avlplays[id][i]);
-                        //     starting_tile = this.gameboard.getTile(this.avlplays[id][i])
-                            
-                        // }
-                        console.log("here")
+                        this.gamestate = GameState.anim;
                         var score = this.gameboard.movePiece(this.selectedpiece.tile, this.avlplays[id]);
 
-                        this.gamestate = GameState.eval;
                         if (this.play){
                             this.scorep1+=score;
                         }
@@ -144,18 +128,13 @@ export class MyGameOrchestrator{
                         else{
                             console.log("p1: " + this.scorep1);
                             console.log("p2: " + this.scorep2);
+
                             this.play = !this.play;
-                            this.gamestate = GameState.piece;
-                            if(this.play){
-                                console.log("Player one, choose piece");
-                            }
-                            else{
-                                console.log("Player two, choose piece");
-                            }
+                            this.setSelectablePieces();
                         }
                     }
                     else {
-                    console.log("Wrong play/move")
+                        console.log("Wrong play/move")
                     }
                 }
             }
@@ -262,6 +241,68 @@ export class MyGameOrchestrator{
             }
         }
         return plays;
+    }
+
+    filterAvlPlays(){
+        var plays = {};
+        var hascapture = false;
+        for (var key in this.avlplays){
+            var play = this.avlplays[key];
+            for (let i=0; i<play.length; i++){
+                if (this.gameboard.hasPieceId(i)){
+                    plays[key] = play;
+                    hascapture = true;
+                }
+            }
+        }
+        if (!hascapture){
+            plays = this.avlplays
+        }
+        return plays;
+    }
+
+    setSelectablePieces(){
+        var pieces;
+        var color;
+        var arrcapture = false;
+
+        if (this.play){
+            pieces  = this.gameboard.getPieces(1);
+            color = "white";
+        }
+        else{
+            pieces = this.gameboard.getPieces(2);
+            color = "black";
+        }
+
+        for (let i=0; i<pieces.length; i++){
+            var piece = pieces[i];
+            
+            var avlplays = this.getAvlPlays(piece.getCoords()[0], piece.getCoords()[1],color,[],false);
+
+            var hascapture = false;
+            for (var key in avlplays){
+                var play = avlplays[key];
+                for (let j=0; j<play.length; j++){
+                    var tile = this.gameboard.getTile(play[j]);
+                    if ((tile.piece != null) && (tile.piece.type != color)){
+                        hascapture = true;
+                        arrcapture = true;
+                    }
+                }
+            }
+            if (!hascapture){
+                piece.selectable = false;
+            }
+        }
+
+        if (!arrcapture){
+            for (let i=0; i<pieces.length; i++){
+                var piece = pieces[i];
+                piece.selectable = true;
+            }
+        }
+
     }
 
     gameOver(){

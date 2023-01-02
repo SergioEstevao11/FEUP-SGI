@@ -69,27 +69,29 @@ export class MyPiece extends CGFobject{
 
         if (this.selectable){
             this.orchestrator.getScene().registerForPick(this.id, this);
-
-            if (this.animation != null){
-                if(!this.animation.finished){
-                    this.animation.apply();
-                }
-            }
-
-            this.scene.translate(0.5, 0.5, 0);
-            this.cylinder.display();
-
-            this.scene.pushMatrix();
-            this.scene.translate(0, 0, 0.25);
-            this.scene.scale(1, 1, 0.01);
-            this.cover1.display();
-            
-            this.scene.pushMatrix()
-            this.scene.translate(0, 0, -0.5);
-            this.cover2.display();
-            this.scene.popMatrix();
-            this.scene.popMatrix();
         }
+
+        if (this.animation != null){
+            if(!this.animation.finished){
+                this.animation.apply();
+            }
+        }
+
+        this.scene.translate(0.5, 0.5, 0);
+        this.cylinder.display();
+
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0, 0.25);
+        this.scene.scale(1, 1, 0.01);
+        this.cover1.display();
+        
+        this.scene.pushMatrix()
+        this.scene.translate(0, 0, -0.5);
+        this.cover2.display();
+        this.scene.popMatrix();
+        this.scene.popMatrix();
+        
+
 
         if (this.selectable)
             this.orchestrator.getScene().clearPickRegistration();  

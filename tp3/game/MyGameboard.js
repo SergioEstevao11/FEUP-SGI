@@ -47,6 +47,24 @@ export class MyGameboard extends CGFobject{
         
 	}
 
+    getPieces(player){
+        var pieces = [];
+        for (let i = 0; i < 8; i++){
+            for (let j = 0; j < 8; j++){
+                var tile = this.gameboard[i][j];
+                if (tile.piece != null){
+                    if ((player == 1) && (tile.piece.type == "white")){
+                        pieces.push(tile.piece);
+                    }
+                    else if ((player == 2) && (tile.piece.type == "black")){
+                        pieces.push(tile.piece);
+                    }
+                }
+            }
+        }
+        return pieces;
+    }
+
 
     checkinbounds(x,y){
         if ((x<0) || (x>7) || (y<0) || (y>7)){
@@ -112,6 +130,14 @@ export class MyGameboard extends CGFobject{
             return (this.gameboard[y][x]).piece != null;
         }
         return false;
+    }
+
+    hasPieceId(id){
+        var tile = this.getTile(id)
+        if (tile.piece == null){
+            return false;
+        }
+        return true;
     }
 
     getTile(id){

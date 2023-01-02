@@ -1,3 +1,5 @@
+import {GameState} from "../MyGameOrchestrator.js"
+
 export class MyAnimator{
     constructor(scene, orchestrator, gamesequence) {
         this.scene = scene;
@@ -35,9 +37,15 @@ export class MyAnimator{
             this.animations.splice(to_delete[i], 1);
         }
 
+        if (this.animations.length == 0 && this.orchestrator.gamestate == GameState.anim){
+            console.log("unlocking")
+            this.orchestrator.gamestate = GameState.piece
+        }
+
         for(let i = 0; i < this.animations.length; i++){
             this.animations[i].apply();
         }
+
     }
 
     display(){
