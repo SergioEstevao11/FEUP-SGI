@@ -29,14 +29,6 @@ export class MyAnimator{
 
     }
 
-    reset(){    
-        //TODO
-    }
-
-    start(){
-        //TODO
-    }
-
     update(t){
 
         this.seconds = t/1000;
@@ -63,7 +55,4 @@ export class MyAnimator{
 
     }
 
-    display(){
-        //TODO
-    }
 }

@@ -18,6 +18,6 @@ export class MyGameSequence extends CGFobject{
     }
 
     moveReplay(coords){
-
+        //todo
     }
 }

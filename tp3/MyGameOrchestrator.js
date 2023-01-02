@@ -190,6 +190,8 @@ export class MyGameOrchestrator{
     }
 
     setPlayerTurn(){
+
+        
         this.play = !this.play;
         this.setSelectablePieces();
 
