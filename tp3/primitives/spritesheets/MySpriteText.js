@@ -1,6 +1,5 @@
 import {CGFobject} from '../../../lib/CGF.js';
-
-
+import {MyRectangle} from '../MyRectangle.js';
 
 /**
  * MySpriteText
@@ -15,7 +14,7 @@ export class MySpriteText extends CGFobject{
         this.scene = scene; 
 
         this.text = text;
-        this.background = new MyRectangle(scene, -0.5, -0.5, 0.5, 0.5);
+        this.background = new MyRectangle(scene, "background", -0.5, 0.5, -0.5, 0.5);
         this.spriteSheet = spriteSheet;
     }
 
@@ -47,7 +46,6 @@ export class MySpriteText extends CGFobject{
         // Calculate the line and column of the character to be presented
         let M = charCode % this.spriteSheet.sizeM;
         let N = Math.floor(charCode / this.spriteSheet.sizeM);
-
         return [M, N];
     }
 

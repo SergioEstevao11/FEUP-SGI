@@ -7,6 +7,8 @@ import { MyTile } from './game/MyTile.js';
 import { MySceneGraph } from './MySceneGraph.js';
 import { MyAnimator } from "./game/MyAnimator.js";
 import { MySpriteSheet } from "./primitives/spritesheets/MySpriteSheet.js";
+import { MySpriteText } from "./primitives/spritesheets/MySpriteText.js";
+import { MyRectangle  } from "./primitives/MyRectangle.js";
 
 
 export const GameState = {
@@ -32,7 +34,7 @@ export class MyGameOrchestrator{
 		this.gameSequence = new MyGameSequence(this.scene);
         this.animator = new MyAnimator(this.scene, this, this.gameSequence);
         this.graph = new MySceneGraph(this.scene, filename);
-        this.spritesheet = new MySpriteSheet(this.scene, "./scenes/spritesheet.png", 16, 16);
+        
         
         this.play = true;
         this.scorep1 = 0;
@@ -41,6 +43,9 @@ export class MyGameOrchestrator{
 
         this.avlplays = {};
         this.selectedpiece = null;
+
+        this.spritesheet = new MySpriteSheet(this.scene, "./scenes/spritesheet-alphabet.png", 16, 6);
+        this.settingsText = new MySpriteText(this.scene, "Score:12", this.spritesheet);
     }
 
     managePick(mode, results) {
@@ -128,9 +133,7 @@ export class MyGameOrchestrator{
                         else{
                             console.log("p1: " + this.scorep1);
                             console.log("p2: " + this.scorep2);
-
-                            this.play = !this.play;
-                            this.setSelectablePieces();
+                            
                         }
                     }
                     else {
@@ -142,6 +145,32 @@ export class MyGameOrchestrator{
                 console.log("Wrong play/move")
             }
         }
+    }
+
+    setPlayerTurn(){
+        this.play = !this.play;
+        this.setSelectablePieces();
+
+        console.log("avl pieces:")
+        if(this.play){
+            console.log(this.getSelectablePieces(1));
+        }
+        else{
+            console.log(this.getSelectablePieces(2));
+        }
+        this.gamestate = GameState.piece;
+    }
+
+    getSelectablePieces(player){
+        var selectable = [];
+        var pieces = this.gameboard.getPieces(player);
+
+        for (let i=0; i<pieces.length; i++){
+            if (pieces[i].selectable == true){
+                selectable.push(pieces[i].id);
+            }
+        }
+        return selectable;
     }
 
     checkinbounds(x,y){
@@ -327,6 +356,7 @@ export class MyGameOrchestrator{
     display(){
         this.graph.displayScene();
         this.gameboard.display();
+
     }
 
 }

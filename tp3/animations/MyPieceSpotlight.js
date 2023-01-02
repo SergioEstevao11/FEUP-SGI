@@ -38,7 +38,6 @@ export class MyPieceSpotlight{
         let tile = this.piece.tile;
         let x = tile.coordinates[0]- 4 + 0.5 + currentTransformation.tx;
         let z = -tile.coordinates[1] + 4 - 0.5 - currentTransformation.ty;
-        console.log([x, 0, z], tile.coordinates, currentTransformation.tx, currentTransformation.ty)
         this.scene.lights[this.index].setPosition(x, 1, z, 1);
         this.scene.lights[this.index].setSpotDirection(x, 0, z);
         this.scene.lights[this.index].update();

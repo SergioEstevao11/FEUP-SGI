@@ -44,14 +44,11 @@ export class MyPieceMoveAnim extends MyPieceAnimation{
                                             this.current_instant + i))
         }
 
-        console.log("keyframes: " + positions)
-
         this.keyframeAnimation = new MyKeyframeAnimation(this.scene, -1, keyframes)
         
     }
 
     update(elapsedTime) {
-        console.log("here")
         this.keyframeAnimation.update(elapsedTime)
         this.pieceSpotlight.update(this.keyframeAnimation.currentTransformation)
         if (elapsedTime >= this.current_instant + this.time_offset + this.positions.length) {

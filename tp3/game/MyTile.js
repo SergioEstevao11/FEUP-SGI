@@ -63,7 +63,6 @@ export class MyTile extends CGFobject{
         this.piece.tile = null;
         let piece = this.piece;
         this.piece = null;
-        console.log("unset piece", piece)
         return piece;
     }
 

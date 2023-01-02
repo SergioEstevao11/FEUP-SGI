@@ -18,10 +18,10 @@ export class MySpriteSheet {
 
         this.texture = new CGFtexture(this.scene, texture);
 
-        // this.shader = new CGFshader(this.scene.gl, "./shaders/spriteShader.vert", "./shaders/spriteShader.frag");
+        this.shader = new CGFshader(this.scene.gl, "./shaders/spriteShader.vert", "./shaders/spriteShader.frag");
 
-        // this.shader.setUniformsValues({texture: 0});
-        // this.shader.setUniformsValues({sizeM: this.sizeM, sizeN: this.sizeN});
+        this.shader.setUniformsValues({texture: 0});
+        this.shader.setUniformsValues({sizeM: this.sizeM, sizeN: this.sizeN});
     }
 
     /**
