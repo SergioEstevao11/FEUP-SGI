@@ -176,6 +176,7 @@ export class XMLscene extends CGFscene {
 
         this.interface.gui.add(this.graph, 'selectedView', this.graph.cameraIds).name('Cameras').onChange(this.updateCamera.bind(this));
         
+        
         this.initShaderFolderCheckboxes();
 
         // folder_shader.add(this.shader, 'enabled').name(key);

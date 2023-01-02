@@ -1,4 +1,6 @@
 import {GameState} from "../MyGameOrchestrator.js"
+import {CGFcamera} from "../../lib/CGF.js"
+import {MyCameraAnimation} from "../animations/MyCameraAnimation.js"
 
 export class MyAnimator{
     constructor(scene, orchestrator, gamesequence) {
@@ -7,11 +9,24 @@ export class MyAnimator{
         this.gameSequence = gamesequence;
         this.animations = [];
 
-        
+        this.p1camera =  new CGFcamera(45*Math.PI/180, 0.1, 500, [0, 8, 18], [0, 0, 0]);
+        this.p2camera =  new CGFcamera(45*Math.PI/180, 0.1, 500, [0, 8, -18], [0, 0, 0]);
+        this.camera = "p1"
     }
 
     addAnimation(animation){
         this.animations.push(animation);
+    }
+
+    addCameraAnimation(){
+        if (this.camera == "p1"){
+            this.camera = "p2";
+            this.addAnimation(new MyCameraAnimation(this.scene, this.p1camera, this.p2camera));
+        }else{
+            this.camera = "p1";
+            this.addAnimation(new MyCameraAnimation(this.scene, this.p2camera, this.p1camera));
+        }
+
     }
 
     reset(){    

@@ -17,6 +17,10 @@ export class MyScoreBoard {
         
     }
 
+    setWinner(winner){
+        this.pturn.updateText("Winner: Player " + winner);
+    }
+
     update(){
         let player = this.orchestrator.play ? "1" : "2";
         this.pturn.updateText("Turn: Player " + player);

@@ -77,6 +77,15 @@ export class MyGameOrchestrator{
                 }
                 if (id == 201){
                     console.log("Rotate button pressed");
+                    this.animator.addCameraAnimation();
+                }
+                if (id == 202){
+                    console.log("Restart button pressed");
+                    this.restart();
+                }
+            }else if(this.gamestate == GameState.end){
+                if (id == 201){
+                    console.log("Rotate button pressed");
                     this.animator.rotate();
                 }
                 if (id == 202){
@@ -143,11 +152,9 @@ export class MyGameOrchestrator{
                         var gameover = this.gameOver();
                         if (gameover == 1){
                             console.log("Player 1 won!");
-                            this.gamestate = GameState.end;
                         }
                         else if (gameover == 2){
                             console.log("Player 2 won!");
-                            this.gamestate = GameState.end;
                         }
                         else{
                             console.log("p1: " + this.scorep1);
@@ -179,6 +186,7 @@ export class MyGameOrchestrator{
         this.scorep2 = 0;
         this.timep1 = 180;
         this.timep2 = 180;
+        this.gamestate = GameState.piece;
     }
 
     setPlayerTurn(){
@@ -388,10 +396,14 @@ export class MyGameOrchestrator{
     }
 
     gameOver(){
-        if (this.scorep1 >= 12){
+        if (this.scorep1 >= 12 || this.timep2 <= 0){
+            this.gamestate = GameState.end;
+            this.UI.setWinner(1);
             return 1;
         }
-        else if (this.scorep2 >=12){
+        else if (this.scorep2 >=12 || this.timep1 <= 0){
+            this.gamestate = GameState.end;
+            this.UI.setWinner(2);
             return 2;
         }
         return 0;
@@ -409,14 +421,19 @@ export class MyGameOrchestrator{
         let secTime = Math.floor((time - this.startingTime)/1000);
         if (this.secondsElapsed < secTime){
             this.secondsElapsed =secTime;
-            if (this.play)
+            if(this.gamestate != GameState.end){
+                if (this.play)
                 this.timep1 -= 1;
+
             else
                 this.timep2 -= 1;
+            }
+
+            this.UI.update();
+            this.gameOver();
         }
         this.graph.update(time);
         this.animator.update(time);
-        this.UI.update();
     }
 
     display(){

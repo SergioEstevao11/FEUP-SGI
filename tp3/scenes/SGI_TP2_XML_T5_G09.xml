@@ -7,6 +7,15 @@
             <to x="0" y="-2" z="0" />
         </perspective>
 
+        <perspective id="Player1 camera" near="0.1" far="500" angle="45">
+            <from x="0" y="8" z="18" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <perspective id="Player2 camera" near="0.1" far="500" angle="45">
+            <from x="0" y="8" z="-18" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+
         <perspective id="Millenium Falcon POV" near="0.1" far="500" angle="45">
             <from x="3.5" y="1.5" z="5" />
             <to x="15" y="0" z="0" />

@@ -12,6 +12,10 @@ export class MyBoardUI{
     update(){
         this.scoreboard.update();
     }
+
+    setWinner(winner){
+        this.scoreboard.setWinner(winner);
+    }
     
 
     display(){
