@@ -77,7 +77,7 @@ export class XMLscene extends CGFscene {
 
             if (this.graph.lights.hasOwnProperty(key)) {
                 var light = this.graph.lights[key];
-
+                console.log(this.lights[i])
 
                 this.lights[i].setPosition(light[2][0], light[2][1], light[2][2], light[2][3]);
                 this.lights[i].setAmbient(light[3][0], light[3][1], light[3][2], light[3][3]);
@@ -106,6 +106,41 @@ export class XMLscene extends CGFscene {
                 i++;
             }
         }
+
+        this.num_lights = i;
+    }
+
+    initPieceSpotlight(){
+        this.angle = 45;
+        this.exponent = 2;
+        this.location = [0, 5, 0, 1];
+        this.target = [0, 0, 0]; 
+        this.ambient = [0.5, 0.5, 0.5, 1];
+        this.diffuse = [1, 1, 1, 1];
+        this.specular = [1, 1, 1, 1];
+        this.attenuation = [0, 0, 0.01]
+
+        this.lights[this.num_lights].setPosition(this.location[0], this.location[1], this.location[2], this.location[3]);
+        this.lights[this.num_lights].setAmbient(this.ambient[0], this.ambient[1], this.ambient[2], this.ambient[3]);
+        this.lights[this.num_lights].setDiffuse(this.diffuse[0], this.diffuse[1], this.diffuse[2], this.diffuse[3]);
+        this.lights[this.num_lights].setSpecular(this.specular[0], this.specular[1], this.specular[2], this.specular[3]);
+        this.lights[this.num_lights].setConstantAttenuation(this.attenuation[0]);
+        this.lights[this.num_lights].setLinearAttenuation(this.attenuation[1]);
+        this.lights[this.num_lights].setQuadraticAttenuation(this.attenuation[2]);
+        this.lights[this.num_lights].setSpotCutOff(this.angle);
+        this.lights[this.num_lights].setSpotExponent(this.exponent);
+        this.lights[this.num_lights].setSpotDirection(this.target[0], this.target[1], this.target[2]);
+    }
+
+    updatePieceSpotlight(target){
+        this.lights[this.num_lights].setSpotDirection(target[0], target[1], target[2]);
+        this.lights[this.num_lights].enable()
+        this.lights[this.num_lights].update();
+    }
+
+    deactivatePieceSpotlight(){
+        this.lights[this.num_lights].disable();
+        this.lights[this.num_lights].update();
     }
 
     initShaderFolderCheckboxes() {

@@ -1,6 +1,7 @@
 import { MyKeyframe } from "./MyKeyframe.js"
 import { MyKeyframeAnimation } from "./MyKeyframeAnimation.js"
 import { MyPieceAnimation } from "./MyPieceAnimation.js"
+import { MyPieceSpotlight } from "./MyPieceSpotlight.js"
 /**
  * MyPieceAnimation
  * @constructor
@@ -17,6 +18,7 @@ export class MyPieceMoveAnim extends MyPieceAnimation{
 
         this.setupKeyFrames(positions)
 
+        this.pieceSpotlight = new MyPieceSpotlight(orchestrator, pieceToPlay)
         
     }
 
@@ -46,5 +48,20 @@ export class MyPieceMoveAnim extends MyPieceAnimation{
 
         this.keyframeAnimation = new MyKeyframeAnimation(this.scene, -1, keyframes)
         
+    }
+
+    update(elapsedTime) {
+        console.log("here")
+        this.keyframeAnimation.update(elapsedTime)
+        this.pieceSpotlight.update(this.keyframeAnimation.currentTransformation)
+        if (elapsedTime >= this.current_instant + this.time_offset + this.positions.length) {
+            if (!this.finished){
+                this.pieceToPlay.animation = null
+                this.finishing_function()
+                this.pieceSpotlight.deactivate()
+                this.finished = true
+            }
+            
+        }
     }
 }

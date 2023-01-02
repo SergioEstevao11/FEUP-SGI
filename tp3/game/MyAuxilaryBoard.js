@@ -16,18 +16,18 @@ export class MyAuxilaryBoard extends CGFobject{
         //mount tiles
         if (type=="white"){
             for (let x = 0; x < 8; x++){
-                this.board.push(new MyTile(this.orchestrator, 200+x,this.gameboard, "black", x, -3, 0));
+                this.board.push(new MyTile(this.orchestrator, 200+x,this.gameboard, "aux", x, -3, 0));
             }
             for (let x = 0; x < 4; x++){
-                this.board.push(new MyTile(this.orchestrator, 208+x, this.gameboard, "black", x+0.5, -3, 0.25));
+                this.board.push(new MyTile(this.orchestrator, 208+x, this.gameboard, "aux", x+0.5, -3, 0.25));
             }
         }
         else{
             for (let x = 0; x < 8; x++){
-                this.board.push(new MyTile(this.orchestrator, 200+x,this.gameboard, "black", x, 3+7, 0));
+                this.board.push(new MyTile(this.orchestrator, 200+x,this.gameboard, "aux", x, 3+7, 0));
             }
             for (let x = 0; x < 4; x++){
-                this.board.push(new MyTile(this.orchestrator, 208+x, this.gameboard, "black", x+0.5, 3+7, 0.25));
+                this.board.push(new MyTile(this.orchestrator, 208+x, this.gameboard, "aux", x+0.5, 3+7, 0.25));
             }
         }
         

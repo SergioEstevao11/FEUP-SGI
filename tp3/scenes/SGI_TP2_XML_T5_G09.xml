@@ -65,14 +65,6 @@
             <specular r="1" g="1" b="1" a="1.0" />
             <attenuation constant="0.0" linear="0.0" quadratic="0.01" />
         </spot>
-        <spot id="falcon constant" enabled="0" angle="180" exponent="2">
-            <location x="6 " y="0" z="0" w="1.0" />
-            <target x="10" y="0" z="0" w="1.0" />
-            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
-            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
-            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
-            <attenuation constant="0.1" linear="0.0" quadratic="0.0" />
-        </spot>
         <spot id="falcon linear" enabled="0" angle="180" exponent="2">
             <location x="6" y="0" z="0" w="1.0" />
             <target x="10" y="0" z="0" w="1.0" />

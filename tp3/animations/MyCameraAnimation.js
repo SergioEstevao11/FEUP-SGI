@@ -1,4 +1,4 @@
-class MyCameraAnimation {
+export class MyCameraAnimation {
     constructor(scene, initialCamera, finalCamera) {
         this.scene = scene;
         this.initialCamera = initialCamera;
