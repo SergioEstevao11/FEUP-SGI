@@ -6,6 +6,7 @@ import { MyPiece } from './game/MyPiece.js';
 import { MyTile } from './game/MyTile.js';
 import { MySceneGraph } from './MySceneGraph.js';
 import { MyAnimator } from "./game/MyAnimator.js";
+import { MySpriteSheet } from "./primitives/spritesheets/MySpriteSheet.js";
 
 
 const GameState = {
@@ -31,6 +32,7 @@ export class MyGameOrchestrator{
 		this.gameSequence = new MyGameSequence(this.scene);
         this.animator = new MyAnimator(this.scene, this, this.gameSequence);
         this.graph = new MySceneGraph(this.scene, filename);
+        this.spritesheet = new MySpriteSheet(this.scene, "./scenes/spritesheet.png", 16, 16);
         
         this.play = true;
         this.scorep1 = 0;

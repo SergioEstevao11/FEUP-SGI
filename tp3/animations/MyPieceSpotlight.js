@@ -1,5 +1,3 @@
-import { CGFlight } from '../../lib/CGF.js';
-
 export class MyPieceSpotlight{
     constructor(orchestrator, piece) {
 
@@ -33,18 +31,14 @@ export class MyPieceSpotlight{
 
     /**
      * Update function, called periodically, which calculates the values of the camera at a given moment
-     * @param {Integer} elapsedTime - the time elapsed since the last call
+     * @param {Integer} currentTransformation - transformation of the piece
      */
     update(currentTransformation) {
         
         let tile = this.piece.tile;
         let x = tile.coordinates[0]- 4 + 0.5 + currentTransformation.tx;
         let z = -tile.coordinates[1] + 4 - 0.5 - currentTransformation.ty;
-        // if (this.piece.type == "black"){
-        //     z -= 6
-        // }
         console.log([x, 0, z], tile.coordinates, currentTransformation.tx, currentTransformation.ty)
-        // this.scene.lights[this.index].setPosition(this.location[0], this.location[1], this.location[2], this.location[3]);
         this.scene.lights[this.index].setPosition(x, 1, z, 1);
         this.scene.lights[this.index].setSpotDirection(x, 0, z);
         this.scene.lights[this.index].update();
@@ -55,7 +49,4 @@ export class MyPieceSpotlight{
         this.scene.lights[this.index].update();
     }
 
-    /**
-     * Applies the current camera to the scene, if the animation if active
-     */
 }
