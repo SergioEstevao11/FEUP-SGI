@@ -11558,8 +11558,8 @@
 
           <component id="dashboard">
             <transformation>
-                <translate x="5" y="0" z="8"/>
-                <scale x="3" y="2" z="0.5"/>
+                <translate x="4.5" y="0" z="8"/>
+                <scale x="4" y="2" z="0.5"/>
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -11572,6 +11572,19 @@
                 <componentref id="cube_fourth_rectangle"/>
                 <componentref id="cube_fifth_rectangle"/>
                 <componentref id="cube_sixth_rectangle"/>
+            </children>
+        </component>
+
+        <component id="dashboard1">
+            <transformation>
+                <rotate axis="y" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="dashboard"/>
             </children>
         </component>
 
@@ -11590,6 +11603,7 @@
                     <componentref id="supportboard1" />
                     <componentref id="supportboard2" />
                     <componentref id="dashboard" />
+                    <componentref id="dashboard1" />
                </children>
             </component>
 

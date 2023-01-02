@@ -1,5 +1,3 @@
-import { CGFscene, CGFcamera, CGFappearance, CGFaxis, CGFtexture, CGFshader, CGFplane } from "../lib/CGF.js";
-
 import { MyGameSequence } from './game/MyGameSequence.js';
 import { MyGameboard } from './game/MyGameboard.js';
 import { MyPiece } from './game/MyPiece.js';
@@ -7,9 +5,8 @@ import { MyTile } from './game/MyTile.js';
 import { MySceneGraph } from './MySceneGraph.js';
 import { MyAnimator } from "./game/MyAnimator.js";
 import { MySpriteSheet } from "./primitives/spritesheets/MySpriteSheet.js";
-import { MySpriteText } from "./primitives/spritesheets/MySpriteText.js";
-import { MyRectangle  } from "./primitives/MyRectangle.js";
-
+import { MyBoardUI } from "./menu/MyBoardUI.js";
+import { MyButton } from "./menu/MyButton.js";
 
 export const GameState = {
     menu: "MENU",
@@ -34,18 +31,22 @@ export class MyGameOrchestrator{
 		this.gameSequence = new MyGameSequence(this.scene);
         this.animator = new MyAnimator(this.scene, this, this.gameSequence);
         this.graph = new MySceneGraph(this.scene, filename);
+        this.spritesheet = new MySpriteSheet(this.scene, "./scenes/spritesheet-alphabet.png", 16, 6);
+        this.UI = new MyBoardUI(this);
         
         
         this.play = true;
         this.scorep1 = 0;
         this.scorep2 = 0;
+        this.timep1 = 180;
+        this.timep2 = 180;
         this.gamestate = GameState.piece;
 
         this.avlplays = {};
         this.selectedpiece = null;
 
-        this.spritesheet = new MySpriteSheet(this.scene, "./scenes/spritesheet-alphabet.png", 16, 6);
-        this.settingsText = new MySpriteText(this.scene, "Score:12", this.spritesheet);
+        
+
     }
 
     managePick(mode, results) {
@@ -68,6 +69,24 @@ export class MyGameOrchestrator{
     }
 
     onObjectSelected(obj, id) {
+        if(obj instanceof MyButton){
+            if (this.gamestate == GameState.piece || this.gamestate == GameState.dest){
+                if (id == 200){
+                    console.log("Undo button pressed");
+                    this.undo();
+                }
+                if (id == 201){
+                    console.log("Rotate button pressed");
+                    this.animator.rotate();
+                }
+                if (id == 202){
+                    console.log("Restart button pressed");
+                    this.restart();
+                }
+            }
+        }
+
+
         if(obj instanceof MyPiece){
             if (obj.captured){
                 return;
@@ -145,6 +164,21 @@ export class MyGameOrchestrator{
                 console.log("Wrong play/move")
             }
         }
+    }
+
+    undo(){
+
+    }
+
+    restart(){
+        this.gameboard = new MyGameboard(this);
+		this.gameSequence = new MyGameSequence(this.scene);        
+        
+        this.play = true;
+        this.scorep1 = 0;
+        this.scorep2 = 0;
+        this.timep1 = 180;
+        this.timep2 = 180;
     }
 
     setPlayerTurn(){
@@ -368,14 +402,27 @@ export class MyGameOrchestrator{
     }
 
     update(time){
+        if(this.startingTime == null){
+            this.startingTime = time;
+            this.secondsElapsed = 0
+        }
+        let secTime = Math.floor((time - this.startingTime)/1000);
+        if (this.secondsElapsed < secTime){
+            this.secondsElapsed =secTime;
+            if (this.play)
+                this.timep1 -= 1;
+            else
+                this.timep2 -= 1;
+        }
         this.graph.update(time);
         this.animator.update(time);
+        this.UI.update();
     }
 
     display(){
         this.graph.displayScene();
         this.gameboard.display();
-
+        this.UI.display()
     }
 
 }
