@@ -68,7 +68,7 @@ export class XMLscene extends CGFscene {
      */
     initLights() {
         var i = 0;
-        var folder_lights = this.interface.gui.addFolder("Lights");
+        // var folder_lights = this.interface.gui.addFolder("Lights");
         // Lights index.
         // Reads the lights from the scene graph.
         for (var key in this.graph.lights) {
@@ -101,7 +101,7 @@ export class XMLscene extends CGFscene {
                     this.lights[i].disable();
 
                 this.lights[i].update();
-                folder_lights.add(this.lights[i], 'enabled').name(key);
+                // folder_lights.add(this.lights[i], 'enabled').name(key);
 
                 i++;
             }
@@ -174,10 +174,10 @@ export class XMLscene extends CGFscene {
         this.initLights();
 
 
-        this.interface.gui.add(this.graph, 'selectedView', this.graph.cameraIds).name('Cameras').onChange(this.updateCamera.bind(this));
+        // this.interface.gui.add(this.graph, 'selectedView', this.graph.cameraIds).name('Cameras').onChange(this.updateCamera.bind(this));
         
         
-        this.initShaderFolderCheckboxes();
+        // this.initShaderFolderCheckboxes();
 
         // folder_shader.add(this.shader, 'enabled').name(key);
 		// this.interface.gui.add(this.graph, 'showHighlight').name('Highlight').onChange(this.setActiveShader(this.shader));   

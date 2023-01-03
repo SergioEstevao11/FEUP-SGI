@@ -11,28 +11,15 @@ import { MyPieceAnimation } from "./MyPieceAnimation.js"
  * @param {Array} startPosition - initial position of the piece, in the format [x, y, z]
  * @param {Array} finalPosition - final position of the piece, in the format [x, y, z]
  */
-export class MyPieceCaptureAnim extends MyPieceAnimation{
+export class MyPieceRecoveryAnim extends MyPieceAnimation{
     constructor(orchestrator, pieceToPlay, positions, offset, finishing_function) {
-        // let auxboard = null
-        // if (pieceToPlay.type == "white"){
-        //     auxboard = orchestrator.gameboard.p1auxboard
-        // }else{
-        //     auxboard = orchestrator.gameboard.p2auxboard
-        // }
-
-        // let num_pieces = auxboard.num_pieces
-        // positions.push( auxboard.board[num_pieces+offset].coordinates)
+        
 
         super(orchestrator.scene, orchestrator.gameboard, pieceToPlay, positions, orchestrator.animator.seconds, offset, finishing_function)
-        this.orchestrator = orchestrator
+
         this.setupKeyFrames(positions)
 
         
-    }
-
-    reverse(reverse_function){
-        let rev_pos = this.positions.reverse()
-        return new MyPieceCaptureAnim(this.orchestrator, this.pieceToPlay, rev_pos, this.offset, reverse_function)
     }
 
     /**

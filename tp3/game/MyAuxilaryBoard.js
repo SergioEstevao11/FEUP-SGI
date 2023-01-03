@@ -14,7 +14,7 @@ export class MyAuxilaryBoard extends CGFobject{
         this.num_pieces = 0;
 
         //mount tiles
-        if (type=="white"){
+        if (type=="black"){
             for (let x = 0; x < 8; x++){
                 this.board.push(new MyTile(this.orchestrator, 300+x,this.gameboard, "aux", x, -3, 0));
             }
@@ -45,8 +45,8 @@ export class MyAuxilaryBoard extends CGFobject{
     }
 
     removePiece(){
-        this.board[this.num_pieces].setPiece(null);
         this.num_pieces--;
+        this.board[this.num_pieces].unsetPiece();
     }
 
     getPiece(coords){

@@ -36,6 +36,7 @@ export class MyPiece extends CGFobject{
         this.cover2 = new MySphere(this.scene, 0.4, 20, 20);
 
         this.dame = false;
+        this.dame_piece = null;
 	}
 
     setDame(b){
@@ -73,6 +74,11 @@ export class MyPiece extends CGFobject{
     setDame(b){
         this.dame = b;
     }
+
+    addDamePiece(piece){
+        this.dame_piece = piece;
+    }
+
     isDame(){
         return this.dame;
     }

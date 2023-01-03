@@ -31,15 +31,25 @@ export class MyGameboard extends CGFobject{
         }
 
         //mount pieces
-        for (let i = 0; i < 4; i++){
-            this.gameboard[0][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[0][i*2], "white"));
-            this.gameboard[1][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[1][i*2+1], "white"));
-            this.gameboard[2][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[2][i*2], "white"));
+        // for (let i = 0; i < 4; i++){
+        //     this.gameboard[0][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[0][i*2], "white"));
+        //     this.gameboard[1][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[1][i*2+1], "white"));
+        //     this.gameboard[2][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[2][i*2], "white"));
 
-            this.gameboard[5][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[5][i*2+1], "black"));
-            this.gameboard[6][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[6][i*2], "black"));
-            this.gameboard[7][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[7][i*2+1], "black"));
-        }
+        //     this.gameboard[5][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[5][i*2+1], "black"));
+        //     this.gameboard[6][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[6][i*2], "black"));
+        //     this.gameboard[7][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[7][i*2+1], "black"));
+        // }
+
+        this.gameboard[0][0].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[0][0], "white"));
+        this.gameboard[1][1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[1][1], "black"));
+
+        this.gameboard[6][0].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[6][0], "white"));
+
+        this.gameboard[3][5].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[3][5], "black"));
+        this.gameboard[2][6].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[2][6], "white"));
+
+
     
         //mount secondary gameboards
         this.p1auxboard = new MyAuxilaryBoard(this.orchestrator, this, "white");
@@ -163,10 +173,24 @@ export class MyGameboard extends CGFobject{
 
             if (newtile.piece != null){
                 let tile_to_unset = [newtile];
-                let piece_capture_animation = new MyPieceCaptureAnim(this.orchestrator, tile_to_unset[0].piece, [newtile.coordinates], Math.floor(i/2),
+                let auxboard = null
+                if (tile_to_unset[0].piece.type == "white"){
+                    auxboard = this.p1auxboard
+                }else{
+                    auxboard = this.p2auxboard
+                }
+
+                let num_pieces = auxboard.num_pieces
+                let moving_piece = tile_to_unset[0].piece
+                let piece_capture_animation = new MyPieceCaptureAnim(this.orchestrator, moving_piece, [newtile.coordinates, auxboard.board[num_pieces+Math.floor(i/2)].coordinates], Math.floor(i/2),
                     function(){let captured_piece = tile_to_unset[0].unsetPiece(); captured_piece.moveToAuxBoard(); })
                 this.orchestrator.animator.addAnimation(piece_capture_animation);
-               
+
+                let cur_auxboard = [auxboard]
+
+                this.orchestrator.currentMove.addAction(
+                    function(){cur_auxboard[0].unsetPiece(); tile_to_unset[0].setPiece(moving_piece);})
+
 
                 score++;
             }
@@ -179,6 +203,9 @@ export class MyGameboard extends CGFobject{
                 console.log("positions:", positions)
                 let piece_move_animation = new MyPieceMoveAnim(this.orchestrator, piece, positions, 
                     function(){  tile.unsetPiece();newtile.setPiece(piece); })
+                
+                this.orchestrator.currentMove.addAction(
+                    function(){newtile.unsetPiece(); tile.setPiece(piece); })
                 
                 this.orchestrator.animator.addAnimation(piece_move_animation);
             }

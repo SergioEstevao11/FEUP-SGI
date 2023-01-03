@@ -1,5 +1,6 @@
 import { MyGameSequence } from './game/MyGameSequence.js';
 import { MyGameboard } from './game/MyGameboard.js';
+import { MyGameTurn } from './game/MyGameTurn.js';
 import { MyPiece } from './game/MyPiece.js';
 import { MyTile } from './game/MyTile.js';
 import { MySceneGraph } from './MySceneGraph.js';
@@ -7,6 +8,7 @@ import { MyAnimator } from "./game/MyAnimator.js";
 import { MySpriteSheet } from "./primitives/spritesheets/MySpriteSheet.js";
 import { MyBoardUI } from "./menu/MyBoardUI.js";
 import { MyButton } from "./menu/MyButton.js";
+import { MyPieceCaptureAnim } from './animations/MyPieceCaptureAnim.js';
 
 export const GameState = {
     menu: "MENU",
@@ -26,17 +28,20 @@ const rec_limit = 5;
 * @constructor
 */
 export class MyGameOrchestrator{
-    constructor(scene, filename) {
+    constructor(scene, filenames) {
 		this.scene = scene;
 		this.scene.gameOrchestrator = this;
         this.gameboard = new MyGameboard(this);
-		this.gameSequence = new MyGameSequence(this.scene);
+		this.gameSequence = new MyGameSequence(this);
         this.animator = new MyAnimator(this.scene, this, this.gameSequence);
-        this.graph = new MySceneGraph(this.scene, filename);
+        this.themes = filenames;
+        this.graph1 = new MySceneGraph(this.scene, filenames[0]);
+        this.graph2 = new MySceneGraph(this.scene, filenames[1]);
+        this.graph = this.graph1;
         this.spritesheet = new MySpriteSheet(this.scene, "./scenes/spritesheet-alphabet.png", 16, 6);
         this.UI = new MyBoardUI(this);
         
-        
+        this.themeSelected = 1;
         this.play = true;
         this.scorep1 = 0;
         this.scorep2 = 0;
@@ -48,8 +53,25 @@ export class MyGameOrchestrator{
         this.avlplays = {};
         this.selectedpiece = null;
         this.dametime = false;
+
+        this.currentMove = new MyGameTurn(this);
         
 
+    }
+
+    changeTheme(){
+        var prevgs = this.gamestate;
+        this.gamestate = GameState.load;
+        if (this.themeSelected == 2){
+            this.themeSelected = 1;
+            this.graph = this.graph1;
+        }
+        else{
+            this.themeSelected = 2;
+            this.graph = this.graph2;
+        }
+        console.log( this.themes[this.themeSelected])
+        this.gamestate = prevgs;
     }
 
     managePick(mode, results) {
@@ -85,6 +107,10 @@ export class MyGameOrchestrator{
                 if (id == 202){
                     console.log("Restart button pressed");
                     this.restart();
+                }
+                if (id == 203){
+                    console.log("Theme button pressed");
+                    this.changeTheme();
                 }
             }else if(this.gamestate == GameState.end){
                 if (id == 201){
@@ -145,6 +171,11 @@ export class MyGameOrchestrator{
 
                         this.gamestate = GameState.anim;
                         var score = this.gameboard.movePiece(this.selectedpiece.tile, this.avlplays[id]);
+
+                        if((((this.selectedpiece.getCoords()[1] == 0) && (this.selectedpiece.type == "black")) || ((this.selectedpiece.getCoords()[1] == 7) && (this.selectedpiece.type == "white"))) && !this.selectedpiece.isDame()){
+                            this.selectedpiece.setDame(true);
+                        }
+
                         if (this.play){
                             this.scorep1+=score;
                         }
@@ -168,8 +199,17 @@ export class MyGameOrchestrator{
                             }
                         }
 
-                        if(((this.selectedpiece.getCoords()[1] == 0) || (this.selectedpiece.getCoords()[1] == 7)) && !this.selectedpiece.isDame()){
-                            this.selectedpiece.setDame(true);
+                        if(((this.selectedpiece.getCoords()[1] == 1 && this.selectedpiece.type == "black") || (this.selectedpiece.getCoords()[1] == 6 && this.selectedpiece.type == "white")) && !this.selectedpiece.isDame()){
+                            let auxboard = null
+                            if (this.selectedpiece.type == "white"){
+                                auxboard = this.gameboard.p1auxboard
+                            }else{
+                                auxboard = this.gameboard.p2auxboard
+                            }
+                            let piece_to_go = [this.selectedpiece]
+                            let dest = this.gameboard.getTile(this.avlplays[id][this.avlplays[id].length-1])
+                            this.animator.addAnimation(new MyPieceCaptureAnim(this, auxboard.board[auxboard.num_pieces-1].piece, [auxboard.board[auxboard.num_pieces-1].coordinates, dest.coordinates], 2,
+                                                        function(){piece_to_go[0].setDame(true); piece_to_go[0].addDamePiece(auxboard.board[auxboard.num_pieces-1].piece); auxboard.removePiece()}))
                         }
 
                     }
@@ -197,7 +237,8 @@ export class MyGameOrchestrator{
     }
 
     undo(){
-
+        this.gameSequence.undo();
+        console.log("UNDOOOOOOOOOOOO")
     }
 
     restart(){
@@ -215,6 +256,8 @@ export class MyGameOrchestrator{
 
 
     setPlayerTurn(){
+        this.gameSequence.addMove(this.currentMove);
+        this.currentMove = new MyGameTurn(this);
         if (!this.dametime){
             this.play = !this.play;
             this.setSelectablePieces();
@@ -226,24 +269,15 @@ export class MyGameOrchestrator{
             else{
                 console.log(this.getSelectablePieces(2));
             }
-            this.gamestate = GameState.piece;
         }
+        else{
+            console.log(this.getSelectablePieces(2));
+        }
+        this.gamestate = GameState.piece;
+
+
     }
 
-    checkDame(){
-        if(this.selectedpiece.isDame()){
-            this.gamestate = GameState.render;
-            let x = this.selectedpiece.getCoords()[0];
-            let y = this.selectedpiece.getCoords()[1];
-            this.avlplays = this.getAvlPlays(x, y, this.selectedpiece.type, [], false, true);
-            console.log("avl plays");
-            console.log(this.avlplays);
-            this.gamestate = GameState.dest;
-            if(Object.keys(this.avlplays).length == 0){
-                this.dametime=false;
-            }
-        }
-    }
 
     getSelectablePieces(player){
         var selectable = [];
@@ -299,7 +333,7 @@ export class MyGameOrchestrator{
         var path;
         if (!isdame){
             if (color == "white"){  
-                if (this.gameboard.hasPiece(x+1,y+1)){   
+                if (this.gameboard.hasPiece(x+1,y+1)){  
                     if ((this.gameboard.getPieceC(x+1,y+1).type == "black") && 
                         !this.gameboard.hasPiece(x+2, y+2) &&
                         this.checkinbounds(x+2,y+2)){
@@ -384,9 +418,13 @@ export class MyGameOrchestrator{
                     !blockedright){
                         path = [];
                         for (let j=1; j<=i+1; j++){
-                            path.push(this.gameboard.getTileC(x+j,y+j).id);
+                            var tile = this.gameboard.getTileC(x+j,y+j);
+                            if (tile!=null)
+                                path.push(tile.id);
                         }
-                        plays[this.gameboard.getTileC(x+i+1,y+i+1).id] = path;
+                        tile = this.gameboard.getTileC(x+i+1,y+i+1);
+                        if (tile != null)
+                            plays[tile.id] = path;
                         blockedright = true;
                     }
                     else if (this.gameboard.hasPiece(x+i,y+i) &&
@@ -394,15 +432,31 @@ export class MyGameOrchestrator{
                         blockedright = true;
                     }
                 }
+                else{
+                    path = [];
+                    for (let j=1; j<=i; j++){
+                        var tile = this.gameboard.getTileC(x+j,y+j);
+                        if (tile!=null)
+                            path.push(tile.id);
+                    }
+                    var tile = this.gameboard.getTileC(x+i,y+i);
+                    if (tile!=null)
+                        plays[tile.id] = path;
+                    this.dametime =false;    
+                }
                 if (this.gameboard.hasPiece(x-i,y+i)){
                     if (!this.gameboard.hasPiece(x-i-1,y+i+1) &&
                     this.gameboard.getPieceC(x-i,y+i).type != color &&
                     !blockedleft){
                         path = [];
                         for (let j=1; j<=i+1; j++){
-                            path.push(this.gameboard.getTileC(x-j,y+j).id);
+                            var tile = this.gameboard.getTileC(x-j,y+j);
+                            if (tile!=null)
+                                path.push(tile.id);
                         }
-                        plays[this.gameboard.getTileC(x-i-1,y+i+1).id] = path;
+                        tile = this.gameboard.getTileC(x-i-1,y+i+1);
+                        if (tile != null)
+                            plays[tile.id] = path;
                         blockedleft = true;
                     }
                     else if (this.gameboard.hasPiece(x-i,y+i) &&
@@ -410,21 +464,50 @@ export class MyGameOrchestrator{
                     blockedleft = true;
                     }
                 }
+                else{
+                    path = [];
+                    for (let j=1; j<=i; j++){
+                        var tile = this.gameboard.getTileC(x-j,y+j);
+                        if (tile!=null)
+                            path.push(tile.id);
+                    }
+                    var tile = this.gameboard.getTileC(x-i,y+i);
+                    if (tile!=null)
+                        plays[tile.id] = path;
+                    this.dametime =false;    
+                }
                 if (this.gameboard.hasPiece(x+i,y-i)){
                     if (!this.gameboard.hasPiece(x+i+1,y-i-1) &&
                     this.gameboard.getPieceC(x+i,y-i).type != color &&
                     !blockedbackright){
                         path = [];
+                        let tile = null;
                         for (let j=1; j<=i+1; j++){
-                            path.push(this.gameboard.getTileC(x+j,y-j).id);
+                            tile = this.gameboard.getTileC(x+j,y-j)
+                            if (tile != null)
+                                path.push(tile.id);
                         }
-                        plays[this.gameboard.getTileC(x+i+1,y-i-1).id] = path;
+                        tile = this.gameboard.getTileC(x+i+1,y-i-1);
+                        if (tile != null)
+                            plays[tile.id] = path;
                         blockedbackright = true;
                     }
                     else if (this.gameboard.hasPiece(x+i,y-i) &&
                     this.gameboard.hasPiece(x+i+1,y-i-1)){
-                    blockedbackright = true;
+                        blockedbackright = true;
                     }
+                }
+                else{
+                    path = [];
+                    for (let j=1; j<=i; j++){
+                        var tile = this.gameboard.getTileC(x+j,y-j);
+                        if (tile!=null)
+                            path.push(tile.id);
+                    }
+                    var tile = this.gameboard.getTileC(x+i,y-i);
+                    if (tile!=null)
+                        plays[tile.id] = path;
+                    this.dametime =false;
                 }
                 if (this.gameboard.hasPiece(x-i,y-i)){
                     if (!this.gameboard.hasPiece(x-i-1,y-i-1) &&
@@ -432,15 +515,31 @@ export class MyGameOrchestrator{
                     !blockedbackleft){
                         path = [];
                         for (let j=1; j<=i+1; j++){
-                            path.push(this.gameboard.getTileC(x-j,y-j).id);
+                            var tile = this.gameboard.getTileC(x-j,y-j);
+                            if (tile!=null)
+                                path.push(tile.id);
                         }
-                        plays[this.gameboard.getTileC(x-i-1,y-i-1).id] = path;
+                        tile = this.gameboard.getTileC(x-i-1,y-i-1);
+                        if (tile != null)
+                            plays[tile.id] = path;
                         blockedbackleft = true;
                     }
                     else if (this.gameboard.hasPiece(x-i,y-i) &&
                     this.gameboard.hasPiece(x-i-1,y-i-1)){
                     blockedbackleft = true;
                     }
+                }
+                else{
+                    path = [];
+                    for (let j=1; j<=i; j++){
+                        var tile = this.gameboard.getTileC(x-j,y-j);
+                        if (tile!=null)
+                            path.push(tile.id);
+                    }
+                    var tile = this.gameboard.getTileC(x-i,y-i);
+                    if (tile!=null)
+                        plays[tile.id] = path;
+                    this.dametime =false;
                 }
             }
         }
@@ -688,9 +787,11 @@ export class MyGameOrchestrator{
     }
 
     display(){
+        if (this.gamestate == GameState.load)
+            return;
         this.graph.displayScene();
         this.gameboard.display();
-        this.UI.display()
+        this.UI.display();  
     }
 
 }

@@ -17,8 +17,8 @@
         </perspective>
 
         <perspective id="Millenium Falcon POV" near="0.1" far="500" angle="45">
-            <from x="3.5" y="1.5" z="5" />
-            <to x="15" y="0" z="0" />
+            <from x="3.5" y="11.5" z="-10" />
+            <to x="15" y="10" z="-15" />
         </perspective>
 
         <perspective id="Front" near="0.1" far="500" angle="45">
@@ -58,7 +58,7 @@
 
     <lights>
         
-        <omni id="main light" enabled="0">
+        <omni id="main light" enabled="1">
             <location x="20" y="20" z="20" w="1.0" />
             <ambient r="1" g="1" b="1" a="1.0" />
             <diffuse r="1" g="1" b="1" a="1.0" />
@@ -67,16 +67,16 @@
         </omni>
 
         <spot id="falcon quadratic" enabled="0" angle="180" exponent="2">
-            <location x="6" y="0" z="0" w="1.0" />
-            <target x="10" y="0" z="0" w="1.0" />
+            <location x="6" y="10" z="-15" w="1.0" />
+            <target x="10" y="10" z="-15" w="1.0" />
             <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
             <diffuse r="1" g="1" b="1" a="1.0" />
             <specular r="1" g="1" b="1" a="1.0" />
             <attenuation constant="0.0" linear="0.0" quadratic="0.01" />
         </spot>
         <spot id="falcon linear" enabled="0" angle="180" exponent="2">
-            <location x="6" y="0" z="0" w="1.0" />
-            <target x="10" y="0" z="0" w="1.0" />
+            <location x="6" y="10" z="-15" w="1.0" />
+            <target x="10" y="10" z="-15" w="1.0" />
             <ambient r="1" g="1" b="1" a="1.0" />
             <diffuse r="1" g="1" b="1" a="1.0" />
             <specular r="1" g="1" b="1" a="1.0" />
@@ -137,6 +137,14 @@
         <texture id="ring" file="scenes/images/ring.jpg" />
         <texture id="saturn" file="scenes/images/saturn.jpg" />
         <texture id="vent" file="scenes/images/vent.jpg" />
+        <texture id="ds1" file="scenes/images/desert_side1.png" />
+        <texture id="ds2" file="scenes/images/desert_side2.png" />
+        <texture id="ds3" file="scenes/images/desert_side3.png" />
+        <texture id="ds4" file="scenes/images/desert_side4.png" />
+        <texture id="dtop" file="scenes/images/desert_top.png" />
+        <texture id="dbottom" file="scenes/images/desert_bottom.png" />
+        <texture id="building" file="scenes/images/building.jpg" />
+
 
     </textures>
 
@@ -10153,7 +10161,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="dtop" length_t="1.0" length_s="1.0"/>
             <children>
                 <primitiveref id="rectangle"/>
             </children>
@@ -10167,7 +10175,7 @@
             <materials>
                 <material id="inherit"/>
             </materials>
-            <texture id="inherit"/>
+            <texture id="ds1" length_t="1.0" length_s="1.0"/>
             <children>
                 <componentref id="rectangle_rev"/>
             </children>
@@ -10179,7 +10187,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="ds1" length_t="1.0" length_s="1.0"/>
             <children>
                 <componentref id="rectangle_rev"/>
             </children>
@@ -11540,6 +11548,86 @@
                 <componentref id ="bullets"/>
             </children>
         </component>
+        
+        <component id="building_bottom">
+            <transformation> 
+               <translate x="0" y="5" z="0" />
+               <scale x="1.5" y="5" z="1.5"/>
+               <!-- <scale x="8" y="8" z="8"/> -->
+               <translate x="-0.5" y="-0.5" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube_first_rectangle"/>
+                <componentref id="cube_second_rectangle"/>
+                <componentref id="cube_third_rectangle"/>
+                <componentref id="cube_fourth_rectangle"/>
+                <componentref id="cube_fifth_rectangle"/>
+                <componentref id="cube_sixth_rectangle"/>   
+            </children>
+        </component>
+
+        <component id="building_mid">
+            <transformation> 
+               <translate x="0" y="9" z="0" />
+               <scale x="1.2" y="4" z="1.2"/>
+               <!-- <scale x="8" y="8" z="8"/> -->
+               <translate x="-0.5" y="-0.5" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube_first_rectangle"/>
+                <componentref id="cube_second_rectangle"/>
+                <componentref id="cube_third_rectangle"/>
+                <componentref id="cube_fourth_rectangle"/>
+                <componentref id="cube_fifth_rectangle"/>
+                <componentref id="cube_sixth_rectangle"/>   
+            </children>
+        </component>
+
+        <component id="building_top">
+            <transformation> 
+               <translate x="0" y="12" z="0" />
+               <scale x="1.0" y="4 .0" z="1.0"/>
+               <!-- <scale x="10" y="10" z="10"/> -->
+               <translate x="-0.5" y="-0.5" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube_first_rectangle"/>
+                <componentref id="cube_second_rectangle"/>
+                <componentref id="cube_third_rectangle"/>
+                <componentref id="cube_fourth_rectangle"/>
+                <componentref id="cube_fifth_rectangle"/>
+                <componentref id="cube_sixth_rectangle"/>   
+            </children>
+        </component>
+
+        <component id="building">
+            <transformation> 
+               <scale x="10" y="10" z="10"/>
+               <translate x="0" y="-14.1" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="grid" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="building_top"/>
+                <componentref id="building_mid"/>
+                <componentref id="building_bottom"/>
+            </children>
+        </component>
+
           <component id="supportboard1">
                <transformation>
                     <translate x="0" y="0" z="-6.5" />
@@ -11624,7 +11712,8 @@
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
-                <componentref id="spaceships" /> 
+                <!-- <componentref id="spaceships" />  -->
+                <componentref id="building"/>
                 <componentref id="cubemap"/>
                 <componentref id="moon"/>
                 <componentref id="saturn"/>
