@@ -1,5 +1,6 @@
 import { MyGameSequence } from './game/MyGameSequence.js';
 import { MyGameboard } from './game/MyGameboard.js';
+import { MyGameTurn } from './game/MyGameTurn.js';
 import { MyPiece } from './game/MyPiece.js';
 import { MyTile } from './game/MyTile.js';
 import { MySceneGraph } from './MySceneGraph.js';
@@ -28,7 +29,7 @@ export class MyGameOrchestrator{
 		this.scene = scene;
 		this.scene.gameOrchestrator = this;
         this.gameboard = new MyGameboard(this);
-		this.gameSequence = new MyGameSequence(this.scene);
+		this.gameSequence = new MyGameSequence(this);
         this.animator = new MyAnimator(this.scene, this, this.gameSequence);
         this.graph = new MySceneGraph(this.scene, filename);
         this.spritesheet = new MySpriteSheet(this.scene, "./scenes/spritesheet-alphabet.png", 16, 6);
@@ -45,6 +46,8 @@ export class MyGameOrchestrator{
         this.avlplays = {};
         this.selectedpiece = null;
         this.dametime = false;
+
+        this.currentMove = new MyGameTurn(this);
         
 
     }
@@ -182,7 +185,8 @@ export class MyGameOrchestrator{
     }
 
     undo(){
-
+        this.gameSequence.undo();
+        console.log("UNDOOOOOOOOOOOO")
     }
 
     restart(){
@@ -198,6 +202,8 @@ export class MyGameOrchestrator{
     }
 
     setPlayerTurn(){
+        this.gameSequence.addMove(this.currentMove);
+        this.currentMove = new MyGameTurn(this);
         if(this.dametime){
             return
         }
@@ -213,6 +219,8 @@ export class MyGameOrchestrator{
             console.log(this.getSelectablePieces(2));
         }
         this.gamestate = GameState.piece;
+
+
     }
 
     checkDame(){

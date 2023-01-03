@@ -22,6 +22,11 @@ export class MyPieceMoveAnim extends MyPieceAnimation{
         
     }
 
+    reverse(reverse_function){
+        this.positions.reverse()
+        return new MyPieceMoveAnim(orchestrator, pieceToPlay, positions, reverse_function)
+    }
+
     /**
      * Update the keyframes transformations
      * @param {Array} startPosition - Start position of the animation

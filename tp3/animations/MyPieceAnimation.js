@@ -27,6 +27,9 @@ export class MyPieceAnimation {
         this.keyframeAnimation = null
     }
 
+
+
+
     update(elapsedTime) {
         console.log("here")
         this.keyframeAnimation.update(elapsedTime)
