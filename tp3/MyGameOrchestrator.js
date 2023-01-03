@@ -137,6 +137,8 @@ export class MyGameOrchestrator{
             }
             if (obj.isDame()){
                 this.dametime = true;
+                console.log("damee")
+                console.log(this.gamestate)
             }
             obj = this.gameboard.getPiece(id);
             console.log("coordinates:");
@@ -268,7 +270,7 @@ export class MyGameOrchestrator{
         this.gameSequence.addMove(this.currentMove);
         if (!this.dametime){
             this.play = !this.play;
-            this.setSelectablePieces();
+            // this.setSelectablePieces();
 
             console.log("avl pieces:")
             if(this.play){
@@ -280,7 +282,7 @@ export class MyGameOrchestrator{
         }
         else{
             this.doubleplay = true;
-            console.log(this.getSelectablePieces(2));
+            this.checkDame();
         }
         this.currentMove = new MyGameTurn(this);
         this.gamestate = GameState.piece;
@@ -294,7 +296,8 @@ export class MyGameOrchestrator{
         this.dametime = false
         this.doubleplay = false;
         this.play = !this.play;
-        this.setSelectablePieces();
+        console.log(this.play)
+        // this.setSelectablePieces();
 
         console.log("avl pieces:")
         if(this.play){
@@ -615,14 +618,15 @@ export class MyGameOrchestrator{
             var piece = pieces[i];
             
             var avlplays = this.getAvlPlays(piece.getCoords()[0], piece.getCoords()[1],color,[],false,piece.isDame());
-            piece.avlpsize = Object.keys(avlplays).length;
+            // piece.avlpsize = Object.keys(avlplays).length;
 
             var hascapture = false;
             for (var key in avlplays){
                 var play = avlplays[key];
                 for (let j=0; j<play.length; j++){
                     var tile = this.gameboard.getTile(play[j]);
-                    if ((tile.piece != null) && (tile.piece.type != color)){
+                    if (tile != null && tile.piece!=null && tile.piece.type != color){
+                        console.log(tile)
                         hascapture = true;
                         arrcapture = true;
                     }
@@ -634,10 +638,7 @@ export class MyGameOrchestrator{
         }
         if (!arrcapture){
             for (let i=0; i<pieces.length; i++){
-                var piece = pieces[i];
-                if (piece.avlpsize != 0){
-                    piece.selectable = true;
-                }
+                pieces[i].selectable = true;
             }
         }
     }
