@@ -18,6 +18,7 @@ export class XMLscene extends CGFscene {
         this.graph = null;
 		this.gameOrchestrator = null
         this.interface = myinterface;
+        this.miscLoaded = false;
     }
 
     /**
@@ -29,8 +30,6 @@ export class XMLscene extends CGFscene {
 
         this.sceneInited = false;
 
-        // this.shader1 = new CGFshader(this.gl, "shaders/vertexshader.vert", "shaders/fragshader.frag"),
-        // this.shader2 = new CGFshader(this.gl, "shaders/water.vert", "shaders/water.frag"),
 
         this.initCameras();
 
@@ -68,7 +67,7 @@ export class XMLscene extends CGFscene {
      */
     initLights() {
         var i = 0;
-        // var folder_lights = this.interface.gui.addFolder("Lights");
+        var folder_lights = this.interface.gui.addFolder("Lights");
         // Lights index.
         // Reads the lights from the scene graph.
         for (var key in this.graph.lights) {
@@ -101,7 +100,7 @@ export class XMLscene extends CGFscene {
                     this.lights[i].disable();
 
                 this.lights[i].update();
-                // folder_lights.add(this.lights[i], 'enabled').name(key);
+                folder_lights.add(this.lights[i], 'enabled').name(key);
 
                 i++;
             }
@@ -171,17 +170,18 @@ export class XMLscene extends CGFscene {
 
         this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
 
-        this.initLights();
 
-
-        // this.interface.gui.add(this.graph, 'selectedView', this.graph.cameraIds).name('Cameras').onChange(this.updateCamera.bind(this));
+        if (!this.miscLoaded){
+            this.miscLoaded = true;
+            this.initLights();
+            this.interface.gui.add(this.graph, 'selectedView', this.graph.cameraIds).name('Cameras').onChange(this.updateCamera.bind(this));
         
         
-        // this.initShaderFolderCheckboxes();
+            this.initShaderFolderCheckboxes();
 
-        // folder_shader.add(this.shader, 'enabled').name(key);
-		// this.interface.gui.add(this.graph, 'showHighlight').name('Highlight').onChange(this.setActiveShader(this.shader));   
-
+            // folder_shader.add(this.shader, 'enabled').name(key);
+            // this.interface.gui.add(this.graph, 'showHighlight').name('Highlight').onChange(this.setActiveShader(this.shader));  
+        }
 
 
         this.sceneInited = true;
@@ -192,8 +192,8 @@ export class XMLscene extends CGFscene {
      */
     updateCamera(){
         this.camera = this.graph.views[this.graph.selectedView]
-        // this.updateProjectionMatrix();
-        // this.loadIdentity();
+        this.updateProjectionMatrix();
+        this.loadIdentity();
         this.interface.setActiveCamera(this.camera);
     }
     
@@ -227,7 +227,7 @@ export class XMLscene extends CGFscene {
         this.applyViewMatrix();
 
         this.pushMatrix();
-        this.axis.display();
+        // this.axis.display();
 
         for (var i = 0; i < this.lights.length; i++) {
             this.lights[i].setVisible(false);

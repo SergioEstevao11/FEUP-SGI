@@ -143,7 +143,6 @@
         <texture id="ds4" file="scenes/images/desert_side4.png" />
         <texture id="dtop" file="scenes/images/desert_top.png" />
         <texture id="dbottom" file="scenes/images/desert_bottom.png" />
-        <texture id="building" file="scenes/images/building.jpg" />
 
 
     </textures>
@@ -11716,7 +11715,7 @@
                 <componentref id="building"/>
                 <componentref id="cubemap"/>
                 <componentref id="moon"/>
-                <componentref id="saturn"/>
+                <!-- <componentref id="saturn"/> -->
                 <componentref id="sun"/>
                 <componentref id="board"/>                
 

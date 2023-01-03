@@ -81,6 +81,9 @@ import { MyPatch } from './MyPatch.js';
         this.scene.multMatrix(matrix)
 
         this.patch.display();
+        this.scene.translate(0, 1, -0.3)
+        this.scene.rotate(Math.PI, 1, 0, 0)
+        this.patch.display();
         this.scene.popMatrix();
 
     }
