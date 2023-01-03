@@ -9,15 +9,21 @@
 ----
 ## Images
 
-| Complete View           | Chasing Tie Fighter cinematic view     |
+| GameBoard           | Gameplay example     |
 | ---------------- | --------- |
 | ![](./screenshots/complete_view.png)        | ![](./screenshots/chasing_cinematic.png) |
 
-| Sun with the shader activated simulating a supernova   |   Millenium Falcon with Nurb Surfaces   |
+| Starwars Scene  |  Tower Scene   |
 | ---------------- | --------- |
 | ![](./screenshots/sun_supernova.png)| ![](./screenshots/millenium_falcon_nurb.png)|
 ## Project information
+
+### Game
+
+
 ### Scene
+
+#### StarWars
 - A dynamic positioning of the components paired with relevant camera position produced astounding realistic perspectives
 - Our project is a Star Wars inspired scene that includes the following:
   - Spaceship chasing scene involving:
@@ -41,6 +47,10 @@
     - Milleniun Falcon's parabolica antena point.
 
 - Relative link to the scene: [scenes/SGI_TP2_XML_T5_G09](scenes/SGI_TP2_XML_T5_G09)
+
+#### Tower
+
+
 ----
 ## Issues/Problems
 
