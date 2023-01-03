@@ -8,6 +8,7 @@ import { MyAnimator } from "./game/MyAnimator.js";
 import { MySpriteSheet } from "./primitives/spritesheets/MySpriteSheet.js";
 import { MyBoardUI } from "./menu/MyBoardUI.js";
 import { MyButton } from "./menu/MyButton.js";
+import { MyPieceCaptureAnim } from './animations/MyPieceCaptureAnim.js';
 
 export const GameState = {
     menu: "MENU",
@@ -168,8 +169,17 @@ export class MyGameOrchestrator{
                             }
                         }
 
-                        if(((this.selectedpiece.getCoords()[1] == 0) || (this.selectedpiece.getCoords()[1] == 7)) && !this.selectedpiece.isDame()){
-                            this.selectedpiece.setDame(true);
+                        if(((this.selectedpiece.getCoords()[1] == 1 && this.selectedpiece.type == "black") || (this.selectedpiece.getCoords()[1] == 6 && this.selectedpiece.type == "white")) && !this.selectedpiece.isDame()){
+                            let auxboard = null
+                            if (this.selectedpiece.type == "white"){
+                                auxboard = this.gameboard.p1auxboard
+                            }else{
+                                auxboard = this.gameboard.p2auxboard
+                            }
+                            let piece_to_go = [this.selectedpiece]
+                            let dest = this.gameboard.getTile(this.avlplays[id][this.avlplays[id].length-1])
+                            this.animator.addAnimation(new MyPieceCaptureAnim(this, auxboard.board[auxboard.num_pieces-1].piece, [auxboard.board[auxboard.num_pieces-1].coordinates, dest.coordinates], 2,
+                                                        function(){piece_to_go[0].setDame(true); piece_to_go[0].addDamePiece(auxboard.board[auxboard.num_pieces-1].piece); auxboard.removePiece()}))
                         }
 
                     }
@@ -408,10 +418,15 @@ export class MyGameOrchestrator{
                     this.gameboard.getPieceC(x+i,y-i).type != color &&
                     !blockedbackright){
                         path = [];
+                        let tile = null;
                         for (let j=1; j<=i+1; j++){
-                            path.push(this.gameboard.getTileC(x+j,y-j).id);
+                            tile = this.gameboard.getTileC(x+j,y-j)
+                            if (tile != null)
+                                path.push(tile.id);
                         }
-                        plays[this.gameboard.getTileC(x+i+1,y-i-1).id] = path;
+                        tile = this.gameboard.getTileC(x+i+1,y-i-1);
+                        if (tile != null)
+                            plays[tile.id] = path;
                         blockedbackright = true;
                     }
                     else if (this.gameboard.hasPiece(x+i,y-i) &&
