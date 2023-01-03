@@ -244,7 +244,6 @@ export class MyGameOrchestrator{
 
     undo(){
         this.gameSequence.undo();
-        console.log("UNDOOOOOOOOOOOO")
     }
 
     restart(){
