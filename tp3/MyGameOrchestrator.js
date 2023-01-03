@@ -260,7 +260,7 @@ export class MyGameOrchestrator{
         this.currentMove = new MyGameTurn(this);
         if (!this.dametime){
             this.play = !this.play;
-            this.setSelectablePieces();
+            // this.setSelectablePieces();
 
             console.log("avl pieces:")
             if(this.play){
