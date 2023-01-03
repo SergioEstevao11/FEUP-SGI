@@ -40,7 +40,7 @@ export class MyGameboard extends CGFobject{
             this.gameboard[6][i*2].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[6][i*2], "black"));
             this.gameboard[7][i*2+1].setPiece(new MyPiece(this.orchestrator,id++, "cylinder", this.gameboard[7][i*2+1], "black"));
         }
-
+    
         //mount secondary gameboards
         this.p1auxboard = new MyAuxilaryBoard(this.orchestrator, this, "white");
         this.p2auxboard = new MyAuxilaryBoard(this.orchestrator, this, "black");
@@ -165,7 +165,6 @@ export class MyGameboard extends CGFobject{
         let newtile;
         let score = 0;
         let piece = tile.piece;
-        let captured_piece = null;
 
         let positions = []
         positions.push(tile.coordinates);
@@ -176,7 +175,7 @@ export class MyGameboard extends CGFobject{
 
             if (newtile.piece != null){
                 let tile_to_unset = [newtile];
-                let piece_capture_animation = new MyPieceCaptureAnim(this.orchestrator, tile_to_unset[0].piece, [newtile.coordinates], i/2,
+                let piece_capture_animation = new MyPieceCaptureAnim(this.orchestrator, tile_to_unset[0].piece, [newtile.coordinates], Math.floor(i/2),
                     function(){let captured_piece = tile_to_unset[0].unsetPiece(); captured_piece.moveToAuxBoard(); })
                 this.orchestrator.animator.addAnimation(piece_capture_animation);
                

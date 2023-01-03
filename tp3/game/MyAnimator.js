@@ -46,6 +46,7 @@ export class MyAnimator{
 
         if (this.animations.length == 0 && this.orchestrator.gamestate == GameState.anim){
             console.log("unlocking")
+            this.orchestrator.checkDame();
             this.orchestrator.setPlayerTurn();
         }
 

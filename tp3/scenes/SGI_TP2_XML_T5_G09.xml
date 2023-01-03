@@ -11525,7 +11525,7 @@
 
         <component id="spaceships">
             <transformation> 
-               <translate x="-20" y="0" z="0" />
+               <translate x="-20" y="10" z="-15" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -11624,7 +11624,7 @@
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
-                <!-- <componentref id="spaceships" />  -->
+                <componentref id="spaceships" /> 
                 <componentref id="cubemap"/>
                 <componentref id="moon"/>
                 <componentref id="saturn"/>

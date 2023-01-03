@@ -44,7 +44,7 @@ export class MyGameOrchestrator{
 
         this.avlplays = {};
         this.selectedpiece = null;
-
+        this.dametime = false;
         
 
     }
@@ -100,6 +100,9 @@ export class MyGameOrchestrator{
             if (obj.captured){
                 return;
             }
+            if (obj.isDame()){
+                this.dametime = true;
+            }
             obj = this.gameboard.getPiece(id);
             console.log("coordinates:");
             console.log(obj.tile.coordinates);
@@ -111,7 +114,7 @@ export class MyGameOrchestrator{
                     this.gamestate = GameState.render;
                     let x = obj.getCoords()[0];
                     let y = obj.getCoords()[1];
-                    this.avlplays = this.getAvlPlays(x, y, obj.type, [], false);
+                    this.avlplays = this.getAvlPlays(x, y, obj.type, [], false, obj.isDame());
                     console.log("avl plays");
                     console.log(this.avlplays);
                     this.gamestate = GameState.dest;
@@ -136,12 +139,9 @@ export class MyGameOrchestrator{
 
                 if (this.gamestate == GameState.dest){
                     if (this.checkIn(id,Object.keys(this.avlplays))) {
-                        
-
 
                         this.gamestate = GameState.anim;
                         var score = this.gameboard.movePiece(this.selectedpiece.tile, this.avlplays[id]);
-
                         if (this.play){
                             this.scorep1+=score;
                         }
@@ -149,18 +149,26 @@ export class MyGameOrchestrator{
                             this.scorep2+=score;
                         }
 
-                        var gameover = this.gameOver();
-                        if (gameover == 1){
-                            console.log("Player 1 won!");
+                        if(!this.dametime){
+
+                            var gameover = this.gameOver();
+                            if (gameover == 1){
+                                console.log("Player 1 won!");
+                            }
+                            else if (gameover == 2){
+                                console.log("Player 2 won!");
+                            }
+                            else{
+                                console.log("p1: " + this.scorep1);
+                                console.log("p2: " + this.scorep2);
+                                
+                            }
                         }
-                        else if (gameover == 2){
-                            console.log("Player 2 won!");
+
+                        if(((this.selectedpiece.getCoords()[1] == 0) || (this.selectedpiece.getCoords()[1] == 7)) && !this.selectedpiece.isDame()){
+                            this.selectedpiece.setDame(true);
                         }
-                        else{
-                            console.log("p1: " + this.scorep1);
-                            console.log("p2: " + this.scorep2);
-                            
-                        }
+
                     }
                     else {
                         console.log("Wrong play/move")
@@ -190,8 +198,10 @@ export class MyGameOrchestrator{
     }
 
     setPlayerTurn(){
+        if(this.dametime){
+            return
+        }
 
-        
         this.play = !this.play;
         this.setSelectablePieces();
 
@@ -203,6 +213,21 @@ export class MyGameOrchestrator{
             console.log(this.getSelectablePieces(2));
         }
         this.gamestate = GameState.piece;
+    }
+
+    checkDame(){
+        if(this.selectedpiece.isDame()){
+            this.gamestate = GameState.render;
+            let x = this.selectedpiece.getCoords()[0];
+            let y = this.selectedpiece.getCoords()[1];
+            this.avlplays = this.getAvlPlays(x, y, this.selectedpiece.type, [], false, true);
+            console.log("avl plays");
+            console.log(this.avlplays);
+            this.gamestate = GameState.dest;
+            if(Object.keys(this.avlplays).length == 0){
+                this.dametime=false;
+            }
+        }
     }
 
     getSelectablePieces(player){
@@ -252,83 +277,156 @@ export class MyGameOrchestrator{
     }
 
     //return dict {id_tile -> [path from x,y to tile]}
-    getAvlPlays(x,y, color, oldpath, captured){
+    getAvlPlays(x,y, color, oldpath, captured, isdame){
         var avlplays = {};
         var nextplays = {};
         var plays = {};
         var path;
-
-        if (color == "white"){  
-            if (this.gameboard.hasPiece(x+1,y+1)){   
-                if ((this.gameboard.getPieceC(x+1,y+1).type == "black") && 
-                    !this.gameboard.hasPiece(x+2, y+2) &&
-                    this.checkinbounds(x+2,y+2)){
+        if (!isdame){
+            if (color == "white"){  
+                if (this.gameboard.hasPiece(x+1,y+1)){   
+                    if ((this.gameboard.getPieceC(x+1,y+1).type == "black") && 
+                        !this.gameboard.hasPiece(x+2, y+2) &&
+                        this.checkinbounds(x+2,y+2)){
+                        path = [...oldpath];
+                        path.push(this.gameboard.getTileC(x+1,y+1).id);
+                        path.push(this.gameboard.getTileC(x+2,y+2).id);
+                        avlplays[this.gameboard.getTileC(x+2,y+2).id] = path;
+                        nextplays = this.getAvlPlays(x+2,y+2,color, path, true, isdame);
+                        plays = Object.assign({},avlplays,nextplays);
+                    }
+                }
+                else if (this.checkinbounds(x+1,y+1) && !captured){
                     path = [...oldpath];
                     path.push(this.gameboard.getTileC(x+1,y+1).id);
-                    path.push(this.gameboard.getTileC(x+2,y+2).id);
-                    avlplays[this.gameboard.getTileC(x+2,y+2).id] = path;
-                    nextplays = this.getAvlPlays(x+2,y+2,color, path, true);
-                    plays = Object.assign({},avlplays,nextplays);
+                    plays[this.gameboard.getTileC(x+1,y+1).id] = path;
                 }
-            }
-            else if (this.checkinbounds(x+1,y+1) && !captured){
-                path = [...oldpath];
-                path.push(this.gameboard.getTileC(x+1,y+1).id);
-                plays[this.gameboard.getTileC(x+1,y+1).id] = path;
-            }
 
-            if (this.gameboard.hasPiece(x-1,y+1)){
-                if ((this.gameboard.getPieceC(x-1,y+1).type == "black") && 
-                    !this.gameboard.hasPiece(x-2, y+2) &&
-                    this.checkinbounds(x-2,y+2)){
+                if (this.gameboard.hasPiece(x-1,y+1)){
+                    if ((this.gameboard.getPieceC(x-1,y+1).type == "black") && 
+                        !this.gameboard.hasPiece(x-2, y+2) &&
+                        this.checkinbounds(x-2,y+2)){
+                        path = [...oldpath];
+                        path.push(this.gameboard.getTileC(x-1,y+1).id);
+                        path.push(this.gameboard.getTileC(x-2,y+2).id);
+                        avlplays[this.gameboard.getTileC(x-2,y+2).id] = path;
+                        nextplays = this.getAvlPlays(x-2,y+2,color,path,true, isdame);
+                        plays = Object.assign({},avlplays,nextplays);
+                    }
+                }
+                else if (this.checkinbounds(x-1,y+1) && !captured){
                     path = [...oldpath];
                     path.push(this.gameboard.getTileC(x-1,y+1).id);
-                    path.push(this.gameboard.getTileC(x-2,y+2).id);
-                    avlplays[this.gameboard.getTileC(x-2,y+2).id] = path;
-                    nextplays = this.getAvlPlays(x-2,y+2,color,path,true);
-                    plays = Object.assign({},avlplays,nextplays);
+                    plays[this.gameboard.getTileC(x-1,y+1).id] = path;
                 }
             }
-            else if (this.checkinbounds(x-1,y+1) && !captured){
-                path = [...oldpath];
-                path.push(this.gameboard.getTileC(x-1,y+1).id);
-                plays[this.gameboard.getTileC(x-1,y+1).id] = path;
-            }
-        }
-        if (color == "black"){    
-            if (this.gameboard.hasPiece(x+1,y-1)){
-                if ((this.gameboard.getPieceC(x+1,y-1).type == "white") && 
-                    !this.gameboard.hasPiece(x+2, y-2) &&
-                    this.checkinbounds(x+2,y-2)){
+            if (color == "black"){    
+                if (this.gameboard.hasPiece(x+1,y-1)){
+                    if ((this.gameboard.getPieceC(x+1,y-1).type == "white") && 
+                        !this.gameboard.hasPiece(x+2, y-2) &&
+                        this.checkinbounds(x+2,y-2)){
+                        path = [...oldpath];
+                        path.push(this.gameboard.getTileC(x+1,y-1).id);
+                        path.push(this.gameboard.getTileC(x+2,y-2).id);
+                        avlplays[this.gameboard.getTileC(x+2,y-2).id] = path;
+                        nextplays = this.getAvlPlays(x+2,y-2,color,path,true, isdame);
+                        plays = Object.assign({},avlplays,nextplays);
+                    }
+                }
+                else if (this.checkinbounds(x+1,y-1) && !captured){
                     path = [...oldpath];
                     path.push(this.gameboard.getTileC(x+1,y-1).id);
-                    path.push(this.gameboard.getTileC(x+2,y-2).id);
-                    avlplays[this.gameboard.getTileC(x+2,y-2).id] = path;
-                    nextplays = this.getAvlPlays(x+2,y-2,color,path,true);
-                    plays = Object.assign({},avlplays,nextplays);
+                    plays[this.gameboard.getTileC(x+1,y-1).id] = path;
                 }
-            }
-            else if (this.checkinbounds(x+1,y-1) && !captured){
-                path = [...oldpath];
-                path.push(this.gameboard.getTileC(x+1,y-1).id);
-                plays[this.gameboard.getTileC(x+1,y-1).id] = path;
-            }
-            if (this.gameboard.hasPiece(x-1,y-1)){
-                if ((this.gameboard.getPieceC(x-1,y-1).type == "white") && 
-                    !this.gameboard.hasPiece(x-2, y-2) &&
-                    this.checkinbounds(x-2,y-2)){
+                if (this.gameboard.hasPiece(x-1,y-1)){
+                    if ((this.gameboard.getPieceC(x-1,y-1).type == "white") && 
+                        !this.gameboard.hasPiece(x-2, y-2) &&
+                        this.checkinbounds(x-2,y-2)){
+                        path = [...oldpath];
+                        path.push(this.gameboard.getTileC(x-1,y-1).id);
+                        path.push(this.gameboard.getTileC(x-2,y-2).id);
+                        avlplays[this.gameboard.getTileC(x-2,y-2).id] = path;
+                        nextplays = this.getAvlPlays(x-2,y-2,color,path,true,isdame);
+                        plays = Object.assign({},avlplays,nextplays);
+                    }
+                }
+                else if (this.checkinbounds(x-1,y-1) && !captured){
                     path = [...oldpath];
                     path.push(this.gameboard.getTileC(x-1,y-1).id);
-                    path.push(this.gameboard.getTileC(x-2,y-2).id);
-                    avlplays[this.gameboard.getTileC(x-2,y-2).id] = path;
-                    nextplays = this.getAvlPlays(x-2,y-2,color,path,true);
-                    plays = Object.assign({},avlplays,nextplays);
+                    plays[this.gameboard.getTileC(x-1,y-1).id] = path;
                 }
             }
-            else if (this.checkinbounds(x-1,y-1) && !captured){
-                path = [...oldpath];
-                path.push(this.gameboard.getTileC(x-1,y-1).id);
-                plays[this.gameboard.getTileC(x-1,y-1).id] = path;
+        }
+        else{
+            var blockedright = false;
+            var blockedleft = false;
+            var blockedbackright = false;
+            var blockedbackleft = false;
+            for (let i=1; i<8; i++){
+                if (this.gameboard.hasPiece(x+i,y+i)){
+                    if (!this.gameboard.hasPiece(x+i+1,y+i+1) &&
+                    this.gameboard.getPieceC(x+i,y+i).type != color &&
+                    !blockedright){
+                        path = [];
+                        for (let j=1; j<=i+1; j++){
+                            path.push(this.gameboard.getTileC(x+j,y+j).id);
+                        }
+                        plays[this.gameboard.getTileC(x+i+1,y+i+1).id] = path;
+                        blockedright = true;
+                    }
+                    else if (this.gameboard.hasPiece(x+i,y+i) &&
+                    this.gameboard.hasPiece(x+i+1,y+i+1)){
+                        blockedright = true;
+                    }
+                }
+                if (this.gameboard.hasPiece(x-i,y+i)){
+                    if (!this.gameboard.hasPiece(x-i-1,y+i+1) &&
+                    this.gameboard.getPieceC(x-i,y+i).type != color &&
+                    !blockedleft){
+                        path = [];
+                        for (let j=1; j<=i+1; j++){
+                            path.push(this.gameboard.getTileC(x-j,y+j).id);
+                        }
+                        plays[this.gameboard.getTileC(x-i-1,y+i+1).id] = path;
+                        blockedleft = true;
+                    }
+                    else if (this.gameboard.hasPiece(x-i,y+i) &&
+                    this.gameboard.hasPiece(x-i-1,y+i+1)){
+                    blockedleft = true;
+                    }
+                }
+                if (this.gameboard.hasPiece(x+i,y-i)){
+                    if (!this.gameboard.hasPiece(x+i+1,y-i-1) &&
+                    this.gameboard.getPieceC(x+i,y-i).type != color &&
+                    !blockedbackright){
+                        path = [];
+                        for (let j=1; j<=i+1; j++){
+                            path.push(this.gameboard.getTileC(x+j,y-j).id);
+                        }
+                        plays[this.gameboard.getTileC(x+i+1,y-i-1).id] = path;
+                        blockedbackright = true;
+                    }
+                    else if (this.gameboard.hasPiece(x+i,y-i) &&
+                    this.gameboard.hasPiece(x+i+1,y-i-1)){
+                    blockedbackright = true;
+                    }
+                }
+                if (this.gameboard.hasPiece(x-i,y-i)){
+                    if (!this.gameboard.hasPiece(x-i-1,y-i-1) &&
+                    this.gameboard.getPieceC(x-i,y-i).type != color &&
+                    !blockedbackleft){
+                        path = [];
+                        for (let j=1; j<=i+1; j++){
+                            path.push(this.gameboard.getTileC(x-j,y-j).id);
+                        }
+                        plays[this.gameboard.getTileC(x-i-1,y-i-1).id] = path;
+                        blockedbackleft = true;
+                    }
+                    else if (this.gameboard.hasPiece(x-i,y-i) &&
+                    this.gameboard.hasPiece(x-i-1,y-i-1)){
+                    blockedbackleft = true;
+                    }
+                }
             }
         }
         return this.filterAvlPlays(plays);
