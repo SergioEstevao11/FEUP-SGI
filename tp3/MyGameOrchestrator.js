@@ -45,7 +45,6 @@ export class MyGameOrchestrator{
         this.timep1 = 180;
         this.timep2 = 180;
         this.gamestate = GameState.piece;
-        this.dametime = false;
 
         this.avlplays = {};
         this.selectedpiece = null;
@@ -82,13 +81,16 @@ export class MyGameOrchestrator{
                     console.log("Undo button pressed");
                     this.undo();
                 }
-                if (id == 201){
+                else if (id == 201){
                     console.log("Rotate button pressed");
                     this.animator.addCameraAnimation();
                 }
-                if (id == 202){
+                else if (id == 202){
                     console.log("Restart button pressed");
                     this.restart();
+                }
+                else if(id == 203){
+                    this.forcesetPlayerTurn();
                 }
             }else if(this.gamestate == GameState.end){
                 if (id == 201){
@@ -226,11 +228,14 @@ export class MyGameOrchestrator{
         this.gamestate = GameState.piece;
     }
 
+    nextTurn(){
+        this.forcesetPlayerTurn();
+    }
+
 
 
     setPlayerTurn(){
         this.gameSequence.addMove(this.currentMove);
-        this.currentMove = new MyGameTurn(this);
         if (!this.dametime){
             this.play = !this.play;
             this.setSelectablePieces();
@@ -244,12 +249,34 @@ export class MyGameOrchestrator{
             }
         }
         else{
+            this.doubleplay = true;
             console.log(this.getSelectablePieces(2));
         }
+        this.currentMove = new MyGameTurn(this);
         this.gamestate = GameState.piece;
 
 
     }
+
+    forcesetPlayerTurn(){
+        this.gameSequence.addMove(this.currentMove);
+        this.currentMove = new MyGameTurn(this);
+        this.dametime = false
+        this.doubleplay = false;
+        this.play = !this.play;
+        this.setSelectablePieces();
+
+        console.log("avl pieces:")
+        if(this.play){
+            console.log(this.getSelectablePieces(1));
+        }
+        else{
+            console.log(this.getSelectablePieces(2));
+        }
+
+        
+    }
+
 
     checkDame(){
         if(this.selectedpiece.isDame()){

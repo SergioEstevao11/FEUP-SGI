@@ -189,7 +189,7 @@ export class MyGameboard extends CGFobject{
                 let cur_auxboard = [auxboard]
 
                 this.orchestrator.currentMove.addAction(
-                    function(){cur_auxboard[0].unsetPiece(); tile_to_unset[0].setPiece(moving_piece);})
+                    function(){cur_auxboard[0].removePiece(); tile_to_unset[0].setPiece(moving_piece);})
 
 
                 score++;

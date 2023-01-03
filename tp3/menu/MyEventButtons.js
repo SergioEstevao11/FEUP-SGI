@@ -8,6 +8,9 @@ export class MyEventButtons{
         this.undoButton = new MyButton(orchestrator, 200, "UNDO", true);
         this.rotateButton = new MyButton(orchestrator, 201, "ROTATE", true);
         this.restartButton = new MyButton(orchestrator, 202, "RESTART", true);
+        this.nextTurn = new MyButton(orchestrator, 203, "NEXT TURN", true);
+
+        
         
     }
 
@@ -23,6 +26,9 @@ export class MyEventButtons{
         this.rotateButton.display();
         this.scene.translate(5, 0, 0);
         this.restartButton.display();
+        this.scene.translate(3, 0, 0);
+        if (this.orchestrator.doubleplay == true)
+            this.nextTurn.display();
         this.scene.popMatrix();
         this.scene.popMatrix();
     }
