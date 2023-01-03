@@ -11,11 +11,21 @@ import { MyPieceAnimation } from "./MyPieceAnimation.js"
  * @param {Array} startPosition - initial position of the piece, in the format [x, y, z]
  * @param {Array} finalPosition - final position of the piece, in the format [x, y, z]
  */
-class MyPieceMoveAnim extends MyPieceAnimation{
-    constructor(scene, gameboard, pieceToPlay, startPosition, finalPosition, current_instant) {
-        super(scene, gameboard, pieceToPlay, startPosition, finalPosition, current_instant)
+export class MyPieceCaptureAnim extends MyPieceAnimation{
+    constructor(orchestrator, pieceToPlay, positions, offset, finishing_function) {
+        let auxboard = null
+        if (pieceToPlay.type == "white"){
+            auxboard = orchestrator.gameboard.p1auxboard
+        }else{
+            auxboard = orchestrator.gameboard.p2auxboard
+        }
 
-        this.setupKeyFrames(startPosition, finalPosition)
+        let num_pieces = auxboard.num_pieces
+        positions.push( auxboard.board[num_pieces+offset].coordinates)
+
+        super(orchestrator.scene, orchestrator.gameboard, pieceToPlay, positions, orchestrator.animator.seconds, offset, finishing_function)
+
+        this.setupKeyFrames(positions)
 
         
     }
@@ -25,36 +35,44 @@ class MyPieceMoveAnim extends MyPieceAnimation{
      * @param {Array} startPosition - Start position of the animation
      * @param {Array} finalPosition - final position of the animation
      */
-    setupKeyFrames(startPosition, finalPosition) {
+    setupKeyFrames(positions) {
+        let startPosition = positions[0]
+        let finalPosition = positions[1]
+        
         let keyframes = []
-        keyframes.push(new MyKeyframe(startPosition[0], startPosition[1], startPosition[2], 
+        keyframes.push(new MyKeyframe(0, 0, 0, 
                                         0, 0, 0, 
                                         1,1,1,
-                                        this.current_instant))
+                                        this.current_instant + this.time_offset))
         
         let z_positions = []
         for (let x = 0; x < 14; x++) {
-            let new_z = sin(Math.PI * x / 14) + startPosition[2]
-            if (new_z < finalPosition[2] && x > 6)
+            let new_z = 1.5*Math.sin(Math.PI * x / 14)
+            if (new_z + startPosition[2] < finalPosition[2] && x > 6)
                 break
             z_positions.push(new_z)
 
         }
 
-        for (let x = 0; x < z_positions.length; x++) {
-            keyframes.push(new MyKeyframe(finalPosition[0]*x/z_positions.length, finalPosition[1]*x/z_positions.length, z_positions[x], 
+        let x = finalPosition[0] - startPosition[0]
+        let y = finalPosition[1] - startPosition[1]
+        let z = finalPosition[2] - startPosition[2]
+
+        for (let i = 0; i < z_positions.length; i++) {
+            keyframes.push(new MyKeyframe(x*i/z_positions.length, y*i/z_positions.length, z_positions[i], 
                                             0, 0, 0, 
                                             1,1,1,
-                                            this.current_instant + x/z_positions.length));
+                                            this.current_instant + this.time_offset + 2*i/z_positions.length));
             
         }
         
-        keyframes.push(new MyKeyframe(finalPosition[0], finalPosition[1], finalPosition[2], 
-            0, 0, 0, 
-            1,1,1,
-            this.current_instant))
+        // keyframes.push(new MyKeyframe(finalPosition[0], finalPosition[1], finalPosition[2], 
+        //     0, 0, 0, 
+        //     1,1,1,
+        //     this.current_instant))
 
-        this.keyframeAnimation = new MyKeyframeAnimation(this.scene, 1, keyframes)
+        this.keyframeAnimation = new MyKeyframeAnimation(this.scene, -1, keyframes)
         
     }
+
 }

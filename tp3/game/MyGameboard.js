@@ -2,6 +2,8 @@ import {CGFappearance, CGFtexture, CGFobject} from '../../lib/CGF.js';
 import { MyTile } from './MyTile.js';
 import { MyPiece } from './MyPiece.js';
 import { MyAuxilaryBoard } from './MyAuxilaryBoard.js';
+import { MyPieceMoveAnim } from '../animations/MyPieceMoveAnim.js';
+import { MyPieceCaptureAnim } from '../animations/MyPieceCaptureAnim.js';
 
 /**
  * Data Class that holds information about the component
@@ -53,8 +55,8 @@ export class MyGameboard extends CGFobject{
         this.gameboard[3][1].setPiece(piece5);
 
         //mount secondary gameboards
-        this.p1auxboard = new MyAuxilaryBoard(this.orchestrator, this);
-        this.p2auxboard = new MyAuxilaryBoard(this.orchestrator, this);
+        this.p1auxboard = new MyAuxilaryBoard(this.orchestrator, this, "white");
+        this.p2auxboard = new MyAuxilaryBoard(this.orchestrator, this, "black");
         
 	}
 
@@ -131,8 +133,8 @@ export class MyGameboard extends CGFobject{
         return false;
     }
 
-    hasPieceId(id){
-        var tile = this.getTile(id)
+    hasPieceInTile(tileId){
+        var tile = this.getTile(tileId)
         if (tile.piece == null){
             return false;
         }
@@ -161,21 +163,42 @@ export class MyGameboard extends CGFobject{
     }
 
     movePiece(tile, path){
-        var newtile;
-        var score = 0;
-        var piece = tile.piece;
+        let newtile;
+        let score = 0;
+        let piece = tile.piece;
+        let captured_piece = null;
 
-        tile.unsetPiece();
+        let positions = []
+        positions.push(tile.coordinates);
+
         for (let i=0; i < path.length; i++){
             newtile = this.getTile(path[i]);
+           
+
             if (newtile.piece != null){
-                newtile.unsetPiece();
+                let tile_to_unset = [newtile];
+                let piece_capture_animation = new MyPieceCaptureAnim(this.orchestrator, tile_to_unset[0].piece, [newtile.coordinates], i/2,
+                    function(){let captured_piece = tile_to_unset[0].unsetPiece(); captured_piece.moveToAuxBoard(); })
+                this.orchestrator.animator.addAnimation(piece_capture_animation);
+               
+
                 score++;
             }
-
-            if(i == path.length-1){
-                newtile.setPiece(piece);
+            else{
+                positions.push(newtile.coordinates);
             }
+
+
+            if (i == path.length - 1){
+                console.log("positions:", positions)
+                let piece_move_animation = new MyPieceMoveAnim(this.orchestrator, piece, positions, 
+                    function(){  tile.unsetPiece();newtile.setPiece(piece); })
+                
+                this.orchestrator.animator.addAnimation(piece_move_animation);
+            }
+            
+
+            
         }
         return score;
     }
@@ -190,12 +213,7 @@ export class MyGameboard extends CGFobject{
                 this.gameboard[i][j].display();
             }
         }
-        this.scene.translate(0,-3, 0);
         this.p1auxboard.display();
-
-        this.scene.rotate(Math.PI, 0, 0, 1);
-        this.scene.translate(-8, -14, 0);
-
         this.p2auxboard.display();
 
         this.scene.popMatrix();

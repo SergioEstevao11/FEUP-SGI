@@ -16,6 +16,8 @@ export class MyPiece extends CGFobject{
         this.tile = tile;
         this.dame = false;
         this.avlpsize = 0;
+        this.captured = false;
+        this.animation = null;
 
         this.black_material = new CGFappearance(this.scene);
         this.black_material.setAmbient(0.01,0.01,0.01,1.0);
@@ -53,6 +55,15 @@ export class MyPiece extends CGFobject{
         this.type = type;
     }
 
+    moveToAuxBoard(){
+        this.captured = true
+        if (this.type == "white"){
+            this.orchestrator.gameboard.p1auxboard.addPiece(this)
+        }else{
+            this.orchestrator.gameboard.p2auxboard.addPiece(this)
+        }
+    }
+
     getCoords(){
         return this.tile.coordinates;
     }
@@ -66,6 +77,12 @@ export class MyPiece extends CGFobject{
 
         if (this.selectable){
             this.orchestrator.getScene().registerForPick(this.id, this);
+        }
+
+        if (this.animation != null){
+            if(!this.animation.finished){
+                this.animation.apply();
+            }
         }
 
         this.scene.translate(0.5, 0.5, 0);
@@ -87,6 +104,8 @@ export class MyPiece extends CGFobject{
         this.cover2.display();
         this.scene.popMatrix();
         this.scene.popMatrix();
+        
+
 
         if (this.selectable)
             this.orchestrator.getScene().clearPickRegistration();  

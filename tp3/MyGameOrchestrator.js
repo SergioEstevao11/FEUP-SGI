@@ -6,9 +6,12 @@ import { MyPiece } from './game/MyPiece.js';
 import { MyTile } from './game/MyTile.js';
 import { MySceneGraph } from './MySceneGraph.js';
 import { MyAnimator } from "./game/MyAnimator.js";
+import { MySpriteSheet } from "./primitives/spritesheets/MySpriteSheet.js";
+import { MySpriteText } from "./primitives/spritesheets/MySpriteText.js";
+import { MyRectangle  } from "./primitives/MyRectangle.js";
 
 
-const GameState = {
+export const GameState = {
     menu: "MENU",
     load:  "LOAD",
     piece: "PIECE",
@@ -34,6 +37,7 @@ export class MyGameOrchestrator{
         this.animator = new MyAnimator(this.scene, this, this.gameSequence);
         this.graph = new MySceneGraph(this.scene, filename);
         
+        
         this.play = true;
         this.scorep1 = 0;
         this.scorep2 = 0;
@@ -43,11 +47,14 @@ export class MyGameOrchestrator{
         this.avlplays = {};
         this.selectedpiece = null;
         this.rec_counter = 0;
+        this.spritesheet = new MySpriteSheet(this.scene, "./scenes/spritesheet-alphabet.png", 16, 6);
     }
 
     managePick(mode, results) {
         if (mode == false /* && some other game conditions */){
             if (results != null && results.length > 0) { // any results?
+                console.log("results", results)
+
                 for (var i=0; i< results.length; i++) {
                     var obj = results[i][0]; // get object from result
                     if (obj) { // exists?
@@ -104,22 +111,10 @@ export class MyGameOrchestrator{
             console.log(obj.coordinates);
 
             if (this.gamestate == GameState.dest){
-
+                this.gamestate = GameState.anim;
                 var score = this.gameboard.movePiece(this.selectedpiece.tile, this.avlplays[id]);
 
                 if (this.checkIn(id,Object.keys(this.avlplays))) {
-                    if(this.selectedpiece.isDame()){
-                        this.gamestate = GameState.render;
-                        let x = this.selectedpiece.getCoords()[0];
-                        let y = this.selectedpiece.getCoords()[1];
-                        this.avlplays = this.getAvlPlays(x, y, this.selectedpiece.type, [], false, true);
-                        console.log("avl plays");
-                        console.log(this.avlplays);
-                        this.gamestate = GameState.dest;
-                        if(Object.keys(this.avlplays).length == 0){
-                            this.dametime=false;
-                        }
-                    }
                     if (!this.dametime){
                         if(((this.selectedpiece.getCoords()[1] == 0) || (this.selectedpiece.getCoords()[1] == 7)) && !this.selectedpiece.isDame()){
                             this.selectedpiece.setDame(true);
@@ -174,6 +169,68 @@ export class MyGameOrchestrator{
         else {
             console.log("Wrong play/move")
         }
+    }
+
+    checkDame(){
+        if(this.selectedpiece.isDame()){
+            this.gamestate = GameState.render;  
+            let x = this.selectedpiece.getCoords()[0];
+            let y = this.selectedpiece.getCoords()[1];
+            this.avlplays = this.getAvlPlays(x, y, this.selectedpiece.type, [], false, true);
+            console.log("avl plays");
+            console.log(this.avlplays);
+            this.gamestate = GameState.dest;
+            if(Object.keys(this.avlplays).length == 0){
+                this.dametime=false;
+            }
+        }
+    }
+
+
+    setPlayerTurn(){
+        if (!this.dametime){
+            this.play = !this.play;
+            this.setSelectablePieces();
+
+            console.log("avl pieces:")
+            if(this.play){
+                console.log(this.getSelectablePieces(1));
+            }
+            else{
+                console.log(this.getSelectablePieces(2));
+            }
+            this.gamestate = GameState.piece;
+        }
+    }
+
+    getSelectablePieces(player){
+        var selectable = [];
+        var pieces = this.gameboard.getPieces(player);
+
+        for (let i=0; i<pieces.length; i++){
+            if (pieces[i].selectable == true){
+                selectable.push(pieces[i].id);
+            }
+        }
+        return selectable;
+    }
+
+    filterAvlPlays(){
+        var plays = {};
+        var hascapture = false;
+        for (var key in this.avlplays){
+            var play = this.avlplays[key];
+            for (let i=0; i<play.length; i++){
+                if (this.gameboard.hasPieceId(i)){
+                    plays[key] = play;
+                    hascapture = true;
+                }
+            }
+        }
+        if (!hascapture){
+            plays = this.avlplays
+        }
+        return plays;
     }
 
     checkinbounds(x,y){
@@ -344,6 +401,10 @@ export class MyGameOrchestrator{
                     }
                 }
             }
+        }
+        return this.filterAvlPlays(plays);
+    }
+
             //1st - check avl captures in all directions
             //2nd - generate paths for each of the directions that contain captures
             //3rd - use recursivity to generate new paths from the adjacent
@@ -464,38 +525,24 @@ export class MyGameOrchestrator{
             //         }
             //     }                                                   
             //}
-        }
-        return plays;
-    }
-
-    checkbrcaptures(x,y,color){
-        for (let i=0;i<8;i++){
-            if (this.gameboard.hasPiece(x+i,y-i) &&
-            !this.gameboard.hasPiece(x+i+1,y-i-1) &&
-            this.gameboard.getPieceC(x+i,y-i).type != color){
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    filterAvlPlays(){
-        var plays = {};
+            
+    filterAvlPlays(plays){
+        var filtered_plays = {};
         var hascapture = false;
-        for (var key in this.avlplays){
-            var play = this.avlplays[key];
+        for (var key in plays){
+            var play = plays[key];
             for (let i=0; i<play.length; i++){
-                if (this.gameboard.hasPieceId(i)){
-                    plays[key] = play;
+                if (this.gameboard.hasPieceInTile(play[i])){
+                    
+                    filtered_plays[key] = play;
                     hascapture = true;
                 }
             }
         }
         if (!hascapture){
-            plays = this.avlplays
+            filtered_plays = plays
         }
-        return plays;
+        return filtered_plays;
     }
 
     setSelectablePieces(){
@@ -579,6 +626,7 @@ export class MyGameOrchestrator{
     display(){
         this.graph.displayScene();
         this.gameboard.display();
+
     }
 
 }

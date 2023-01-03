@@ -65,14 +65,6 @@
             <specular r="1" g="1" b="1" a="1.0" />
             <attenuation constant="0.0" linear="0.0" quadratic="0.01" />
         </spot>
-        <spot id="falcon constant" enabled="0" angle="180" exponent="2">
-            <location x="6 " y="0" z="0" w="1.0" />
-            <target x="10" y="0" z="0" w="1.0" />
-            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
-            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
-            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
-            <attenuation constant="0.1" linear="0.0" quadratic="0.0" />
-        </spot>
         <spot id="falcon linear" enabled="0" angle="180" exponent="2">
             <location x="6" y="0" z="0" w="1.0" />
             <target x="10" y="0" z="0" w="1.0" />
@@ -11564,6 +11556,25 @@
                </children>
           </component>
 
+          <component id="dashboard">
+            <transformation>
+                <translate x="5" y="0" z="8"/>
+                <scale x="3" y="2" z="0.5"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube_first_rectangle"/>
+                <componentref id="cube_second_rectangle"/>
+                <componentref id="cube_third_rectangle"/>
+                <componentref id="cube_fourth_rectangle"/>
+                <componentref id="cube_fifth_rectangle"/>
+                <componentref id="cube_sixth_rectangle"/>
+            </children>
+        </component>
+
 
         <component id="board">
                <transformation>
@@ -11578,7 +11589,7 @@
                     <primitiveref id="mainboard"/>
                     <componentref id="supportboard1" />
                     <componentref id="supportboard2" />
-
+                    <componentref id="dashboard" />
                </children>
             </component>
 

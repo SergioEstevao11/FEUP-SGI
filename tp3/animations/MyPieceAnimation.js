@@ -12,23 +12,31 @@ import { MyPiece } from "../game/MyPiece.js"
  * @param {Array} startPosition - initial position of the piece, in the format [x, y, z]
  * @param {Array} finalPosition - final position of the piece, in the format [x, y, z]
  */
-class MyPieceAnimation {
-    constructor(scene, gameboard, pieceToPlay, startPosition, finalPosition, current_instant) {
+export class MyPieceAnimation {
+    constructor(scene, gameboard, pieceToPlay, positions, current_instant, time_offset, finishing_function) {
         this.scene = scene
         this.gameboard = gameboard
         this.pieceToPlay = pieceToPlay
-        this.startPosition = startPosition
-        this.finalPosition = finalPosition
+        this.pieceToPlay.animation = this
+        this.positions = positions
         this.current_instant = current_instant
+        this.time_offset = time_offset
         this.finished = false
+        this.finishing_function = finishing_function
 
         this.keyframeAnimation = null
     }
 
     update(elapsedTime) {
+        console.log("here")
         this.keyframeAnimation.update(elapsedTime)
-        if (elapsedTime >= this.current_instant + 1) {
-            this.finished = true
+        if (elapsedTime >= this.current_instant + this.time_offset + this.positions.length) {
+            if (!this.finished){
+                this.pieceToPlay.animation = null
+                this.finishing_function()
+                this.finished = true
+            }
+            
         }
     }
 
