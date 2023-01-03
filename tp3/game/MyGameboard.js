@@ -92,10 +92,6 @@ export class MyGameboard extends CGFobject{
         }
     }
 
-    // addPiece(piece){
-
-    // }
-
     removePieceFromTile(id){
         var tile = this.getTile(id);
         if (tile.piece != null){
@@ -126,14 +122,6 @@ export class MyGameboard extends CGFobject{
         }
         return null;
     }
-
-    // getTilePiece(piece_id){
-
-    // }
-
-    // getTile(coords){
-        
-    // }
 
     hasPiece(x,y){
         if (this.checkinbounds(x,y)){
@@ -225,8 +213,6 @@ export class MyGameboard extends CGFobject{
 
             
         }
-
-
         return score;
     }
 

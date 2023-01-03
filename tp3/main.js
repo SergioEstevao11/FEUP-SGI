@@ -31,7 +31,7 @@ function main() {
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
-    var filename=getUrlVars()['file'] || "SGI_TP2_XML_T5_G09.xml";
+    var filename=getUrlVars()['file'] || "SGI_TP3_XML_T5_G09.xml";
     var board=getUrlVars()['file'] || "gameboard.xml";
 
 	// create and load graph, and associate it to scene. 

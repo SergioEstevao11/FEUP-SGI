@@ -14,6 +14,8 @@ export class MyPiece extends CGFobject{
         this.type = type;
         this.geometry = geometry;
         this.tile = tile;
+        this.dame = false;
+        this.avlpsize = 0;
         this.captured = false;
         this.animation = null;
 
@@ -36,6 +38,13 @@ export class MyPiece extends CGFobject{
         this.dame = false;
         this.dame_piece = null;
 	}
+
+    setDame(b){
+        this.dame = b;
+    }
+    isDame(){
+        return this.dame;
+    }
 
     getTile(){
         return this.tile;
@@ -75,7 +84,6 @@ export class MyPiece extends CGFobject{
     }
 
     display(){
-
         // Display tile itself
         if (this.type == "white")
             this.white_material.apply();
@@ -107,7 +115,7 @@ export class MyPiece extends CGFobject{
         this.scene.scale(1, 1, 0.01);
         this.cover1.display();
         
-        this.scene.pushMatrix()
+        this.scene.pushMatrix();
         this.scene.translate(0, 0, -0.5);
         this.cover2.display();
         this.scene.popMatrix();
