@@ -34,6 +34,8 @@ export class MyPiece extends CGFobject{
         this.cylinder = new MyCylinder(this.scene, 0.4, 0.4, 0.25, 20, 20);
         this.cover1 = new MySphere(this.scene, 0.4, 20, 20);
         this.cover2 = new MySphere(this.scene, 0.4, 20, 20);
+
+        this.dame = false;
 	}
 
     setDame(b){
@@ -68,6 +70,13 @@ export class MyPiece extends CGFobject{
         return this.tile.coordinates;
     }
 
+    setDame(b){
+        this.dame = b;
+    }
+    isDame(){
+        return this.dame;
+    }
+
     display(){
         // Display tile itself
         if (this.type == "white")
@@ -84,6 +93,7 @@ export class MyPiece extends CGFobject{
                 this.animation.apply();
             }
         }
+
 
         this.scene.translate(0.5, 0.5, 0);
         this.cylinder.display();

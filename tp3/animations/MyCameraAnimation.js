@@ -1,3 +1,5 @@
+import {CGFcamera} from '../../lib/CGF.js';
+
 export class MyCameraAnimation {
     constructor(scene, initialCamera, finalCamera) {
         this.scene = scene;
@@ -19,7 +21,7 @@ export class MyCameraAnimation {
         this.totalTime = 1.5;
         this.currentTime = 0;
         this.startTime = null;
-        this.active = true;
+        this.finished = false;
 
         this.currentCamera = this.initialCamera;
     }
@@ -29,9 +31,13 @@ export class MyCameraAnimation {
      * @param {Integer} elapsedTime - the time elapsed since the last call
      */
     update(elapsedTime) {
-        this.currentTime += elapsedTime;
+        if (this.startTime == null) {
+            this.startTime = elapsedTime;
+        }
 
-        if (!this.active)
+        this.currentTime = elapsedTime - this.startTime;
+
+        if (this.finished)
             return 0;
 
         if(this.currentTime <= this.totalTime) {
@@ -50,18 +56,20 @@ export class MyCameraAnimation {
             this.currentCamera = new CGFcamera(fov, near, far, newPosition, newTarget);
         }
         else {
-            this.active = false;
+            this.finished = true;
             this.currentCamera = this.finalCamera;
 
-            this.applyCamera();
         }
+
+        this.applyCamera();
+
     }
 
     /**
      * Applies the current camera to the scene, if the animation if active
      */
     apply() {
-        if (!this.active) {
+        if (this.finished) {
             return 0;
         }
 

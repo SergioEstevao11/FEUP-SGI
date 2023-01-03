@@ -1,5 +1,3 @@
-import { CGFscene, CGFcamera, CGFappearance, CGFaxis, CGFtexture, CGFshader, CGFplane } from "../lib/CGF.js";
-
 import { MyGameSequence } from './game/MyGameSequence.js';
 import { MyGameboard } from './game/MyGameboard.js';
 import { MyPiece } from './game/MyPiece.js';
@@ -7,9 +5,8 @@ import { MyTile } from './game/MyTile.js';
 import { MySceneGraph } from './MySceneGraph.js';
 import { MyAnimator } from "./game/MyAnimator.js";
 import { MySpriteSheet } from "./primitives/spritesheets/MySpriteSheet.js";
-import { MySpriteText } from "./primitives/spritesheets/MySpriteText.js";
-import { MyRectangle  } from "./primitives/MyRectangle.js";
-
+import { MyBoardUI } from "./menu/MyBoardUI.js";
+import { MyButton } from "./menu/MyButton.js";
 
 export const GameState = {
     menu: "MENU",
@@ -36,18 +33,23 @@ export class MyGameOrchestrator{
 		this.gameSequence = new MyGameSequence(this.scene);
         this.animator = new MyAnimator(this.scene, this, this.gameSequence);
         this.graph = new MySceneGraph(this.scene, filename);
+        this.spritesheet = new MySpriteSheet(this.scene, "./scenes/spritesheet-alphabet.png", 16, 6);
+        this.UI = new MyBoardUI(this);
         
         
         this.play = true;
         this.scorep1 = 0;
         this.scorep2 = 0;
+        this.timep1 = 180;
+        this.timep2 = 180;
         this.gamestate = GameState.piece;
         this.dametime = false;
 
         this.avlplays = {};
         this.selectedpiece = null;
-        this.rec_counter = 0;
-        this.spritesheet = new MySpriteSheet(this.scene, "./scenes/spritesheet-alphabet.png", 16, 6);
+        this.dametime = false;
+        
+
     }
 
     managePick(mode, results) {
@@ -70,7 +72,40 @@ export class MyGameOrchestrator{
     }
 
     onObjectSelected(obj, id) {
+        if(obj instanceof MyButton){
+            if (this.gamestate == GameState.piece || this.gamestate == GameState.dest){
+                if (id == 200){
+                    console.log("Undo button pressed");
+                    this.undo();
+                }
+                if (id == 201){
+                    console.log("Rotate button pressed");
+                    this.animator.addCameraAnimation();
+                }
+                if (id == 202){
+                    console.log("Restart button pressed");
+                    this.restart();
+                }
+            }else if(this.gamestate == GameState.end){
+                if (id == 201){
+                    console.log("Rotate button pressed");
+                    this.animator.rotate();
+                }
+                if (id == 202){
+                    console.log("Restart button pressed");
+                    this.restart();
+                }
+            }
+        }
+
+
         if(obj instanceof MyPiece){
+            if (obj.captured){
+                return;
+            }
+            if (obj.isDame()){
+                this.dametime = true;
+            }
             obj = this.gameboard.getPiece(id);
             console.log("coordinates:");
             console.log(obj.tile.coordinates);
@@ -82,12 +117,7 @@ export class MyGameOrchestrator{
                     this.gamestate = GameState.render;
                     let x = obj.getCoords()[0];
                     let y = obj.getCoords()[1];
-                    this.rec_counter=0;
                     this.avlplays = this.getAvlPlays(x, y, obj.type, [], false, obj.isDame());
-                    if (obj.isDame()){
-                        this.dametime = true;
-                    }
-                    console.log(obj.avlpsize)
                     console.log("avl plays");
                     console.log(this.avlplays);
                     this.gamestate = GameState.dest;
@@ -110,17 +140,11 @@ export class MyGameOrchestrator{
             // do something with id knowing it is a tile
             console.log(obj.coordinates);
 
-            if (this.gamestate == GameState.dest){
-                this.gamestate = GameState.anim;
-                var score = this.gameboard.movePiece(this.selectedpiece.tile, this.avlplays[id]);
+                if (this.gamestate == GameState.dest){
+                    if (this.checkIn(id,Object.keys(this.avlplays))) {
 
-                if (this.checkIn(id,Object.keys(this.avlplays))) {
-                    if (!this.dametime){
-                        if(((this.selectedpiece.getCoords()[1] == 0) || (this.selectedpiece.getCoords()[1] == 7)) && !this.selectedpiece.isDame()){
-                            this.selectedpiece.setDame(true);
-                        }
-
-                        this.gamestate = GameState.eval;
+                        this.gamestate = GameState.anim;
+                        var score = this.gameboard.movePiece(this.selectedpiece.tile, this.avlplays[id]);
                         if (this.play){
                             this.scorep1+=score;
                         }
@@ -128,37 +152,26 @@ export class MyGameOrchestrator{
                             this.scorep2+=score;
                         }
 
-                        var gameover = this.gameOver();
-                        if (gameover == 1){
-                            console.log("Player 1 won!");
-                            this.gamestate = GameState.end;
-                        }
-                        else if (gameover == 2){
-                            console.log("Player 2 won!");
-                            this.gamestate = GameState.end;
-                        }
-                        else{
-                            console.log("p1: " + this.scorep1);
-                            console.log("p2: " + this.scorep2);
+                        if(!this.dametime){
 
-                            this.play = !this.play;
-                            // this.setSelectablePieces();
-                            console.log("avl pieces:")
-                            if(this.play){
-                                console.log(this.getSelectablePieces(1));
+                            var gameover = this.gameOver();
+                            if (gameover == 1){
+                                console.log("Player 1 won!");
+                            }
+                            else if (gameover == 2){
+                                console.log("Player 2 won!");
                             }
                             else{
-                                console.log(this.getSelectablePieces(2));
-                            }
-
-                            this.gamestate = GameState.piece;
-                            if(this.play){
-                                console.log("Player one, choose piece");
-                            }
-                            else{
-                                console.log("Player two, choose piece");
+                                console.log("p1: " + this.scorep1);
+                                console.log("p2: " + this.scorep2);
+                                
                             }
                         }
+
+                        if(((this.selectedpiece.getCoords()[1] == 0) || (this.selectedpiece.getCoords()[1] == 7)) && !this.selectedpiece.isDame()){
+                            this.selectedpiece.setDame(true);
+                        }
+
                     }
                 }
                 else {
@@ -166,10 +179,7 @@ export class MyGameOrchestrator{
                 }
             }
         }
-        else {
-            console.log("Wrong play/move")
-        }
-    }
+
 
     checkDame(){
         if(this.selectedpiece.isDame()){
@@ -186,6 +196,23 @@ export class MyGameOrchestrator{
         }
     }
 
+    undo(){
+
+    }
+
+    restart(){
+        this.gameboard = new MyGameboard(this);
+		this.gameSequence = new MyGameSequence(this.scene);        
+        
+        this.play = true;
+        this.scorep1 = 0;
+        this.scorep2 = 0;
+        this.timep1 = 180;
+        this.timep2 = 180;
+        this.gamestate = GameState.piece;
+    }
+
+
 
     setPlayerTurn(){
         if (!this.dametime){
@@ -200,6 +227,21 @@ export class MyGameOrchestrator{
                 console.log(this.getSelectablePieces(2));
             }
             this.gamestate = GameState.piece;
+        }
+    }
+
+    checkDame(){
+        if(this.selectedpiece.isDame()){
+            this.gamestate = GameState.render;
+            let x = this.selectedpiece.getCoords()[0];
+            let y = this.selectedpiece.getCoords()[1];
+            this.avlplays = this.getAvlPlays(x, y, this.selectedpiece.type, [], false, true);
+            console.log("avl plays");
+            console.log(this.avlplays);
+            this.gamestate = GameState.dest;
+            if(Object.keys(this.avlplays).length == 0){
+                this.dametime=false;
+            }
         }
     }
 
@@ -605,10 +647,14 @@ export class MyGameOrchestrator{
     }
 
     gameOver(){
-        if (this.scorep1 >= 12){
+        if (this.scorep1 >= 12 || this.timep2 <= 0){
+            this.gamestate = GameState.end;
+            this.UI.setWinner(1);
             return 1;
         }
-        else if (this.scorep2 >=12){
+        else if (this.scorep2 >=12 || this.timep1 <= 0){
+            this.gamestate = GameState.end;
+            this.UI.setWinner(2);
             return 2;
         }
         return 0;
@@ -619,6 +665,24 @@ export class MyGameOrchestrator{
     }
 
     update(time){
+        if(this.startingTime == null){
+            this.startingTime = time;
+            this.secondsElapsed = 0
+        }
+        let secTime = Math.floor((time - this.startingTime)/1000);
+        if (this.secondsElapsed < secTime){
+            this.secondsElapsed =secTime;
+            if(this.gamestate != GameState.end){
+                if (this.play)
+                this.timep1 -= 1;
+
+            else
+                this.timep2 -= 1;
+            }
+
+            this.UI.update();
+            this.gameOver();
+        }
         this.graph.update(time);
         this.animator.update(time);
     }
@@ -626,7 +690,7 @@ export class MyGameOrchestrator{
     display(){
         this.graph.displayScene();
         this.gameboard.display();
-
+        this.UI.display()
     }
 
 }
