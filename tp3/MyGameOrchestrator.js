@@ -180,10 +180,6 @@ export class MyGameOrchestrator{
                         this.gamestate = GameState.anim;
                         var score = this.gameboard.movePiece(this.selectedpiece.tile, this.avlplays[id]);
 
-                        if((((this.selectedpiece.getCoords()[1] == 0) && (this.selectedpiece.type == "black")) || ((this.selectedpiece.getCoords()[1] == 7) && (this.selectedpiece.type == "white"))) && !this.selectedpiece.isDame()){
-                            this.selectedpiece.setDame(true);
-                        }
-
                         if (this.play){
                             this.scorep1+=score;
                         }
@@ -207,18 +203,6 @@ export class MyGameOrchestrator{
                             }
                         }
 
-                        if(((this.selectedpiece.getCoords()[1] == 1 && this.selectedpiece.type == "black") || (this.selectedpiece.getCoords()[1] == 6 && this.selectedpiece.type == "white")) && !this.selectedpiece.isDame()){
-                            let auxboard = null
-                            if (this.selectedpiece.type == "white"){
-                                auxboard = this.gameboard.p1auxboard
-                            }else{
-                                auxboard = this.gameboard.p2auxboard
-                            }
-                            let piece_to_go = [this.selectedpiece]
-                            let dest = this.gameboard.getTile(this.avlplays[id][this.avlplays[id].length-1])
-                            this.animator.addAnimation(new MyPieceCaptureAnim(this, auxboard.board[auxboard.num_pieces-1].piece, [auxboard.board[auxboard.num_pieces-1].coordinates, dest.coordinates], 2,
-                                                        function(){piece_to_go[0].setDame(true); piece_to_go[0].addDamePiece(auxboard.board[auxboard.num_pieces-1].piece); auxboard.removePiece()}))
-                        }
 
                     }
                 }
@@ -227,6 +211,25 @@ export class MyGameOrchestrator{
                 }
             }
         }
+
+    
+    verifyDameUpgrade(){
+        if(((this.selectedpiece.getCoords()[1] == 0 && this.selectedpiece.type == "black") || (this.selectedpiece.getCoords()[1] == 7 && this.selectedpiece.type == "white")) && !this.selectedpiece.isDame()){
+            // this.selectedpiece.setDame(true);
+            let auxboard = null
+            if (this.selectedpiece.type == "white"){
+                auxboard = this.gameboard.p1auxboard
+            }else{
+                auxboard = this.gameboard.p2auxboard
+            }
+            let piece_to_go = [this.selectedpiece]
+            let dest = piece_to_go[0].tile
+            this.animator.addAnimation(new MyPieceCaptureAnim(this, auxboard.board[auxboard.num_pieces-1].piece, [auxboard.board[auxboard.num_pieces-1].coordinates, dest.coordinates], 0,
+                                        function(){piece_to_go[0].setDame(true); piece_to_go[0].addDamePiece(auxboard.board[auxboard.num_pieces-1].piece); auxboard.removePiece()}))
+            return true;
+        }
+        return false;
+    }
 
 
     checkDame(){

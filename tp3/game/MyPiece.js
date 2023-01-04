@@ -60,10 +60,18 @@ export class MyPiece extends CGFobject{
 
     moveToAuxBoard(){
         this.captured = true
+        let auxboard = null
         if (this.type == "white"){
-            this.orchestrator.gameboard.p1auxboard.addPiece(this)
+            auxboard = this.orchestrator.gameboard.p1auxboard
         }else{
-            this.orchestrator.gameboard.p2auxboard.addPiece(this)
+            auxboard = this.orchestrator.gameboard.p2auxboard
+        }
+
+        auxboard.addPiece(this)
+        if(this.dame){
+            this.dame = false
+            auxboard.addPiece(this.dame_piece)
+            this.dame_piece = null
         }
     }
 
@@ -77,6 +85,7 @@ export class MyPiece extends CGFobject{
 
     addDamePiece(piece){
         this.dame_piece = piece;
+        this.dame_piece.tile = this.tile
     }
 
     isDame(){

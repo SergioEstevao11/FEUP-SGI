@@ -46,8 +46,10 @@ export class MyAnimator{
 
         if (this.animations.length == 0 && this.orchestrator.gamestate == GameState.anim){
             console.log("unlocking")
-            this.orchestrator.checkDame();
-            this.orchestrator.setPlayerTurn();
+            if(!this.orchestrator.verifyDameUpgrade()){
+                this.orchestrator.checkDame();
+                this.orchestrator.setPlayerTurn();
+            }
         }
 
         for(let i = 0; i < this.animations.length; i++){

@@ -75,7 +75,7 @@ def millenium_falcon_wobble():
     z_distance = 0
 
     duration = 10
-    frames_per_second = 30
+    frames_per_second = 5
     x_distance_per_frame = x_distance / (duration * frames_per_second)
 
     current_x_distance = 0
@@ -141,7 +141,7 @@ def tiefighter_barrel_roll():
 
     f.close()
 def main():
-        bullet_animation()
+        millenium_falcon_wobble()
 
 if __name__ == "__main__":
     main()
