@@ -46,7 +46,9 @@ export class MyAuxilaryBoard extends CGFobject{
 
     removePiece(){
         this.num_pieces--;
+        this.board[this.num_pieces].piece.captured = false;
         this.board[this.num_pieces].unsetPiece();
+
     }
 
     getPiece(coords){
