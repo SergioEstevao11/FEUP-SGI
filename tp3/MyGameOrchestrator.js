@@ -215,7 +215,6 @@ export class MyGameOrchestrator{
     
     verifyDameUpgrade(){
         if(((this.selectedpiece.getCoords()[1] == 0 && this.selectedpiece.type == "black") || (this.selectedpiece.getCoords()[1] == 7 && this.selectedpiece.type == "white")) && !this.selectedpiece.isDame()){
-            // this.selectedpiece.setDame(true);
             let auxboard = null
             if (this.selectedpiece.type == "white"){
                 auxboard = this.gameboard.p1auxboard
@@ -249,6 +248,7 @@ export class MyGameOrchestrator{
 
     undo(){
         this.gameSequence.undo();
+        this.setSelectablePieces();
     }
 
     restart(){
@@ -273,7 +273,7 @@ export class MyGameOrchestrator{
         this.gameSequence.addMove(this.currentMove);
         if (!this.dametime){
             this.play = !this.play;
-            // this.setSelectablePieces();
+            this.setSelectablePieces();
 
             console.log("avl pieces:")
             if(this.play){
@@ -635,8 +635,11 @@ export class MyGameOrchestrator{
                     }
                 }
             }
+            
             if (!hascapture){
                 piece.selectable = false;
+            }else{
+                piece.selectable = true;
             }
         }
         if (!arrcapture){
