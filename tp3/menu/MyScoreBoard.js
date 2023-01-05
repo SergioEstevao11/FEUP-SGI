@@ -32,8 +32,8 @@ export class MyScoreBoard {
         let p2secs = this.orchestrator.timep2 % 60;
         if(p1secs < 10) p1secs = "0" + p1secs;
         if(p2secs < 10) p2secs = "0" + p2secs;
-        this.p1time.updateText("0" + p1mins + ":" + p1secs);
-        this.p2time.updateText("0" + p2mins + ":" + p2secs);
+        this.p1time.updateText(p1mins + ":" + p1secs);
+        this.p2time.updateText(p2mins + ":" + p2secs);
         
     }
 

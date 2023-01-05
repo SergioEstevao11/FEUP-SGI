@@ -12,7 +12,4 @@ export class MyGameMove extends CGFobject{
         this.statebef = prevmove
 	}
 
-    animate(){
-    
-    }
 }

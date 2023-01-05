@@ -13,16 +13,6 @@ import { MyPieceAnimation } from "./MyPieceAnimation.js"
  */
 export class MyPieceCaptureAnim extends MyPieceAnimation{
     constructor(orchestrator, pieceToPlay, positions, offset, finishing_function) {
-        // let auxboard = null
-        // if (pieceToPlay.type == "white"){
-        //     auxboard = orchestrator.gameboard.p1auxboard
-        // }else{
-        //     auxboard = orchestrator.gameboard.p2auxboard
-        // }
-
-        // let num_pieces = auxboard.num_pieces
-        // positions.push( auxboard.board[num_pieces+offset].coordinates)
-
         super(orchestrator.scene, orchestrator.gameboard, pieceToPlay, positions, orchestrator.animator.seconds, offset, finishing_function)
         this.orchestrator = orchestrator
         this.setupKeyFrames(positions)
@@ -70,11 +60,6 @@ export class MyPieceCaptureAnim extends MyPieceAnimation{
                                             this.current_instant + this.time_offset + 2*i/z_positions.length));
             
         }
-        
-        // keyframes.push(new MyKeyframe(finalPosition[0], finalPosition[1], finalPosition[2], 
-        //     0, 0, 0, 
-        //     1,1,1,
-        //     this.current_instant))
 
         this.keyframeAnimation = new MyKeyframeAnimation(this.scene, -1, keyframes)
         

@@ -51,18 +51,6 @@ export class MyAuxilaryBoard extends CGFobject{
 
     }
 
-    getPiece(coords){
-
-    }
-
-    getTilePiece(piece_id){
-
-    }
-
-    getTile(coords){
-        
-    }
-
     display(){
         this.scene.pushMatrix();
         for (let i = 0; i < 12; i++){

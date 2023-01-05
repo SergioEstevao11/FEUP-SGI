@@ -49,8 +49,8 @@ export class MyGameOrchestrator{
         this.play = true;
         this.scorep1 = 0;
         this.scorep2 = 0;
-        this.timep1 = 180;
-        this.timep2 = 180;
+        this.timep1 = 60*60;
+        this.timep2 = 60*60;
         this.gamestate = GameState.piece;
 
         this.avlplays = {};
@@ -272,6 +272,7 @@ export class MyGameOrchestrator{
     setPlayerTurn(){
         this.gameSequence.addMove(this.currentMove);
         if (!this.dametime){
+            this.doubleplay = false;
             this.play = !this.play;
             this.setSelectablePieces();
 
@@ -635,7 +636,7 @@ export class MyGameOrchestrator{
                     }
                 }
             }
-            
+
             if (!hascapture){
                 piece.selectable = false;
             }else{

@@ -57,11 +57,6 @@ export class MyPieceRecoveryAnim extends MyPieceAnimation{
                                             this.current_instant + this.time_offset + 2*i/z_positions.length));
             
         }
-        
-        // keyframes.push(new MyKeyframe(finalPosition[0], finalPosition[1], finalPosition[2], 
-        //     0, 0, 0, 
-        //     1,1,1,
-        //     this.current_instant))
 
         this.keyframeAnimation = new MyKeyframeAnimation(this.scene, -1, keyframes)
         
