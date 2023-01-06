@@ -44,5 +44,6 @@
 ----
 ## Issues/Problems
 
+- Although working correctly and better then expected, the Animations weren't implemented as intended;
 - The lighting sometimes can seem a bit unrealistic since some spots in the scene can seem way too dark compared to others;
 - Performance issues detected in some computers.
