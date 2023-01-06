@@ -1,10 +1,11 @@
 # SGI 2022/2023
 
-## Group T0xG0y
+### Group Members - T5G09
+
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201801010 | ...                |
-| Jane Doe         | 201801011 | ...                |
+| Sérgio Estêvão         | 201905680 | up201905680@up.pt             |
+| Tomás Fidalgo         | 201906743 | up201906743@up.pt               |
 
 ----
 
